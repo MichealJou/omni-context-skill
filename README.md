@@ -15,6 +15,7 @@ It provides:
 - `SKILL.md`: trigger and workflow rules for the skill itself
 - `agents/openai.yaml`: UI-facing metadata for skill catalogs and launch surfaces
 - `references/`: protocol, config, adapter, and update rules
+- `scripts/`: minimal workspace automation
 - `templates/`: files to generate into a real `.omnicontext/` directory
 
 ## Repository Layout
@@ -44,6 +45,13 @@ Those belong in the target workspace's `.omnicontext/` directory.
 3. Fill `workspace.toml`, `INDEX.md`, and the initial project files from `templates/`
 4. Add the relevant tool adapter entry file for each coding tool in use
 5. Validate the structure in one real workspace before adding automation
+
+## Included Scripts
+
+- `scripts/init-workspace.sh [workspace-root]`
+  Creates a minimum `.omnicontext/` tree and infers project roots from Git repositories when possible.
+- `scripts/status-workspace.sh [workspace-root]`
+  Reports missing required OmniContext files and project coverage.
 
 ## Publishing Boundary
 
@@ -75,9 +83,7 @@ This repository should stay generic.
 
 After the protocol is proven in a real workspace, add automation for:
 
-- `init`
 - `sync`
-- `status`
 - `new-project`
 - `new-doc`
 

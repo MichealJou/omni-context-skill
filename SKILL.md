@@ -23,6 +23,15 @@ Separate the system into two parts:
 
 The skill should remain generic. Real project facts belong in `.omnicontext/`, not in the skill repo.
 
+## Current Automation
+
+The skill now includes two minimal scripts:
+
+- `scripts/init-workspace.sh [workspace-root]`
+- `scripts/status-workspace.sh [workspace-root]`
+
+Use these before writing more automation. They are intentionally conservative and keep the protocol simple.
+
 ## Working Rules
 
 1. Start from protocol, not automation.
