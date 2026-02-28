@@ -1,0 +1,6 @@
+[preferences]
+language = "auto"
+supported_languages = ["zh-CN", "en", "ja"]
+response_style = "concise"
+update_handoff_after_task = true
+record_decisions_by_default = true

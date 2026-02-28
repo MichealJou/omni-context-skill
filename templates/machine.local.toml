@@ -1,0 +1,9 @@
+[user]
+name = "replace-with-local-user"
+
+[paths]
+workspace_root = "/absolute/path/to/workspace"
+
+[tools]
+preferred_shell = "zsh"
+preferred_editor = "code"
