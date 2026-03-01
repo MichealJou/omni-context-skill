@@ -28,6 +28,7 @@ The skill should remain generic. Real project facts belong in `.omnicontext/`, n
 The skill now includes two minimal scripts:
 
 - `scripts/init-workspace.sh [workspace-root]`
+- `scripts/sync-workspace.sh [workspace-root]`
 - `scripts/status-workspace.sh [workspace-root]`
 
 Use these before writing more automation. They are intentionally conservative and keep the protocol simple.

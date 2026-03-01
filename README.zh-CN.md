@@ -53,6 +53,8 @@ omni-context-skill/
 
 - `scripts/init-workspace.sh [workspace-root]`
   初始化一个最小可用的 `.omnicontext/` 目录，并尽量从 Git 仓库推断项目列表。
+- `scripts/sync-workspace.sh [workspace-root]`
+  保守地刷新工作区模式、补充新项目映射、重建缺失的项目核心文档，并重写顶层 `INDEX.md`，但不会删除手写项目内容。
 - `scripts/status-workspace.sh [workspace-root]`
   检查必需文件、正式项目映射和未纳管残留目录。
 
@@ -87,7 +89,6 @@ omni-context-skill/
 
 等这套文件协议在真实工作区中跑稳之后，再继续补：
 
-- `sync`
 - `new-project`
 - `new-doc`
 

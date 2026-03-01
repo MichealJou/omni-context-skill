@@ -1,6 +1,6 @@
 # Automation Behaviors
 
-These are the intended behaviors for OmniContext automation. `init` and `status` now exist as minimal scripts; the rest remain design targets.
+These are the intended behaviors for OmniContext automation. `init`, `sync`, and `status` now exist as conservative scripts; the rest remain design targets.
 
 ## `init`
 

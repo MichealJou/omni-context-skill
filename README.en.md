@@ -54,6 +54,8 @@ Those belong in the target workspace's `.omnicontext/` directory.
 
 - `scripts/init-workspace.sh [workspace-root]`
   Creates a minimum `.omnicontext/` tree and infers project roots from Git repositories when possible.
+- `scripts/sync-workspace.sh [workspace-root]`
+  Refreshes workspace mode, adds new project mappings conservatively, recreates missing project core docs, and rebuilds the top-level OmniContext index without deleting hand-written project files.
 - `scripts/status-workspace.sh [workspace-root]`
   Reports missing required OmniContext files, mapped projects, and unmapped leftovers.
 
@@ -88,7 +90,6 @@ This repository should stay generic.
 
 After the protocol is proven in a real workspace, add automation for:
 
-- `sync`
 - `new-project`
 - `new-doc`
 

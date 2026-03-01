@@ -53,6 +53,8 @@ omni-context-skill/
 
 - `scripts/init-workspace.sh [workspace-root]`
   最小構成の `.omnicontext/` を生成し、可能であれば Git リポジトリからプロジェクト一覧を推定します。
+- `scripts/sync-workspace.sh [workspace-root]`
+  ワークスペースモードを保守的に更新し、新しいプロジェクトマッピングを追加し、欠けている基本ドキュメントを補完し、トップレベルの `INDEX.md` を再構築します。既存の手書きプロジェクト内容は自動削除しません。
 - `scripts/status-workspace.sh [workspace-root]`
   必須ファイル、管理対象プロジェクト、未マッピングの残留ディレクトリを確認します。
 
@@ -87,7 +89,6 @@ omni-context-skill/
 
 このファイルプロトコルが実ワークスペースで安定してから、次を追加します。
 
-- `sync`
 - `new-project`
 - `new-doc`
 
