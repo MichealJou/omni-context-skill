@@ -123,7 +123,9 @@ Load references only as needed:
 - `references/zh-CN/adapter-rules.md`: how tool-specific entry files should point to the same OmniContext data
 - `references/zh-CN/automation-behaviors.md`: design targets for future init, sync, status, and generation scripts
 - `references/zh-CN/localization-rules.md`: how to select and persist Chinese, English, or Japanese output by context
-- `references/zh-CN/prompt-templates.md`: default Chinese prompt wording plus English and Japanese variants
+- `references/zh-CN/prompt-templates.md`: default Chinese prompt wording
+- `references/en/prompt-templates.md`: English prompt wording when English is explicitly required
+- `references/ja/prompt-templates.md`: Japanese prompt wording when Japanese is explicitly required
 
 ## Non-Goals
 

@@ -26,5 +26,8 @@
 
 说明：
 
-- `prompt-templates.md` 本身包含中英日三套提示词模板，用于对照和生成
-- 英文、日文目录当前保留为空目录，后续可按需要补完整翻译版
+- 提示词模板现在按语言拆分：
+  - `zh-CN/prompt-templates.md`
+  - `en/prompt-templates.md`
+  - `ja/prompt-templates.md`
+- 英文、日文目录当前先只补了入口说明和提示词模板，其他参考文档仍以中文目录为默认完整集合
