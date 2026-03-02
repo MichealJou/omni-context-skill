@@ -4,6 +4,8 @@
 - suite_id: replace-with-suite-id
 - platform:
 - execution_mode:
+- interaction_mode:
+- suite_source_status:
 - evidence:
 
 ## Results
@@ -14,3 +16,10 @@
 ## Findings
 
 - 
+
+## Failure Summary
+
+- failed_step:
+- observed_behavior:
+- suspected_root_cause:
+- recommended_next_step:

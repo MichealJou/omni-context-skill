@@ -21,6 +21,7 @@ if [[ -z "${latest_run}" ]]; then
   echo "No test runs recorded" >&2
   exit 2
 fi
+run_source_status="$(rg -o '^\-\s+suite_source_status:\s+.+$' "${latest_run}" 2>/dev/null | sed 's/^- suite_source_status: //; s/^\-\s\+suite_source_status:\s\+//')"
 required_pass="$(omni_test_required_pass_count "${latest_run}")"
 required_total="$(find "${TESTS_DIR}/suites" -type f -name '*.md' -print0 | xargs -0 rg -c '^\- \[required\]' 2>/dev/null | awk -F: '{if (NF > 1) sum += $2; else sum += $1} END {print sum+0}')"
 if [[ "${required_total}" -eq 0 ]]; then
@@ -31,8 +32,24 @@ if ! rg -q '^-\s+source_status:\s+(ad_hoc_user|confirmed|external_locked)$' "${T
   echo "No effective non-draft test suite is available" >&2
   status=2
 fi
+if ! omni_test_effective_status_allowed "${run_source_status:-draft}"; then
+  echo "Latest run is not based on an effective non-draft suite" >&2
+  status=2
+fi
 if [[ "${required_pass}" -lt "${required_total}" ]]; then
   echo "Required test cases are not all passing" >&2
+  status=2
+fi
+if rg -q '^-\s+\[required-pass\]\s+PENDING:' "${latest_run}" 2>/dev/null; then
+  echo "Latest run still contains pending required cases" >&2
+  status=2
+fi
+if rg -q '^-\s+\[optional-pass\]\s+PENDING:' "${latest_run}" 2>/dev/null; then
+  echo "Latest run still contains pending optional cases" >&2
+  status=2
+fi
+if ! rg -q '^- evidence:\s+\S+' "${latest_run}" 2>/dev/null; then
+  echo "Latest run is missing evidence" >&2
   status=2
 fi
 if [[ -f "${PLATFORMS_FILE}" ]]; then

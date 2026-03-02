@@ -16,7 +16,7 @@ while [[ "${#}" -gt 0 ]]; do
   esac
 done
 "${SCRIPT_DIR}/bundle-status.sh" "${WORKSPACE_ROOT}" "${PROJECT_NAME}" ${STAGE:+--stage "${STAGE}"} ${ROLE:+--role "${ROLE}"} | tee /tmp/omni-bundle-status.$$ >/dev/null
-if rg -q 'missing$' /tmp/omni-bundle-status.$$; then
+if rg -q 'missing source=|missing$' /tmp/omni-bundle-status.$$; then
   echo "Bundle check: WARNING"
   rm -f /tmp/omni-bundle-status.$$
   exit 2

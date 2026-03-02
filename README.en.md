@@ -67,6 +67,7 @@ Main commands:
 - `bundle-install`
 - `bundle-check`
 - `init-test-suite`
+- `execute-test-suite`
 - `record-test-run`
 - `test-status`
 - `backup-object`
@@ -83,6 +84,8 @@ Main commands:
 - push after commit by default
 - hard testing gates by default
 - autopilot workflow execution enabled by default
+- frontend-style tests require real interaction by default
+- dangerous local database/redis operations require backup first
 
 ## Boundaries
 

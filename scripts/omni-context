@@ -35,6 +35,7 @@ Commands:
   bundle-install  Install missing local skill bundle items
   bundle-check  Validate the active skill bundle
   init-test-suite  Create a test suite definition
+  execute-test-suite  Prepare a formal executable test run from a suite
   record-test-run  Create a test execution record
   test-status  Validate test evidence and required case coverage
   backup-object  Create a backup record before a dangerous operation
@@ -56,6 +57,7 @@ Examples:
   omni-context start-workflow /path/to/workspace my-app "User Invite"
   omni-context rules-pack-status /path/to/workspace my-app
   omni-context bundle-status /path/to/workspace my-app --stage testing --role testing
+  omni-context execute-test-suite /path/to/workspace my-app login-e2e --mode browser --platform web
   omni-context test-status /path/to/workspace my-app
 EOF
 }
@@ -149,6 +151,9 @@ case "${command_name}" in
     ;;
   init-test-suite)
     exec "${SCRIPT_DIR}/init-test-suite.sh" "$@"
+    ;;
+  execute-test-suite)
+    exec "${SCRIPT_DIR}/execute-test-suite.sh" "$@"
     ;;
   record-test-run)
     exec "${SCRIPT_DIR}/record-test-run.sh" "$@"

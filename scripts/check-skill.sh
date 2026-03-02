@@ -34,6 +34,7 @@ required_scripts=(
   "scripts/bundle-install.sh"
   "scripts/bundle-check.sh"
   "scripts/init-test-suite.sh"
+  "scripts/execute-test-suite.sh"
   "scripts/record-test-run.sh"
   "scripts/test-status.sh"
   "scripts/backup-object.sh"

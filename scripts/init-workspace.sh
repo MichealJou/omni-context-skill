@@ -158,6 +158,61 @@ cp "${SKILL_ROOT}/templates/qoder-QODER.md" "${OMNI_ROOT}/tools/qoder/QODER.md"
 
 cat > "${OMNI_ROOT}/shared/bundles/catalog.toml" <<'EOF'
 version = 1
+
+[[skills]]
+id = "figma"
+source = "local"
+path = "/Users/zhouping/.codex/skills/figma"
+
+[[skills]]
+id = "figma-implement-design"
+source = "local"
+path = "/Users/zhouping/.codex/skills/figma-implement-design"
+
+[[skills]]
+id = "frontend-design"
+source = "local"
+path = "/Users/zhouping/.agents/skills/frontend-design"
+
+[[skills]]
+id = "ui-design-system"
+source = "local"
+path = "/Users/zhouping/.agents/skills/ui-design-system"
+
+[[skills]]
+id = "webapp-testing"
+source = "local"
+path = "/Users/zhouping/.agents/skills/yuque-document-management/skills/webapp-testing"
+
+[[skills]]
+id = "doc-coauthoring"
+source = "local"
+path = "/Users/zhouping/.agents/skills/yuque-document-management/skills/doc-coauthoring"
+
+[[skills]]
+id = "docs-management"
+source = "local"
+path = "/Users/zhouping/.agents/skills/docs-management"
+
+[[skills]]
+id = "ant-design-vue"
+source = "local"
+path = "/Users/zhouping/.agents/skills/ant-design-vue"
+
+[[skills]]
+id = "element-plus-vue3"
+source = "local"
+path = "/Users/zhouping/.agents/skills/element-plus-vue3"
+
+[[skills]]
+id = "vue"
+source = "local"
+path = "/Users/zhouping/.agents/skills/vue"
+
+[[skills]]
+id = "skill-installer"
+source = "local"
+path = "/Users/zhouping/.codex/skills/.system/skill-installer"
 EOF
 cat > "${OMNI_ROOT}/shared/standards-library/catalog.toml" <<'EOF'
 version = 1
@@ -234,36 +289,53 @@ required_by_default = false
 EOF
 cat > "${OMNI_ROOT}/shared/standards-library/packs/default-balanced.toml" <<'EOF'
 id = "default-balanced"
+required = ["prd", "adr", "acceptance-criteria", "test-cases", "change-safety", "iso-12207-lifecycle", "nist-ssdf"]
+recommended = ["owasp-asvs", "istqb-governance", "test-pyramid"]
 EOF
 cat > "${OMNI_ROOT}/shared/standards-library/packs/fast-delivery.toml" <<'EOF'
 id = "fast-delivery"
+required = ["prd", "acceptance-criteria", "test-cases", "change-safety"]
+recommended = ["adr", "scrum-lite"]
 EOF
 cat > "${OMNI_ROOT}/shared/standards-library/packs/high-security.toml" <<'EOF'
 id = "high-security"
+required = ["prd", "adr", "acceptance-criteria", "test-cases", "change-safety", "backup-recovery", "least-privilege", "nist-ssdf", "owasp-asvs"]
+recommended = ["istqb-governance"]
 EOF
 cat > "${OMNI_ROOT}/shared/standards-library/packs/design-driven.toml" <<'EOF'
 id = "design-driven"
+required = ["prd", "adr", "acceptance-criteria", "test-cases", "change-safety", "e2e-browser"]
+recommended = ["owasp-asvs", "test-pyramid"]
 EOF
 cat > "${OMNI_ROOT}/shared/standards-library/packs/backend-stability.toml" <<'EOF'
 id = "backend-stability"
+required = ["prd", "adr", "acceptance-criteria", "test-cases", "change-safety", "backup-recovery", "least-privilege", "nist-ssdf"]
+recommended = ["istqb-governance"]
 EOF
 cat > "${OMNI_ROOT}/shared/bundles/project-types/webapp.toml" <<'EOF'
 project_type = "webapp"
+base = ["skill-installer", "frontend-design", "webapp-testing"]
+testing = ["webapp-testing"]
 EOF
 cat > "${OMNI_ROOT}/shared/bundles/project-types/admin.toml" <<'EOF'
 project_type = "admin"
+base = ["skill-installer", "webapp-testing", "vue", "ant-design-vue", "element-plus-vue3"]
 EOF
 cat > "${OMNI_ROOT}/shared/bundles/project-types/workflow-platform.toml" <<'EOF'
 project_type = "workflow-platform"
+base = ["skill-installer", "doc-coauthoring", "webapp-testing"]
 EOF
 cat > "${OMNI_ROOT}/shared/bundles/project-types/design-system.toml" <<'EOF'
 project_type = "design-system"
+base = ["skill-installer", "ui-design-system", "frontend-design"]
 EOF
 cat > "${OMNI_ROOT}/shared/bundles/project-types/docs-platform.toml" <<'EOF'
 project_type = "docs-platform"
+base = ["skill-installer", "doc-coauthoring", "docs-management"]
 EOF
 cat > "${OMNI_ROOT}/shared/bundles/project-types/backend-service.toml" <<'EOF'
 project_type = "backend-service"
+base = ["skill-installer"]
 EOF
 
 case "${language}" in

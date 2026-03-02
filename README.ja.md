@@ -67,6 +67,7 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
 - `bundle-install`
 - `bundle-check`
 - `init-test-suite`
+- `execute-test-suite`
 - `record-test-run`
 - `test-status`
 - `backup-object`
@@ -83,6 +84,8 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
 - 既定で commit 後 push
 - 既定でテストはハードゲート
 - 既定で全工程自動実行を有効
+- フロント系テストは既定で実ユーザー操作を要求
+- ローカルの危険な DB/Redis 操作は既定で先にバックアップ
 
 ## 境界
 

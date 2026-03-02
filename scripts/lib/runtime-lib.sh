@@ -5,15 +5,59 @@ omni_runtime_kinds() {
 }
 
 omni_runtime_is_dangerous_db_op() {
-  case "${1^^}" in
+  local op
+  op="$(printf '%s' "$1" | tr '[:lower:]' '[:upper:]')"
+  case "${op}" in
     DROP|TRUNCATE|DELETE|ALTER|UPDATE) return 0 ;;
     *) return 1 ;;
   esac
 }
 
 omni_runtime_is_dangerous_redis_op() {
-  case "${1^^}" in
+  local op
+  op="$(printf '%s' "$1" | tr '[:lower:]' '[:upper:]')"
+  case "${op}" in
     DEL|UNLINK|FLUSHDB|FLUSHALL|MSET|EVAL) return 0 ;;
     *) return 1 ;;
+  esac
+}
+
+omni_runtime_dep_field() {
+  local runtime_file="$1"
+  local dep_id="$2"
+  local field="$3"
+  python3 - "$runtime_file" "$dep_id" "$field" <<'PY'
+import sys, tomllib
+from pathlib import Path
+data = tomllib.loads(Path(sys.argv[1]).read_text())
+dep_id = sys.argv[2]
+field = sys.argv[3]
+for dep in data.get("dependencies", []):
+    if dep.get("id") == dep_id:
+        value = dep.get(field, "")
+        if isinstance(value, bool):
+            print("true" if value else "false")
+        else:
+            print(value)
+        break
+PY
+}
+
+omni_runtime_dep_exists() {
+  local runtime_file="$1"
+  local dep_id="$2"
+  [[ -n "$(omni_runtime_dep_field "$runtime_file" "$dep_id" "id")" ]]
+}
+
+omni_runtime_client_for_kind() {
+  case "$1" in
+    mysql) printf '%s\n' mysqldump ;;
+    postgres) printf '%s\n' pg_dump ;;
+    redis) printf '%s\n' redis-cli ;;
+    browser) printf '%s\n' open ;;
+    miniapp) printf '%s\n' open ;;
+    service) printf '%s\n' curl ;;
+    mq) printf '%s\n' nc ;;
+    *) printf '%s\n' '' ;;
   esac
 }

@@ -61,6 +61,7 @@ The skill now includes a unified CLI plus workflow, rules, bundle, testing, runt
 - `scripts/bundle-install.sh <workspace-root> <project-name> [stage] [role]`
 - `scripts/bundle-check.sh <workspace-root> <project-name> [stage] [role]`
 - `scripts/init-test-suite.sh <workspace-root> <project-name> <suite-title> [suite-id]`
+- `scripts/execute-test-suite.sh <workspace-root> <project-name> <suite-id> [--run-id id] [--mode browser|api|service|miniapp] [--platform web|backend|miniapp] [--evidence path]`
 - `scripts/record-test-run.sh <workspace-root> <project-name> <suite-id> <run-title> [run-id]`
 - `scripts/test-status.sh <workspace-root> <project-name> [workflow-id]`
 - `scripts/backup-object.sh <workspace-root> <project-name> <dependency-id> <object> <action>`

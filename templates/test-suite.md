@@ -3,6 +3,8 @@
 - suite_id: replace-with-suite-id
 - source_status: draft
 - platform:
+- execution_target:
+- interaction_requirement:
 
 ## Required Cases
 
@@ -11,3 +13,11 @@
 ## Optional Cases
 
 - [optional] 
+
+## Preconditions
+
+- 
+
+## Notes
+
+- 

@@ -27,11 +27,12 @@ data = tomllib.loads(Path(sys.argv[1]).read_text())
 print(data.get("project_type", "project"))
 PY
 )"
-bundle_items="$(printf '%s\n' $(omni_bundle_base_for_project_type "${PROJECT_TYPE}") $(omni_bundle_for_stage "${PROJECT_TYPE}" "${STAGE}") $(omni_bundle_for_role "${ROLE}") | sed '/^$/d' | awk '!seen[$0]++')"
+bundle_items="$(omni_bundle_resolve_items "${WORKSPACE_ROOT}" "${PROJECT_TYPE}" "${STAGE}" "${ROLE}")"
 echo "Bundle items:"
 while IFS= read -r item; do
   [[ -n "${item}" ]] || continue
   status="missing"
   if omni_bundle_is_installed "${item}"; then status="installed"; fi
-  echo "- ${item}: ${status}"
+  source_type="$(omni_bundle_source_type "${WORKSPACE_ROOT}" "${item}")"
+  echo "- ${item}: ${status}${source_type:+ source=${source_type}}"
 done < <(printf '%s\n' "${bundle_items}")

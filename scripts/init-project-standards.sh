@@ -115,15 +115,15 @@ testing = Path(sys.argv[2])
 project = sys.argv[3]
 has_frontend = sys.argv[4] == "1"
 has_backend = sys.argv[5] == "1"
-runtime_text = runtime.read_text().replace("replace-with-project-name", project)
+runtime_text = 'version = 1\nproject_name = "{}"\n'.format(project)
 deps = []
 if has_frontend:
-    deps.append('[[dependencies]]\nid = "browser_app"\nkind = "browser"\nenabled = true\nenvironment = "local"\n')
+    deps.append('[[dependencies]]\nid = "browser_app"\nkind = "browser"\nenabled = true\nenvironment = "local"\nhost = ""\nport = 0\ndatabase = ""\nuser = ""\nurl = "http://localhost:3000"\nentry_url = "http://localhost:3000"\nnotes = "Primary local web entry"\n')
 if has_backend:
-    deps.append('[[dependencies]]\nid = "service_api"\nkind = "service"\nenabled = true\nenvironment = "local"\n')
-    deps.append('[[dependencies]]\nid = "redis_cache"\nkind = "redis"\nenabled = false\nenvironment = "local"\n')
+    deps.append('[[dependencies]]\nid = "service_api"\nkind = "service"\nenabled = true\nenvironment = "local"\nhost = "127.0.0.1"\nport = 8080\ndatabase = ""\nuser = ""\nurl = "http://127.0.0.1:8080"\nentry_url = ""\nnotes = "Primary local backend API"\n')
+    deps.append('[[dependencies]]\nid = "redis_cache"\nkind = "redis"\nenabled = false\nenvironment = "local"\nhost = "127.0.0.1"\nport = 6379\ndatabase = "0"\nuser = ""\nurl = ""\nentry_url = ""\nnotes = "Optional local redis cache"\n')
 runtime.write_text(runtime_text + ("\n" + "\n".join(deps) if deps else ""))
-testing_text = testing.read_text().replace("replace-with-project-name", project)
+testing_text = 'version = 1\nproject_name = "{}"\n'.format(project)
 platforms = []
 if has_frontend:
     platforms.append('[[platforms]]\nid = "web"\nenabled = true\nrequired_test_mode = "browser"\nrequired_skills = ["webapp-testing"]\n')

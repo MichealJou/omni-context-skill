@@ -16,6 +16,33 @@ skill-installer|local|/Users/zhouping/.codex/skills/.system/skill-installer
 EOF
 }
 
+omni_bundle_catalog_workspace_items() {
+  local workspace_root="$1"
+  local catalog="${workspace_root}/.omnicontext/shared/bundles/catalog.toml"
+  [[ -f "${catalog}" ]] || return 0
+  python3 - "$catalog" <<'PY'
+import sys, tomllib
+from pathlib import Path
+data = tomllib.loads(Path(sys.argv[1]).read_text())
+for item in data.get("skills", []):
+    print("|".join([
+        str(item.get("id", "")),
+        str(item.get("source", "")),
+        str(item.get("path", "")),
+        str(item.get("repo", "")),
+        str(item.get("skill_path", "")),
+    ]))
+PY
+}
+
+omni_bundle_catalog_all_items() {
+  local workspace_root="${1:-}"
+  if [[ -n "${workspace_root}" ]]; then
+    omni_bundle_catalog_workspace_items "${workspace_root}"
+  fi
+  omni_bundle_catalog_items | sed 's/$/||/'
+}
+
 omni_bundle_base_for_project_type() {
   case "$1" in
     webapp) printf '%s\n' skill-installer frontend-design webapp-testing ;;
@@ -50,12 +77,51 @@ omni_bundle_for_role() {
 }
 
 omni_bundle_source_path() {
-  local id="$1"
-  omni_bundle_catalog_items | awk -F'|' -v id="${id}" '$1 == id {print $3}'
+  local workspace_root="$1"
+  local id="$2"
+  local items
+  items="$(omni_bundle_catalog_all_items "${workspace_root}" || true)"
+  printf '%s\n' "${items}" | awk -F'|' -v id="${id}" '$1 == id {print $3; exit}'
+}
+
+omni_bundle_source_type() {
+  local workspace_root="$1"
+  local id="$2"
+  local items
+  items="$(omni_bundle_catalog_all_items "${workspace_root}" || true)"
+  printf '%s\n' "${items}" | awk -F'|' -v id="${id}" '$1 == id {print $2; exit}'
+}
+
+omni_bundle_source_repo() {
+  local workspace_root="$1"
+  local id="$2"
+  local items
+  items="$(omni_bundle_catalog_all_items "${workspace_root}" || true)"
+  printf '%s\n' "${items}" | awk -F'|' -v id="${id}" '$1 == id {print $4; exit}'
+}
+
+omni_bundle_source_skill_path() {
+  local workspace_root="$1"
+  local id="$2"
+  local items
+  items="$(omni_bundle_catalog_all_items "${workspace_root}" || true)"
+  printf '%s\n' "${items}" | awk -F'|' -v id="${id}" '$1 == id {print $5; exit}'
 }
 
 omni_bundle_is_installed() {
   local id="$1"
   local code_home="${CODEX_HOME:-$HOME/.codex}"
   [[ -d "${code_home}/skills/${id}" ]]
+}
+
+omni_bundle_resolve_items() {
+  local workspace_root="$1"
+  local project_type="$2"
+  local stage="$3"
+  local role="$4"
+  printf '%s\n' \
+    $(omni_bundle_base_for_project_type "${project_type}") \
+    $(omni_bundle_for_stage "${project_type}" "${stage}") \
+    $(omni_bundle_for_role "${role}") \
+    | sed '/^$/d' | awk '!seen[$0]++'
 }

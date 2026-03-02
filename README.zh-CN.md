@@ -67,6 +67,7 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
 - `bundle-install`
 - `bundle-check`
 - `init-test-suite`
+- `execute-test-suite`
 - `record-test-run`
 - `test-status`
 - `backup-object`
@@ -83,6 +84,8 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
 - 默认每次提交后自动 push
 - 默认测试为硬门禁
 - 默认支持自动推进完整流程
+- Web/小程序前台测试默认要求真实交互执行
+- 本地危险数据库/Redis 操作默认先备份
 
 ## 使用边界
 

@@ -14,19 +14,12 @@ if [[ -z "${OBJECT_NAME}" ]]; then
   exit 1
 fi
 RUNTIME_FILE="${WORKSPACE_ROOT}/.omnicontext/projects/${PROJECT_NAME}/standards/runtime.toml"
-dep_meta="$(python3 - "$RUNTIME_FILE" "$DEPENDENCY_ID" <<'PY'
-import sys, tomllib
-from pathlib import Path
-data = tomllib.loads(Path(sys.argv[1]).read_text())
-for dep in data.get("dependencies", []):
-    if dep.get("id") == sys.argv[2]:
-        print(dep.get("kind", ""))
-        print(dep.get("environment", "local"))
-        break
-PY
-)"
-kind="$(printf '%s\n' "${dep_meta}" | sed -n '1p')"
-environment="$(printf '%s\n' "${dep_meta}" | sed -n '2p')"
+if ! omni_runtime_dep_exists "${RUNTIME_FILE}" "${DEPENDENCY_ID}"; then
+  echo "Danger check: UNKNOWN_DEPENDENCY"
+  exit 1
+fi
+kind="$(omni_runtime_dep_field "${RUNTIME_FILE}" "${DEPENDENCY_ID}" "kind")"
+environment="$(omni_runtime_dep_field "${RUNTIME_FILE}" "${DEPENDENCY_ID}" "environment")"
 environment="${environment:-local}"
 danger=1
 case "${kind}" in
@@ -44,6 +37,11 @@ fi
 if omni_is_prod_env "${environment}"; then
   echo "Danger check: CONFIRMATION_REQUIRED"
   exit 3
+fi
+backup_dir="${WORKSPACE_ROOT}/backups"
+if [[ ! -d "${backup_dir}" ]]; then
+  echo "Danger check: BACKUP_REQUIRED"
+  exit 2
 fi
 echo "Danger check: BACKUP_REQUIRED"
 exit 2

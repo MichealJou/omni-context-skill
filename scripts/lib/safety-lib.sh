@@ -12,3 +12,11 @@ omni_backup_filename() {
 omni_is_prod_env() {
   [[ "$1" == "prod" ]]
 }
+
+omni_backup_extension_for_kind() {
+  case "$1" in
+    mysql|postgres) printf '%s\n' sql ;;
+    redis) printf '%s\n' rdb ;;
+    *) printf '%s\n' txt ;;
+  esac
+}
