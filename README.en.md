@@ -70,6 +70,10 @@ Main commands:
 - `bundle-check`
 - `init-test-suite`
 - `collect-test-evidence`
+- `setup-test-runtime`
+- `run-browser-suite-devtools`
+- `run-browser-suite`
+- `run-api-suite`
 - `execute-test-suite`
 - `record-test-run`
 - `test-status`
@@ -89,7 +93,10 @@ Main commands:
 - autopilot workflow execution enabled by default
 - frontend-style tests require real interaction by default
 - formal test runs are bound to suite fingerprints and reject draft-only cases
+- Web formal testing now uses a DevTools-first executor and falls back to Playwright only when allowed
+- Backend formal testing uses the API executor and does not install browser runtime by default
 - Web/API testing can now collect live runtime evidence before final verification
+- API suites support richer assertions for headers, JSON values, JSON array lengths, and status ranges
 - dangerous local database/redis operations require backup first
 - dangerous checks now validate object-level backup records instead of only checking the backups directory
 - autopilot autofills stage summaries and prepares draft testing assets before reporting blockers
@@ -105,6 +112,12 @@ Then in another shell:
 
 ```bash
 /Users/program/code/code_work_flow/omni-context-skill/scripts/omni-context collect-test-evidence /tmp/omni-demo demo-web homepage-smoke --platform web
+
+# or run the DevTools-first browser executor directly
+/Users/program/code/code_work_flow/omni-context-skill/scripts/omni-context run-browser-suite-devtools /tmp/omni-demo demo-web homepage-smoke --platform web
+
+# backend formal execution
+/Users/program/code/code_work_flow/omni-context-skill/scripts/omni-context run-api-suite /tmp/omni-demo demo-api health-check --platform backend
 ```
 
 Daily diagnosis:

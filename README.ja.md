@@ -70,6 +70,10 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
 - `bundle-check`
 - `init-test-suite`
 - `collect-test-evidence`
+- `setup-test-runtime`
+- `run-browser-suite-devtools`
+- `run-browser-suite`
+- `run-api-suite`
 - `execute-test-suite`
 - `record-test-run`
 - `test-status`
@@ -89,7 +93,10 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
 - 既定で全工程自動実行を有効
 - フロント系テストは既定で実ユーザー操作を要求
 - 正式テスト実行は suite 指紋に固定され、draft 用例は受け付けません
+- Web 正式テストは既定で DevTools 優先実行になり、必要時のみ Playwright にフォールバックします
+- Backend 正式テストは API 実行器を使い、既定ではブラウザ実行環境を入れません
 - Web/API テストは正式判定の前に実行証跡を採取できます
+- API suite は header、JSON 値、JSON 配列長、status range の断言をサポートします
 - ローカルの危険な DB/Redis 操作は既定で先にバックアップ
 - 危険操作チェックは backups ディレクトリだけでなく対象オブジェクト単位のバックアップ記録も検証します
 - autopilot は段階要約を自動補完し、testing では草稿テスト資産を作った上で阻塞理由を返します
@@ -105,6 +112,12 @@ cd /tmp/omni-demo/demo-web && python3 -m http.server 38080
 
 ```bash
 /Users/program/code/code_work_flow/omni-context-skill/scripts/omni-context collect-test-evidence /tmp/omni-demo demo-web homepage-smoke --platform web
+
+# または DevTools 優先実行器を直接使う
+/Users/program/code/code_work_flow/omni-context-skill/scripts/omni-context run-browser-suite-devtools /tmp/omni-demo demo-web homepage-smoke --platform web
+
+# Backend 正式実行
+/Users/program/code/code_work_flow/omni-context-skill/scripts/omni-context run-api-suite /tmp/omni-demo demo-api health-check --platform backend
 ```
 
 日常診断:
