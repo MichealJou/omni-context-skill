@@ -90,7 +90,7 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
 - `references/zh-CN/` を更新したら、同じ変更を `references/en/` と `references/ja/` にも反映します
 - スクリプトの挙動が変わったら、README、`SKILL.md`、対応する `references/*/automation-behaviors.md` も更新します
 - リポジトリで Git を使う場合は、この規則を既定で有効にし、1 つの機能が完了するごとに最小単位でコミットし、説明的なメッセージを書きます。必要なら設定で無効化できます
-- 既定では commit のみで、自動 push はしません。毎回 push するのはユーザーが明示した場合、または設定で有効化した場合だけです
+- 既定では各 commit 後に自動 push します。毎回 push したくない場合だけ設定で明示的に無効化します
 - コミット前に次を実行します:
 
 ```bash

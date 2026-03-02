@@ -9,7 +9,7 @@ Update OmniContext only when the change is durable and useful to future sessions
 - `decisions.md` when a non-trivial technical choice was made
 - `overview.md` when the project structure or entry points changed
 - if Git is in use, enable one-feature-per-commit by default and make one minimal commit when a coherent feature or rule change is complete
-- if Git is in use, default to local commit only; push only when the user explicitly wants every commit pushed or config explicitly enables it
+- if Git is in use, default to commit-and-push after each completed feature-sized change; disable it only through explicit config when needed
 
 ## Usually Do Not Update
 
@@ -36,9 +36,9 @@ Update OmniContext only when the change is durable and useful to future sessions
 
 ## Git Push Standard
 
-- Default to local commit only; do not push automatically
-- Auto-push is allowed only when the user explicitly asks for every commit to be pushed, or config explicitly sets `auto_push_after_commit = true`
-- Without that explicit instruction, treat push as a separate action
+- Default to automatic push after commit
+- If the user does not want every commit pushed, disable it explicitly with `auto_push_after_commit = false`
+- When disabled, treat push as a separate action
 
 ## Handoff Standard
 

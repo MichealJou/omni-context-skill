@@ -16,7 +16,7 @@ OmniContext 是一套可复用的工作区知识管理 skill，适用于 Codex�
 - `check` 校验命令，用于维护三语言 references 和核心结构
 - 按语言环境生成中文、英文、日文文档与提示词，默认中文
 - Git 使用场景下默认按功能做最小单提交，必要时可配置关闭，便于回滚和回归定位
-- Git 默认只本地 commit，不自动 push；只有明确要求或配置开启时才 push
+- Git 默认每次提交后自动 push；用户可在配置中关闭“每次都 push”
 - 一个统一 CLI 入口：`scripts/omni-context`
 
 完整说明：

@@ -23,7 +23,7 @@ supported_languages = ["zh-CN", "en", "ja"]
 
 [git]
 minimal_feature_commits = true
-auto_push_after_commit = false
+auto_push_after_commit = true
 
 [[project_mappings]]
 name = "replace-with-project-name"
