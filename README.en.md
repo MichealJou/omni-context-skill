@@ -75,6 +75,8 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
   Reports missing required OmniContext files, mapped projects, and unmapped leftovers.
 - `scripts/check-skill.sh`
   Validates the skill structure, core scripts, templates, and whether `references/zh-CN|en|ja` stay in sync.
+- `scripts/git-finish.sh <repo-root> <commit-message> [--all|<path>...]`
+  Executes the feature-sized Git workflow and pushes by default after commit; if config disables auto-push, it commits without pushing.
 - `scripts/new-project.sh <workspace-root> <project-name> <source-path>`
   Registers a project explicitly, creates its core OmniContext files, and refreshes the workspace index.
 - `scripts/new-doc.sh <workspace-root> <project-name> <doc-type> <doc-title> [slug]`
@@ -92,6 +94,7 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
 - When script behavior changes, update the README files, `SKILL.md`, and the matching `references/*/automation-behaviors.md`
 - If the repo uses Git, enable one-feature-per-commit by default; disable it only through explicit config when needed
 - Default to pushing after each commit; disable it explicitly in config when the user does not want every commit pushed
+- Prefer `./scripts/omni-context git-finish ...` instead of relying on manual Git discipline
 - Run this before committing:
 
 ```bash

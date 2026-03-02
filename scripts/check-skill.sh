@@ -16,6 +16,7 @@ required_scripts=(
   "scripts/new-project.sh"
   "scripts/new-doc.sh"
   "scripts/check-skill.sh"
+  "scripts/git-finish.sh"
   "scripts/lib/omnicontext-l10n.sh"
 )
 
@@ -88,6 +89,25 @@ for path in "${required_templates[@]}"; do
     status=1
   fi
 done
+
+say "" "" ""
+say "检查 Git 默认策略：" "Git の既定ポリシーを確認:" "Checking Git defaults:"
+workspace_git_defaults="$(cd "${SKILL_ROOT}" && rg -N '^auto_push_after_commit = (true|false)$' templates/workspace.toml -or '$1' | head -n 1)"
+user_git_defaults="$(cd "${SKILL_ROOT}" && rg -N '^auto_push_after_commit = (true|false)$' templates/user.local.toml -or '$1' | head -n 1)"
+
+if [[ "${workspace_git_defaults}" == "true" ]]; then
+  report_ok "templates/workspace.toml:auto_push_after_commit=true"
+else
+  report_missing "templates/workspace.toml:auto_push_after_commit=true"
+  status=1
+fi
+
+if [[ "${user_git_defaults}" == "true" ]]; then
+  report_ok "templates/user.local.toml:auto_push_after_commit=true"
+else
+  report_missing "templates/user.local.toml:auto_push_after_commit=true"
+  status=1
+fi
 
 say "" "" ""
 say "检查 references 目录：" "references ディレクトリを確認:" "Checking reference directories:"

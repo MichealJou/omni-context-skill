@@ -2,6 +2,9 @@
 
 This file defines the intended automation behavior for OmniContext. `install-skill`, `init`, `sync`, `status`, `new-project`, and `new-doc` already exist as conservative implementations. Everything else remains a design target. Chinese remains the default operator-facing language unless user or project policy says otherwise.
 
+Current implemented helpers also include:
+- `git-finish`: execute the one-feature-per-commit Git rule and push by default after commit
+
 ## `init`
 
 Purpose:

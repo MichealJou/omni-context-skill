@@ -15,6 +15,7 @@ Commands:
   sync         Refresh workspace mappings and top-level index
   status       Report OmniContext health and coverage
   check        Validate skill structure and multilingual references
+  git-finish   Commit one completed feature-sized change and push by default
   new-project  Register a project and create core project records
   new-doc      Create a project document and append it to an index
 
@@ -22,6 +23,7 @@ Examples:
   omni-context --lang zh-CN init /path/to/workspace
   omni-context init /path/to/workspace
   omni-context check
+  omni-context git-finish /path/to/repo "feat: add project sync"
   omni-context status /path/to/workspace
   omni-context sync /path/to/workspace
   omni-context new-project /path/to/workspace my-app apps/my-app
@@ -58,6 +60,9 @@ case "${command_name}" in
     ;;
   check)
     exec "${SCRIPT_DIR}/check-skill.sh" "$@"
+    ;;
+  git-finish)
+    exec "${SCRIPT_DIR}/git-finish.sh" "$@"
     ;;
   new-project)
     exec "${SCRIPT_DIR}/new-project.sh" "$@"

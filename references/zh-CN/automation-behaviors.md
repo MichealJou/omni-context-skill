@@ -2,6 +2,9 @@
 
 这里定义 OmniContext 自动化的目标行为。`install-skill`、`init`、`sync`、`status`、`new-project`、`new-doc` 已经有保守实现，其余仍然是设计目标。除非用户或项目策略另有要求，面向操作者的默认语言应为中文。
 
+目前还包括：
+- `git-finish`：按 Git 规则执行“一个功能一提交”，并默认在提交后自动 push
+
 ## `init`
 
 目的：

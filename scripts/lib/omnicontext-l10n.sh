@@ -26,6 +26,54 @@ omni_read_toml_value() {
   fi
 }
 
+omni_read_toml_bool() {
+  local file="$1"
+  local key="$2"
+  if [[ -f "${file}" ]]; then
+    sed -n "s/^${key} = \\(true\\|false\\)$/\\1/p" "${file}" | head -n 1
+  fi
+}
+
+omni_find_workspace_root() {
+  local start_dir="${1:-$(pwd)}"
+  local current_dir=""
+
+  current_dir="$(cd "${start_dir}" && pwd)"
+  while [[ "${current_dir}" != "/" ]]; do
+    if [[ -f "${current_dir}/.omnicontext/workspace.toml" || -f "${current_dir}/.omnicontext/user.local.toml" ]]; then
+      printf '%s\n' "${current_dir}"
+      return 0
+    fi
+    current_dir="$(dirname "${current_dir}")"
+  done
+
+  return 1
+}
+
+omni_resolve_git_bool() {
+  local workspace_root="${1:-}"
+  local key="$2"
+  local default_value="${3:-false}"
+  local omni_root="${workspace_root}/.omnicontext"
+  local user_local="${omni_root}/user.local.toml"
+  local workspace_toml="${omni_root}/workspace.toml"
+  local value=""
+
+  value="$(omni_read_toml_bool "${user_local}" "${key}")"
+  if [[ -n "${value}" ]]; then
+    printf '%s\n' "${value}"
+    return
+  fi
+
+  value="$(omni_read_toml_bool "${workspace_toml}" "${key}")"
+  if [[ -n "${value}" ]]; then
+    printf '%s\n' "${value}"
+    return
+  fi
+
+  printf '%s\n' "${default_value}"
+}
+
 omni_resolve_language() {
   local workspace_root="${1:-}"
   local explicit="${2:-${OMNI_CONTEXT_LANGUAGE:-}}"

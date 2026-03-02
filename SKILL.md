@@ -34,12 +34,14 @@ The skill now includes two minimal scripts:
 - `scripts/sync-workspace.sh [workspace-root]`
 - `scripts/status-workspace.sh [workspace-root]`
 - `scripts/check-skill.sh`
+- `scripts/git-finish.sh <repo-root> <commit-message> [--all|<path>...]`
 - `scripts/new-project.sh <workspace-root> <project-name> <source-path>`
 - `scripts/new-doc.sh <workspace-root> <project-name> <doc-type> <doc-title> [slug]`
 
 Use these before writing more automation. They are intentionally conservative and keep the protocol simple.
 If language must be forced for generated output, prefer the unified CLI with `--lang`; otherwise the scripts default to Chinese and fall back to workspace or local settings.
 Use `scripts/omni-context check` before release-oriented commits that touch references, templates, or script behavior.
+Use `scripts/omni-context git-finish` when the task is complete enough to produce one feature-sized Git commit.
 
 ## Working Rules
 

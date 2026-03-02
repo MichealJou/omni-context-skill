@@ -74,6 +74,8 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
   检查必需文件、正式项目映射和未纳管残留目录。
 - `scripts/check-skill.sh`
   校验 skill 自身结构、核心脚本、模板，以及 `references/zh-CN|en|ja` 三套文档是否齐全同步。
+- `scripts/git-finish.sh <repo-root> <commit-message> [--all|<path>...]`
+  执行“一个功能一提交”的 Git 流程，并按默认规则在提交后自动 push；如果配置关闭了自动 push，就只提交不推送。
 - `scripts/new-project.sh <workspace-root> <project-name> <source-path>`
   显式注册一个新项目，生成该项目的基础 OmniContext 文档，并刷新工作区索引。
 - `scripts/new-doc.sh <workspace-root> <project-name> <doc-type> <doc-title> [slug]`
@@ -91,6 +93,7 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
 - 每次改脚本行为时，同步更新 `README`、`SKILL.md` 和对应的 `references/*/automation-behaviors.md`
 - 如果仓库使用 Git，默认开启“一个功能完成后立刻做一次最小单提交，并写清提交说明”；如有特殊需要可在配置里关闭
 - 默认每次提交后自动 push；如果用户不想每次都推送，可在配置里显式关闭
+- 推荐用 `./scripts/omni-context git-finish ...` 来执行这条 Git 规则，而不是手工凭记忆操作
 - 提交前运行：
 
 ```bash

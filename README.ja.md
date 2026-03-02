@@ -74,6 +74,8 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
   必須ファイル、管理対象プロジェクト、未マッピングの残留ディレクトリを確認します。
 - `scripts/check-skill.sh`
   skill 自体の構造、主要スクリプト、テンプレート、および `references/zh-CN|en|ja` の同期状態を検証します。
+- `scripts/git-finish.sh <repo-root> <commit-message> [--all|<path>...]`
+  「1 機能 1 コミット」の Git フローを実行し、既定では commit 後に自動 push します。設定で自動 push を無効化している場合は commit のみ行います。
 - `scripts/new-project.sh <workspace-root> <project-name> <source-path>`
   新しいプロジェクトを明示的に登録し、基本ドキュメントを生成してワークスペース索引を更新します。
 - `scripts/new-doc.sh <workspace-root> <project-name> <doc-type> <doc-title> [slug]`
@@ -91,6 +93,7 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
 - スクリプトの挙動が変わったら、README、`SKILL.md`、対応する `references/*/automation-behaviors.md` も更新します
 - リポジトリで Git を使う場合は、この規則を既定で有効にし、1 つの機能が完了するごとに最小単位でコミットし、説明的なメッセージを書きます。必要なら設定で無効化できます
 - 既定では各 commit 後に自動 push します。毎回 push したくない場合だけ設定で明示的に無効化します
+- この Git ルールは `./scripts/omni-context git-finish ...` で実行するのを推奨します
 - コミット前に次を実行します:
 
 ```bash
