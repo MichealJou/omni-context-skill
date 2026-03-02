@@ -38,10 +38,11 @@ if omni_is_prod_env "${environment}"; then
   echo "Danger check: CONFIRMATION_REQUIRED"
   exit 3
 fi
-backup_dir="${WORKSPACE_ROOT}/backups"
-if [[ ! -d "${backup_dir}" ]]; then
+backup_path="$(omni_has_matching_backup_record "${WORKSPACE_ROOT}" "${PROJECT_NAME}" "${DEPENDENCY_ID}" "${OBJECT_NAME}" "${OP_TYPE}" 2>/dev/null || true)"
+if [[ -z "${backup_path}" || ! -f "${backup_path}" ]]; then
   echo "Danger check: BACKUP_REQUIRED"
   exit 2
 fi
-echo "Danger check: BACKUP_REQUIRED"
-exit 2
+echo "Danger check: BACKUP_READY"
+echo "Backup: ${backup_path}"
+exit 0

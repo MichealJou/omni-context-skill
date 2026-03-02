@@ -21,6 +21,8 @@ workflow_status="$(omni_workflow_status_value "${LIFECYCLE}" "status")"
 echo "Workflow: ${WORKFLOW_ID}"
 echo "Status: ${workflow_status}"
 echo "Current stage: ${current_stage}"
+LATEST_SUITE="$(find "${PROJECT_DIR}/tests/suites" -type f -name '*.md' 2>/dev/null | sort | tail -n 1 || true)"
+LATEST_RUN="$(find "${PROJECT_DIR}/tests/runs" -type f -name '*.md' 2>/dev/null | sort | tail -n 1 || true)"
 STATE_FILE="$(omni_autopilot_state_path "${WORKFLOW_DIR}")"
 if [[ -f "${STATE_FILE}" ]]; then
   python3 - "$STATE_FILE" <<'PY'
@@ -44,4 +46,12 @@ else
     echo "Blocker: workflow-check failed"
     echo "Next step: resolve current workflow gate"
   fi
+fi
+if [[ -n "${LATEST_SUITE}" ]]; then
+  echo "Latest suite: $(basename "${LATEST_SUITE}")"
+fi
+if [[ -n "${LATEST_RUN}" ]]; then
+  echo "Latest run: $(basename "${LATEST_RUN}")"
+  evidence="$(rg -o '^\-\s+evidence:\s+.+$' "${LATEST_RUN}" 2>/dev/null | sed 's/^- evidence: //; s/^\-\s\+evidence:\s\+//')"
+  [[ -n "${evidence}" ]] && echo "Latest evidence: ${evidence}"
 fi

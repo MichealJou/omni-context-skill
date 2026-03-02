@@ -90,6 +90,7 @@ Main commands:
 - formal test runs are bound to suite fingerprints and reject draft-only cases
 - Web/API testing can now collect live runtime evidence before final verification
 - dangerous local database/redis operations require backup first
+- dangerous checks now validate object-level backup records instead of only checking the backups directory
 - autopilot autofills stage summaries and prepares draft testing assets before reporting blockers
 
 ## Quick Demo

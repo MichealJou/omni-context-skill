@@ -25,6 +25,11 @@ mkdir -p "${BACKUP_DIR}"
 ext="$(omni_backup_extension_for_kind "${kind}")"
 filename="$(omni_backup_filename "${PROJECT_NAME}" "${environment:-local}" "${OBJECT_NAME}" "${ACTION_NAME}" "${ext}")"
 TARGET="${BACKUP_DIR}/${filename}"
+RECORD_FILE="$(omni_backup_record_file "${WORKSPACE_ROOT}" "${PROJECT_NAME}")"
+mkdir -p "$(dirname "${RECORD_FILE}")"
+if [[ ! -f "${RECORD_FILE}" ]]; then
+  cp "${SCRIPT_DIR}/../templates/backup-record.md" "${RECORD_FILE}"
+fi
 created=0
 case "${kind}" in
   mysql)
@@ -49,4 +54,14 @@ esac
 if [[ "${created}" -ne 1 ]]; then
   printf '%s\n' "-- Backup placeholder for ${DEPENDENCY_ID} ${OBJECT_NAME} ${ACTION_NAME}" > "${TARGET}"
 fi
+{
+  echo
+  echo "## $(date +%F) ${ACTION_NAME} ${OBJECT_NAME}"
+  echo
+  echo "- dependency: ${DEPENDENCY_ID}"
+  echo "- environment: ${environment:-local}"
+  echo "- object: ${OBJECT_NAME}"
+  echo "- action: ${ACTION_NAME}"
+  echo "- backup_path: ${TARGET}"
+} >> "${RECORD_FILE}"
 echo "${TARGET}"

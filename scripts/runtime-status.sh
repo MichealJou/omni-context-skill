@@ -36,7 +36,32 @@ while IFS='|' read -r dep_id kind enabled environment host port database endpoin
       if [[ "${enabled}" == "true" ]]; then status=2; fi
     fi
   fi
-  printf -- "- %s: kind=%s enabled=%s env=%s client=%s" "${dep_id}" "${kind}" "${enabled}" "${environment}" "${client_status}"
+  reachability="n/a"
+  if [[ "${enabled}" == "true" ]]; then
+    case "${kind}" in
+      service|browser|miniapp)
+        if [[ -n "${endpoint}" ]]; then
+          if curl -fsS --max-time 3 "${endpoint}" >/dev/null 2>&1; then
+            reachability="reachable"
+          else
+            reachability="unreachable"
+            status=2
+          fi
+        fi
+        ;;
+      redis|mysql|postgres)
+        if [[ -n "${host}" && -n "${port}" && "${port}" != "0" ]]; then
+          if nc -z "${host}" "${port}" >/dev/null 2>&1; then
+            reachability="reachable"
+          else
+            reachability="unreachable"
+            status=2
+          fi
+        fi
+        ;;
+    esac
+  fi
+  printf -- "- %s: kind=%s enabled=%s env=%s client=%s reachability=%s" "${dep_id}" "${kind}" "${enabled}" "${environment}" "${client_status}" "${reachability}"
   [[ -n "${host}" ]] && printf " host=%s" "${host}"
   [[ "${port}" != "0" && -n "${port}" ]] && printf " port=%s" "${port}"
   [[ -n "${database}" ]] && printf " database=%s" "${database}"

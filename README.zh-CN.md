@@ -90,6 +90,7 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
 - 正式测试只认非 draft 用例，执行记录会绑定 suite 指纹，防止偷偷改用例
 - Web/API 测试现在支持先采集真实运行证据，再进入正式判定
 - 本地危险数据库/Redis 操作默认先备份
+- 危险操作现在会识别“具体对象”的备份记录，不再只看 backups 目录
 - autopilot 会自动补阶段摘要，并在 testing 阶段生成草稿测试资产后再给出阻塞说明
 
 ## 快速演示
