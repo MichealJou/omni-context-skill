@@ -2,6 +2,7 @@
 set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "${SCRIPT_DIR}/lib/workflow-lib.sh"
+source "${SCRIPT_DIR}/lib/rules-pack-lib.sh"
 
 WORKSPACE_ROOT="$(cd "${1:-$(pwd)}" && pwd)"
 PROJECT_NAME="${2:-}"
@@ -17,6 +18,18 @@ fi
 WORKFLOW_DIR="${PROJECT_DIR}/workflows/${WORKFLOW_ID}"
 LIFECYCLE="${WORKFLOW_DIR}/lifecycle.toml"
 STATE_FILE="$(omni_autopilot_state_path "${WORKFLOW_DIR}")"
+rules_next_step() {
+  local stage="$1"
+  case "${stage}" in
+    intake) printf '%s\n' "fill in request context and business goal" ;;
+    clarification) printf '%s\n' "clarify scope, acceptance, and unresolved items" ;;
+    design) printf '%s\n' "capture implementation direction, risks, and decisions" ;;
+    delivery) printf '%s\n' "record implementation scope and affected code paths" ;;
+    testing) printf '%s\n' "confirm non-draft test cases and record formal execution evidence" ;;
+    acceptance) printf '%s\n' "write acceptance conclusion and residual follow-up" ;;
+    *) printf '%s\n' "complete the current stage requirements" ;;
+  esac
+}
 while true; do
   current_stage="$(omni_workflow_status_value "${LIFECYCLE}" "current_stage")"
   workflow_status="$(omni_workflow_status_value "${LIFECYCLE}" "status")"
@@ -33,14 +46,22 @@ while true; do
   fi
   check_output="$("${SCRIPT_DIR}/workflow-check.sh" "${WORKSPACE_ROOT}" "${PROJECT_NAME}" "${WORKFLOW_ID}" 2>&1 || true)"
   if [[ "${check_output}" != *"Workflow check: OK"* ]]; then
-    next_step="complete the current stage requirements"
+    next_step="$(rules_next_step "${current_stage}")"
     blocker="$(printf '%s' "${check_output}" | sed '/^Workflow check: INCOMPLETE$/d' | sed '/^$/d' | tail -n 1)"
     [[ -n "${blocker}" ]] || blocker="workflow-check failed"
     if [[ "${current_stage}" == "testing" ]]; then
       test_output="$("${SCRIPT_DIR}/test-status.sh" "${WORKSPACE_ROOT}" "${PROJECT_NAME}" 2>&1 || true)"
       test_blocker="$(printf '%s' "${test_output}" | sed '/^Test status: INCOMPLETE$/d' | sed '/^$/d' | tail -n 1)"
       [[ -n "${test_blocker}" ]] && blocker="${test_blocker}"
-      next_step="confirm non-draft test cases and record formal execution evidence"
+    fi
+    if [[ "${blocker}" == *"ADR module requires"* ]]; then
+      next_step="add a project decision entry before continuing"
+    elif [[ "${blocker}" == *"Acceptance Criteria module requires"* ]]; then
+      next_step="write explicit acceptance criteria in clarification or acceptance"
+    elif [[ "${blocker}" == *"E2E Browser module requires"* ]]; then
+      next_step="create a web suite and execute a browser-based formal run"
+    elif [[ "${blocker}" == *"Change Safety module requires"* ]]; then
+      next_step="add runbook recovery notes for risky runtime changes"
     fi
     omni_autopilot_write_state "${STATE_FILE}" "blocked" "${current_stage}" "autofilled stage and evaluated gates" "${blocker}" "${next_step}"
     echo "Autopilot blocked at ${current_stage}"

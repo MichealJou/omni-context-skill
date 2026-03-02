@@ -85,6 +85,7 @@ Main commands:
 - hard testing gates by default
 - autopilot workflow execution enabled by default
 - frontend-style tests require real interaction by default
+- formal test runs are bound to suite fingerprints and reject draft-only cases
 - dangerous local database/redis operations require backup first
 - autopilot autofills stage summaries and prepares draft testing assets before reporting blockers
 

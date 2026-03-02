@@ -20,11 +20,6 @@ for key in ("add", "remove"):
     print(f"{key}: {', '.join(data.get('customization', {}).get(key, [])) or 'None'}")
 PY
 echo "Resolved modules:"
-base_pack="$(python3 - "$FILE" <<'PY'
-import sys, tomllib
-from pathlib import Path
-data = tomllib.loads(Path(sys.argv[1]).read_text())
-print(data.get("base_pack", "default-balanced"))
-PY
-)"
-for mod in $(omni_rules_pack_required_modules "${base_pack}"); do echo "- ${mod}"; done
+while IFS= read -r mod; do
+  [[ -n "${mod}" ]] && echo "- ${mod}"
+done < <(omni_rules_pack_resolved_modules "${FILE}")

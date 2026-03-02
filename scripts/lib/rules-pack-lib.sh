@@ -75,3 +75,55 @@ omni_rules_pack_validate() {
   fi
   return "${missing}"
 }
+
+omni_rules_pack_base_pack() {
+  local file="$1"
+  python3 - "$file" <<'PY'
+import sys, tomllib
+from pathlib import Path
+data = tomllib.loads(Path(sys.argv[1]).read_text())
+print(data.get("base_pack", "default-balanced"))
+PY
+}
+
+omni_rules_pack_custom_modules() {
+  local file="$1"
+  local key="$2"
+  python3 - "$file" "$key" <<'PY'
+import sys, tomllib
+from pathlib import Path
+data = tomllib.loads(Path(sys.argv[1]).read_text())
+for item in data.get("customization", {}).get(sys.argv[2], []):
+    print(item)
+PY
+}
+
+omni_rules_pack_resolved_modules() {
+  local file="$1"
+  python3 - "$file" <<'PY'
+import sys, tomllib
+from pathlib import Path
+
+required = {
+    "default-balanced": ["prd", "adr", "acceptance-criteria", "test-cases", "change-safety", "iso-12207-lifecycle", "nist-ssdf"],
+    "fast-delivery": ["prd", "acceptance-criteria", "test-cases", "change-safety", "scrum-lite"],
+    "high-security": ["prd", "adr", "acceptance-criteria", "test-cases", "change-safety", "backup-recovery", "least-privilege", "nist-ssdf", "owasp-asvs"],
+    "design-driven": ["prd", "adr", "acceptance-criteria", "test-cases", "change-safety", "e2e-browser"],
+    "backend-stability": ["prd", "adr", "acceptance-criteria", "test-cases", "change-safety", "backup-recovery", "least-privilege", "nist-ssdf"],
+}
+recommended = {
+    "default-balanced": ["owasp-asvs", "istqb-governance", "test-pyramid"],
+    "fast-delivery": ["adr"],
+    "high-security": ["istqb-governance"],
+    "design-driven": ["owasp-asvs", "test-pyramid"],
+    "backend-stability": ["istqb-governance"],
+}
+data = tomllib.loads(Path(sys.argv[1]).read_text())
+base = data.get("base_pack", "default-balanced")
+mods = set(required.get(base, [])) | set(recommended.get(base, []))
+mods |= set(data.get("customization", {}).get("add", []))
+mods -= set(data.get("customization", {}).get("remove", []))
+for item in sorted(mods):
+    print(item)
+PY
+}
