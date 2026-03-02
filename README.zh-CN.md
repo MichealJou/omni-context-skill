@@ -67,6 +67,7 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
 - `bundle-install`
 - `bundle-check`
 - `init-test-suite`
+- `collect-test-evidence`
 - `execute-test-suite`
 - `record-test-run`
 - `test-status`
@@ -86,6 +87,7 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
 - 默认支持自动推进完整流程
 - Web/小程序前台测试默认要求真实交互执行
 - 正式测试只认非 draft 用例，执行记录会绑定 suite 指纹，防止偷偷改用例
+- Web/API 测试现在支持先采集真实运行证据，再进入正式判定
 - 本地危险数据库/Redis 操作默认先备份
 - autopilot 会自动补阶段摘要，并在 testing 阶段生成草稿测试资产后再给出阻塞说明
 

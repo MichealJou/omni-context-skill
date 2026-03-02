@@ -67,6 +67,7 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
 - `bundle-install`
 - `bundle-check`
 - `init-test-suite`
+- `collect-test-evidence`
 - `execute-test-suite`
 - `record-test-run`
 - `test-status`
@@ -86,6 +87,7 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
 - 既定で全工程自動実行を有効
 - フロント系テストは既定で実ユーザー操作を要求
 - 正式テスト実行は suite 指紋に固定され、draft 用例は受け付けません
+- Web/API テストは正式判定の前に実行証跡を採取できます
 - ローカルの危険な DB/Redis 操作は既定で先にバックアップ
 - autopilot は段階要約を自動補完し、testing では草稿テスト資産を作った上で阻塞理由を返します
 

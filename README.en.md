@@ -67,6 +67,7 @@ Main commands:
 - `bundle-install`
 - `bundle-check`
 - `init-test-suite`
+- `collect-test-evidence`
 - `execute-test-suite`
 - `record-test-run`
 - `test-status`
@@ -86,6 +87,7 @@ Main commands:
 - autopilot workflow execution enabled by default
 - frontend-style tests require real interaction by default
 - formal test runs are bound to suite fingerprints and reject draft-only cases
+- Web/API testing can now collect live runtime evidence before final verification
 - dangerous local database/redis operations require backup first
 - autopilot autofills stage summaries and prepares draft testing assets before reporting blockers
 

@@ -93,8 +93,14 @@ check_platform() {
   fi
 
   run_status="$(omni_test_run_field "${latest_platform_run}" "run_status")"
+  run_status="${run_status%% *}"
   if [[ -n "${run_status}" && "${run_status}" != "passed" && "${run_status}" != "completed" ]]; then
-    echo "Run ${latest_platform_run##*/} is not completed for platform ${platform}" >&2
+    if [[ "${run_status}" == "blocked_runtime" ]]; then
+      blocker="$(rg -o '^\-\s+recommended_next_step:\s+.+$' "${latest_platform_run}" 2>/dev/null | sed 's/^- recommended_next_step: //; s/^\-\s\+recommended_next_step:\s\+//')"
+      echo "Run ${latest_platform_run##*/} is blocked by runtime setup for platform ${platform}${blocker:+: ${blocker}}" >&2
+    else
+      echo "Run ${latest_platform_run##*/} is not completed for platform ${platform}" >&2
+    fi
     return 2
   fi
 

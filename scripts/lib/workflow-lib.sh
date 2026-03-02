@@ -497,7 +497,10 @@ omni_autopilot_prepare_testing_assets() {
           backend) mode="api" ;;
           *) mode="browser" ;;
         esac
-        "$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/execute-test-suite.sh" "${workspace_root}" "${project_name}" "$(basename "${effective_suite}" .md)" --mode "${mode}" --platform "${platform:-web}" --evidence "pending-evidence" >/dev/null || true
+        local runner
+        runner="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+        "${runner}/collect-test-evidence.sh" "${workspace_root}" "${project_name}" "$(basename "${effective_suite}" .md)" --mode "${mode}" --platform "${platform:-web}" >/dev/null 2>&1 || \
+        "${runner}/execute-test-suite.sh" "${workspace_root}" "${project_name}" "$(basename "${effective_suite}" .md)" --mode "${mode}" --platform "${platform:-web}" --evidence "pending-evidence" >/dev/null || true
       fi
     fi
     return 0
