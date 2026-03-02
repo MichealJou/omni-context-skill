@@ -46,4 +46,6 @@ if [[ -n "${next}" ]]; then
 else
   omni_set_workflow_value "${LIFECYCLE}" "status" "completed"
 fi
+omni_sync_workflow_registry "${WORKSPACE_ROOT}" "${PROJECT_NAME}" "${WORKFLOW_ID}" "${LIFECYCLE}"
+omni_append_handoff_stage_update "${PROJECT_DIR}" "${STAGE}" "completed by ${ROLE}"
 echo "Advanced ${PROJECT_NAME} workflow stage ${STAGE}"

@@ -86,6 +86,7 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
 - 默认支持自动推进完整流程
 - Web/小程序前台测试默认要求真实交互执行
 - 本地危险数据库/Redis 操作默认先备份
+- autopilot 会自动补阶段摘要，并在 testing 阶段生成草稿测试资产后再给出阻塞说明
 
 ## 使用边界
 

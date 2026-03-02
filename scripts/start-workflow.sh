@@ -58,15 +58,6 @@ REGISTRY="${WORKSPACE_ROOT}/.omnicontext/shared/workflows/registry.toml"
 if [[ ! -f "${REGISTRY}" ]]; then
   cp "${SKILL_ROOT}/templates/workflow-registry.toml" "${REGISTRY}"
 fi
-cat >> "${REGISTRY}" <<EOF
-
-[[workflows]]
-workflow_id = "${WORKFLOW_ID}"
-project_name = "${PROJECT_NAME}"
-title = "${TITLE}"
-status = "in_progress"
-current_stage = "intake"
-language = "${language}"
-path = "projects/${PROJECT_NAME}/workflows/${WORKFLOW_ID}"
-EOF
+omni_sync_workflow_registry "${WORKSPACE_ROOT}" "${PROJECT_NAME}" "${WORKFLOW_ID}" "${WORKFLOW_DIR}/lifecycle.toml"
+omni_autopilot_write_state "$(omni_autopilot_state_path "${WORKFLOW_DIR}")" "idle" "intake" "workflow initialized" "none" "run autopilot or advance manually"
 echo "Started workflow ${WORKFLOW_ID} for ${PROJECT_NAME}"

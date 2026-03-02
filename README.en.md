@@ -86,6 +86,7 @@ Main commands:
 - autopilot workflow execution enabled by default
 - frontend-style tests require real interaction by default
 - dangerous local database/redis operations require backup first
+- autopilot autofills stage summaries and prepares draft testing assets before reporting blockers
 
 ## Boundaries
 

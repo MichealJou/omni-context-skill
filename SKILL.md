@@ -98,6 +98,8 @@ Prefer the unified CLI. The standalone scripts remain the implementation targets
    Local destructive database or Redis operations require backup first. Production destructive operations require a clear explanation and explicit user confirmation.
 11. Support autopilot, but stop on real blockers.
    Autopilot should continue through the workflow by default and stop only on missing critical input, failed gates, missing strict dependencies, or high-risk confirmations.
+12. Let autopilot generate useful stage artifacts.
+   Autopilot should autofill workflow stage summaries from existing project context. In testing, it may prepare draft assets, but it must not silently convert draft test cases into formal passing evidence.
 
 ## Minimum First Version
 

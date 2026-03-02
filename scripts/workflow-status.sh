@@ -31,3 +31,15 @@ print("Stages:")
 for stage, info in data.get("stages", {}).items():
     print(f"- {stage}: status={info.get('status')} owner={info.get('owner')}")
 PY
+STATE_FILE="${PROJECT_DIR}/workflows/${WORKFLOW_ID}/autopilot-state.toml"
+if [[ -f "${STATE_FILE}" ]]; then
+  python3 - "$STATE_FILE" <<'PY'
+import sys, tomllib
+from pathlib import Path
+data = tomllib.loads(Path(sys.argv[1]).read_text())
+print("Autopilot:")
+print(f"- status: {data.get('status', '')}")
+print(f"- blocker: {data.get('blocker', '')}")
+print(f"- next_step: {data.get('next_step', '')}")
+PY
+fi

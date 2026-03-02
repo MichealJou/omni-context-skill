@@ -14,18 +14,38 @@ PROJECT_DIR="${WORKSPACE_ROOT}/.omnicontext/projects/${PROJECT_NAME}"
 if [[ -z "${WORKFLOW_ID}" ]]; then
   WORKFLOW_ID="$(omni_current_workflow_id "${PROJECT_DIR}")"
 fi
-LIFECYCLE="${PROJECT_DIR}/workflows/${WORKFLOW_ID}/lifecycle.toml"
+WORKFLOW_DIR="${PROJECT_DIR}/workflows/${WORKFLOW_ID}"
+LIFECYCLE="${WORKFLOW_DIR}/lifecycle.toml"
+STATE_FILE="$(omni_autopilot_state_path "${WORKFLOW_DIR}")"
 while true; do
   current_stage="$(omni_workflow_status_value "${LIFECYCLE}" "current_stage")"
   workflow_status="$(omni_workflow_status_value "${LIFECYCLE}" "status")"
   if [[ "${workflow_status}" == "completed" || -z "${current_stage}" ]]; then
+    omni_autopilot_write_state "${STATE_FILE}" "completed" "" "workflow completed" "none" "none"
     echo "Autopilot: completed"
     break
   fi
   owner="$(omni_workflow_status_value "${LIFECYCLE}" "stages.${current_stage}.owner")"
-  if ! "${SCRIPT_DIR}/workflow-check.sh" "${WORKSPACE_ROOT}" "${PROJECT_NAME}" "${WORKFLOW_ID}" >/dev/null 2>&1; then
+  omni_autofill_stage_doc "${PROJECT_DIR}" "${WORKFLOW_DIR}" "${LIFECYCLE}" "${current_stage}"
+  if [[ "${current_stage}" == "testing" ]]; then
+    omni_autopilot_prepare_testing_assets "${WORKSPACE_ROOT}" "${PROJECT_NAME}" "${WORKFLOW_ID}"
+    omni_autofill_stage_doc "${PROJECT_DIR}" "${WORKFLOW_DIR}" "${LIFECYCLE}" "${current_stage}"
+  fi
+  check_output="$("${SCRIPT_DIR}/workflow-check.sh" "${WORKSPACE_ROOT}" "${PROJECT_NAME}" "${WORKFLOW_ID}" 2>&1 || true)"
+  if [[ "${check_output}" != *"Workflow check: OK"* ]]; then
+    next_step="complete the current stage requirements"
+    blocker="$(printf '%s' "${check_output}" | sed '/^Workflow check: INCOMPLETE$/d' | sed '/^$/d' | tail -n 1)"
+    [[ -n "${blocker}" ]] || blocker="workflow-check failed"
+    if [[ "${current_stage}" == "testing" ]]; then
+      test_output="$("${SCRIPT_DIR}/test-status.sh" "${WORKSPACE_ROOT}" "${PROJECT_NAME}" 2>&1 || true)"
+      test_blocker="$(printf '%s' "${test_output}" | sed '/^Test status: INCOMPLETE$/d' | sed '/^$/d' | tail -n 1)"
+      [[ -n "${test_blocker}" ]] && blocker="${test_blocker}"
+      next_step="confirm non-draft test cases and record formal execution evidence"
+    fi
+    omni_autopilot_write_state "${STATE_FILE}" "blocked" "${current_stage}" "autofilled stage and evaluated gates" "${blocker}" "${next_step}"
     echo "Autopilot blocked at ${current_stage}"
     exit 2
   fi
   "${SCRIPT_DIR}/advance-stage.sh" "${WORKSPACE_ROOT}" "${PROJECT_NAME}" "${current_stage}" "${owner}" >/dev/null
+  omni_autopilot_write_state "${STATE_FILE}" "running" "${current_stage}" "advanced stage ${current_stage}" "none" "continue to next stage"
 done
