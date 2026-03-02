@@ -88,6 +88,8 @@ Prefer the unified CLI. The standalone scripts remain the implementation targets
    Put machine-specific and user-specific settings in local config files, not in shared workspace config.
 6. Resolve language from context.
    Prefer explicit user language, then project or shared language policy, then the local user default. Default to Chinese. Support Chinese, English, and Japanese without forking the skill into separate copies.
+7. Keep formal test cases immutable during execution.
+   Formal testing only accepts non-draft suites. Runs must match the current suite fingerprint and may not silently rewrite or reinterpret suite steps.
 7. If Git is in use, commit by smallest completed feature by default.
    This rule is enabled by default. When one function or coherent change is complete, create one minimal commit with a clear message. Do not mix unrelated changes into the same commit. This keeps rollback and regression tracing practical. A workspace may explicitly disable it through config when needed.
 8. Push by default, but allow opt-out.

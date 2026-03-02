@@ -29,6 +29,7 @@ SUITE_FILE="${WORKSPACE_ROOT}/.omnicontext/projects/${PROJECT_NAME}/tests/suites
 RUN_FILE="${WORKSPACE_ROOT}/.omnicontext/projects/${PROJECT_NAME}/tests/runs/${RUN_ID}.md"
 [[ -f "${SUITE_FILE}" ]] || { echo "Missing suite ${SUITE_ID}" >&2; exit 1; }
 source_status="$(omni_test_suite_source_status "${SUITE_FILE}")"
+suite_fingerprint="$(omni_test_suite_fingerprint "${SUITE_FILE}")"
 if ! omni_test_effective_status_allowed "${source_status}"; then
   echo "Suite ${SUITE_ID} is draft-only and cannot be used for formal testing" >&2
   exit 2
@@ -46,12 +47,12 @@ if [[ "${PLATFORM}" == "miniapp" && "${MODE}" != "miniapp" ]]; then
   exit 2
 fi
 cp "${SKILL_ROOT}/templates/test-run.md" "${RUN_FILE}"
-python3 - "$SUITE_FILE" "$RUN_FILE" "$SUITE_ID" "$RUN_ID" "$MODE" "$PLATFORM" "$EVIDENCE" "$source_status" <<'PY'
+python3 - "$SUITE_FILE" "$RUN_FILE" "$SUITE_ID" "$RUN_ID" "$MODE" "$PLATFORM" "$EVIDENCE" "$source_status" "$suite_fingerprint" <<'PY'
 import sys, re
 from pathlib import Path
 suite = Path(sys.argv[1]).read_text()
 run_path = Path(sys.argv[2])
-suite_id, run_id, mode, platform, evidence, source_status = sys.argv[3:]
+suite_id, run_id, mode, platform, evidence, source_status, suite_fingerprint = sys.argv[3:]
 required = [line.split('] ',1)[1] if '] ' in line else '' for line in suite.splitlines() if line.startswith('- [required]')]
 optional = [line.split('] ',1)[1] if '] ' in line else '' for line in suite.splitlines() if line.startswith('- [optional]')]
 text = run_path.read_text()
@@ -63,6 +64,8 @@ text = text.replace("- execution_mode:", f"- execution_mode: {mode}")
 interaction = "real_user_flow" if mode in {"browser", "miniapp"} else "service_request_flow"
 text = text.replace("- interaction_mode:", f"- interaction_mode: {interaction}")
 text = text.replace("- suite_source_status:", f"- suite_source_status: {source_status}")
+text = text.replace("- suite_fingerprint:", f"- suite_fingerprint: {suite_fingerprint}")
+text = text.replace("- run_status:", "- run_status: prepared")
 text = text.replace("- evidence:", f"- evidence: {evidence}")
 req_lines = "\n".join(f"- [required-pass] PENDING: {item}" for item in required) or "- [required-pass] "
 opt_lines = "\n".join(f"- [optional-pass] PENDING: {item}" for item in optional) or "- [optional-pass] "
