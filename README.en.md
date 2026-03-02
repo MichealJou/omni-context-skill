@@ -50,6 +50,18 @@ omni
 omni-context
 ```
 
+Refresh local skills:
+
+```bash
+omni update-skills
+```
+
+Check local Git-managed skill repositories without pulling:
+
+```bash
+omni update-skills --check-only
+```
+
 Platform support:
 
 - macOS: native
@@ -94,6 +106,7 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
 
 Main commands:
 
+- `update-skills`
 - `init`
 - `sync`
 - `status`
@@ -120,6 +133,9 @@ Main commands:
 - `bundle-install`
 - `bundle-check`
 - `init-test-suite`
+- `init-test-excel`
+- `sync-test-cases-excel`
+- `export-test-report`
 - `collect-test-evidence`
 - `setup-test-runtime`
 - `run-browser-suite-devtools`

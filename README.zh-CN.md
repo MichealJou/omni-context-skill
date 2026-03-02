@@ -27,96 +27,33 @@ OmniContext 是一套可复用的 skill 仓库，用来在真实项目里创建�
 
 - [完整使用手册](MANUAL.zh-CN.md)
 
-## 全局安装
+## 怎么用
+
+先安装全局命令：
 
 ```bash
 ./scripts/install-global.sh
 ```
 
-Windows PowerShell：
-
-```powershell
-./scripts/install-global.ps1
-```
-
-安装器默认会自动把命令目录写入用户环境变量。安装后可以直接用：
+安装后主要用 `omni`，最常用的是：
 
 ```bash
-omni <command> ...
-omni-context <command> ...
+omni update-skills
+omni init <workspace>
+omni check
+omni init-test-excel <workspace> <project>
+omni sync-test-cases-excel <workspace> <project>
+omni export-test-report <workspace> <project> --run-id <run-id>
 ```
 
-手动卸载：
+简单记法：
 
-```bash
-./scripts/uninstall-global.sh
-```
-
-Windows PowerShell：
-
-```powershell
-./scripts/uninstall-global.ps1
-```
-
-## 快速安装
-
-```bash
-./scripts/install-skill.sh
-```
-
-默认安装到：
-
-```text
-${CODEX_HOME:-~/.codex}/skills/omni-context
-```
-
-## 统一命令入口
-
-```bash
-./scripts/omni-context <command> ...
-```
-
-常用命令：
-
-- `init`
-- `sync`
-- `status`
-- `check`
-- `create-demo-workspace`
-- `git-finish`
-- `new-project`
-- `new-doc`
-- `init-project-standards`
-- `project-doctor`
-- `role-status`
-- `runtime-status`
-- `start-workflow`
-- `workflow-status`
-- `workflow-check`
-- `advance-stage`
-- `skip-stage`
-- `list-workflows`
-- `rules-pack-init`
-- `rules-pack-status`
-- `rules-pack-check`
-- `rules-pack-list`
-- `bundle-status`
-- `bundle-install`
-- `bundle-check`
-- `init-test-suite`
-- `collect-test-evidence`
-- `setup-test-runtime`
-- `run-browser-suite-devtools`
-- `run-browser-suite`
-- `run-api-suite`
-- `execute-test-suite`
-- `record-test-run`
-- `test-status`
-- `backup-object`
-- `danger-check`
-- `record-dangerous-op`
-- `autopilot-run`
-- `autopilot-status`
+- `update-skills`：更新本机 skills，不改项目文档
+- `init`：初始化工作区
+- `check`：检查当前 skill 仓库
+- `init-test-excel`：生成测试用例 Excel 和测试报告 Excel 模板
+- `sync-test-cases-excel`：把 Markdown 测试用例同步到 Excel
+- `export-test-report`：把测试执行记录导出成 Excel 报告
 
 ## 默认规则
 

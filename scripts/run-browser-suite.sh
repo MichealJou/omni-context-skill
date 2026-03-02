@@ -267,6 +267,8 @@ print(json.loads(open(sys.argv[1]).read())["artifact"])
 PY
 )"
 
+"${SCRIPT_DIR}/export-test-report.sh" "${WORKSPACE_ROOT}" "${PROJECT_NAME}" --run-id "${RUN_ID}" >/dev/null 2>&1 || true
+
 case "${status}" in
   passed)
     echo "Executed browser suite ${SUITE_ID}"

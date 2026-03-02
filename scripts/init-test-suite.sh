@@ -27,4 +27,6 @@ text = path.read_text()
 text = text.replace("replace-with-suite-title", sys.argv[2]).replace("replace-with-suite-id", sys.argv[3])
 path.write_text(text)
 PY
+"${SCRIPT_DIR}/init-test-excel.sh" "${WORKSPACE_ROOT}" "${PROJECT_NAME}" >/dev/null
+"${SCRIPT_DIR}/sync-test-cases-excel.sh" "${WORKSPACE_ROOT}" "${PROJECT_NAME}" >/dev/null
 echo "Initialized test suite ${SUITE_ID}"

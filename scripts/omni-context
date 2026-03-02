@@ -15,6 +15,7 @@ Commands:
   sync         Refresh workspace mappings and top-level index
   status       Report OmniContext health and coverage
   check        Validate skill structure and multilingual references
+  update-skills  Refresh local skill repositories used by Codex and agents
   install-global  Install OmniContext as a global shell command
   uninstall-global  Remove OmniContext global shell commands
   platform-doctor  Diagnose local platform support and prerequisites
@@ -41,6 +42,9 @@ Commands:
   bundle-install  Install missing local skill bundle items
   bundle-check  Validate the active skill bundle
   init-test-suite  Create a test suite definition
+  init-test-excel  Create Excel test case and report templates
+  sync-test-cases-excel  Regenerate the Excel test case register from Markdown suites
+  export-test-report  Export one run into an Excel test report
   run-browser-suite-devtools  Execute a formal browser suite with DevTools first
   run-browser-suite  Execute a formal browser or miniapp suite
   run-api-suite  Execute a formal API suite with assertions
@@ -58,6 +62,7 @@ Examples:
   omni-context --lang zh-CN init /path/to/workspace
   omni-context init /path/to/workspace
   omni-context check
+  omni-context update-skills
   omni-context install-global
   omni-context uninstall-global
   omni-context platform-doctor
@@ -73,6 +78,9 @@ Examples:
   omni-context start-workflow /path/to/workspace my-app "User Invite"
   omni-context rules-pack-status /path/to/workspace my-app
   omni-context bundle-status /path/to/workspace my-app --stage testing --role testing
+  omni-context init-test-excel /path/to/workspace my-app
+  omni-context sync-test-cases-excel /path/to/workspace my-app
+  omni-context export-test-report /path/to/workspace my-app --run-id 20260302-120000
   omni-context run-browser-suite-devtools /path/to/workspace my-app login-e2e --platform web
   omni-context run-browser-suite /path/to/workspace my-app login-e2e --platform web
   omni-context run-api-suite /path/to/workspace my-app health-suite --platform backend
@@ -111,6 +119,9 @@ case "${command_name}" in
     ;;
   check)
     exec "${SCRIPT_DIR}/check-skill.sh" "$@"
+    ;;
+  update-skills)
+    exec "${SCRIPT_DIR}/update-skills.sh" "$@"
     ;;
   install-global)
     exec "${SCRIPT_DIR}/install-global.sh" "$@"
@@ -189,6 +200,15 @@ case "${command_name}" in
     ;;
   init-test-suite)
     exec "${SCRIPT_DIR}/init-test-suite.sh" "$@"
+    ;;
+  init-test-excel)
+    exec "${SCRIPT_DIR}/init-test-excel.sh" "$@"
+    ;;
+  sync-test-cases-excel)
+    exec "${SCRIPT_DIR}/sync-test-cases-excel.sh" "$@"
+    ;;
+  export-test-report)
+    exec "${SCRIPT_DIR}/export-test-report.sh" "$@"
     ;;
   run-browser-suite-devtools)
     exec "${SCRIPT_DIR}/run-browser-suite-devtools.sh" "$@"

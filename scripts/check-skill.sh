@@ -10,6 +10,7 @@ language="$(omni_normalize_language "${OMNI_CONTEXT_LANGUAGE:-zh-CN}")"
 required_scripts=(
   "scripts/omni-context"
   "scripts/install-skill.sh"
+  "scripts/update-skills.sh"
   "scripts/install-global.sh"
   "scripts/install-global.ps1"
   "scripts/uninstall-global.sh"
@@ -43,6 +44,9 @@ required_scripts=(
   "scripts/bundle-install.sh"
   "scripts/bundle-check.sh"
   "scripts/init-test-suite.sh"
+  "scripts/init-test-excel.sh"
+  "scripts/sync-test-cases-excel.sh"
+  "scripts/export-test-report.sh"
   "scripts/run-browser-suite-devtools.sh"
   "scripts/run-browser-suite.sh"
   "scripts/run-api-suite.sh"
@@ -62,6 +66,8 @@ required_scripts=(
   "scripts/lib/runtime-lib.sh"
   "scripts/lib/test-lib.sh"
   "scripts/lib/safety-lib.sh"
+  "scripts/lib/xlsx_template.py"
+  "scripts/lib/test_excel_sync.py"
 )
 
 required_templates=(

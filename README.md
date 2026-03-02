@@ -48,72 +48,33 @@ omni-context-skill/
 - docs / wiki
 - runtime / rules / bundle
 
-## 最常用命令
+## 怎么用
 
-统一入口：
-
-```bash
-./scripts/omni-context <command> ...
-```
-
-全局安装：
+先安装全局命令：
 
 ```bash
 ./scripts/install-global.sh
 ```
 
-Windows PowerShell：
-
-```powershell
-./scripts/install-global.ps1
-```
-
-安装器默认会自动把命令目录写入用户环境变量。安装后可以直接这样用：
+安装后常用的只有这几个：
 
 ```bash
-omni <command> ...
-omni-context <command> ...
+omni update-skills
+omni init <workspace>
+omni check
+omni init-test-excel <workspace> <project>
+omni sync-test-cases-excel <workspace> <project>
+omni export-test-report <workspace> <project> --run-id <run-id>
 ```
 
-平台支持口径：
+这几个命令分别做什么：
 
-- macOS：原生支持
-- Linux：原生支持
-- Windows：支持 PowerShell + Git Bash backend
-
-手动卸载：
-
-```bash
-./scripts/uninstall-global.sh
-```
-
-Windows PowerShell：
-
-```powershell
-./scripts/uninstall-global.ps1
-```
-
-平台诊断：
-
-```bash
-./scripts/platform-doctor.sh
-```
-
-Windows PowerShell：
-
-```powershell
-./scripts/platform-doctor.ps1
-```
-
-最常用的是：
-
-```bash
-./scripts/omni-context init <workspace>
-./scripts/omni-context sync <workspace>
-./scripts/omni-context status <workspace>
-./scripts/omni-context check
-./scripts/omni-context project-doctor <workspace> <project>
-```
+- `update-skills`：更新本机 skills 仓库，不改当前项目文档
+- `init`：初始化工作区 `.omnicontext/`
+- `check`：检查当前 skill 仓库结构
+- `init-test-excel`：生成标准测试用例和测试报告 Excel 模板
+- `sync-test-cases-excel`：把 `tests/suites/*.md` 同步到 Excel 用例清单
+- `export-test-report`：把一次测试 run 导出成 Excel 报告
 
 ## 第一次接入一个工作区
 

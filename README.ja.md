@@ -94,6 +94,9 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
 
 主なコマンド:
 
+- `init-test-excel`
+- `sync-test-cases-excel`
+- `export-test-report`
 - `init`
 - `sync`
 - `status`
