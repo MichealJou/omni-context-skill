@@ -5,3 +5,4 @@ response_style = "concise"
 update_handoff_after_task = true
 record_decisions_by_default = true
 minimal_feature_commits = true
+auto_push_after_commit = false

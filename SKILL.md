@@ -57,6 +57,8 @@ Use `scripts/omni-context check` before release-oriented commits that touch refe
    Prefer explicit user language, then project or shared language policy, then the local user default. Default to Chinese. Support Chinese, English, and Japanese without forking the skill into separate copies.
 7. If Git is in use, commit by smallest completed feature by default.
    This rule is enabled by default. When one function or coherent change is complete, create one minimal commit with a clear message. Do not mix unrelated changes into the same commit. This keeps rollback and regression tracing practical. A workspace may explicitly disable it through config when needed.
+8. Do not push by default.
+   The default behavior is local commit only. Push only when the user explicitly asks for every commit to be pushed, or when workspace or local config explicitly enables auto-push.
 
 ## Minimum First Version
 
@@ -125,6 +127,7 @@ If the workspace or skill repo uses Git:
 - write one clear commit message for that change
 - avoid bundling unrelated refactors or doc cleanups into the same commit
 - treat this rule as enabled by default unless config explicitly disables it
+- do not push after commit unless the user explicitly requested it or config explicitly enables `auto_push_after_commit`
 
 Use `scripts/omni-context check` before release-oriented commits that touch references, templates, or script behavior.
 
