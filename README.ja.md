@@ -59,6 +59,8 @@ omni-context-skill/
   必須ファイル、管理対象プロジェクト、未マッピングの残留ディレクトリを確認します。
 - `scripts/new-project.sh <workspace-root> <project-name> <source-path>`
   新しいプロジェクトを明示的に登録し、基本ドキュメントを生成してワークスペース索引を更新します。
+- `scripts/new-doc.sh <workspace-root> <project-name> <doc-type> <doc-title> [slug]`
+  `technical`、`design`、`product`、`runbook`、`wiki` のいずれかに文書を作成し、対応する索引に追記します。
 
 ## 公開時の境界
 
@@ -91,6 +93,6 @@ omni-context-skill/
 
 このファイルプロトコルが実ワークスペースで安定してから、次を追加します。
 
-- `new-doc`
+- より豊富な文書テンプレートと、より細かい索引保守機能
 
 設計方針は `references/automation-behaviors.md` を参照してください。

@@ -1,6 +1,6 @@
 # Automation Behaviors
 
-These are the intended behaviors for OmniContext automation. `init`, `sync`, `status`, and `new-project` now exist as conservative scripts; the rest remain design targets.
+These are the intended behaviors for OmniContext automation. `init`, `sync`, `status`, `new-project`, and `new-doc` now exist as conservative scripts; the rest remain design targets.
 
 ## `init`
 
@@ -58,11 +58,12 @@ Expected behavior:
 Purpose:
 - Create additional documents only when the workspace needs them
 
-Supported targets should eventually include:
+Current supported targets:
 - technical docs
 - design docs
+- product docs
 - runbooks
-- wiki index pages
+- wiki pages
 
 ## Safety Rules
 

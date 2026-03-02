@@ -60,6 +60,8 @@ Those belong in the target workspace's `.omnicontext/` directory.
   Reports missing required OmniContext files, mapped projects, and unmapped leftovers.
 - `scripts/new-project.sh <workspace-root> <project-name> <source-path>`
   Registers a project explicitly, creates its core OmniContext files, and refreshes the workspace index.
+- `scripts/new-doc.sh <workspace-root> <project-name> <doc-type> <doc-title> [slug]`
+  Creates a project-level document in `technical`, `design`, `product`, `runbook`, or `wiki` and appends it to the corresponding index.
 
 ## Publishing Boundary
 
@@ -92,6 +94,6 @@ This repository should stay generic.
 
 After the protocol is proven in a real workspace, add automation for:
 
-- `new-doc`
+- richer doc templates and index maintenance beyond the current conservative implementation
 
 See `references/automation-behaviors.md` before implementing scripts.

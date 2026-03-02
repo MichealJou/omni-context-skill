@@ -59,6 +59,8 @@ omni-context-skill/
   检查必需文件、正式项目映射和未纳管残留目录。
 - `scripts/new-project.sh <workspace-root> <project-name> <source-path>`
   显式注册一个新项目，生成该项目的基础 OmniContext 文档，并刷新工作区索引。
+- `scripts/new-doc.sh <workspace-root> <project-name> <doc-type> <doc-title> [slug]`
+  在 `technical`、`design`、`product`、`runbook` 或 `wiki` 下创建项目文档，并自动补入对应索引。
 
 ## 发布边界
 
@@ -91,6 +93,6 @@ omni-context-skill/
 
 等这套文件协议在真实工作区中跑稳之后，再继续补：
 
-- `new-doc`
+- 更丰富的文档模板与更细的索引维护能力
 
 具体行为设计见 `references/automation-behaviors.md`。

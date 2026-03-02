@@ -31,6 +31,7 @@ The skill now includes two minimal scripts:
 - `scripts/sync-workspace.sh [workspace-root]`
 - `scripts/status-workspace.sh [workspace-root]`
 - `scripts/new-project.sh <workspace-root> <project-name> <source-path>`
+- `scripts/new-doc.sh <workspace-root> <project-name> <doc-type> <doc-title> [slug]`
 
 Use these before writing more automation. They are intentionally conservative and keep the protocol simple.
 
