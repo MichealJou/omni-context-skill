@@ -19,6 +19,7 @@ required_scripts=(
   "scripts/check-skill.sh"
   "scripts/git-finish.sh"
   "scripts/init-project-standards.sh"
+  "scripts/project-doctor.sh"
   "scripts/role-status.sh"
   "scripts/runtime-status.sh"
   "scripts/start-workflow.sh"

@@ -41,6 +41,7 @@ The skill now includes a unified CLI plus workflow, rules, bundle, testing, runt
 - `scripts/init-workspace.sh [workspace-root]`
 - `scripts/sync-workspace.sh [workspace-root]`
 - `scripts/status-workspace.sh [workspace-root]`
+- `scripts/project-doctor.sh <workspace-root> <project-name> [workflow-id]`
 - `scripts/check-skill.sh`
 - `scripts/git-finish.sh <repo-root> <commit-message> [--all|<path>...]`
 - `scripts/new-project.sh <workspace-root> <project-name> <source-path>`

@@ -52,6 +52,7 @@ Main commands:
 - `new-project`
 - `new-doc`
 - `init-project-standards`
+- `project-doctor`
 - `role-status`
 - `runtime-status`
 - `start-workflow`
@@ -104,6 +105,12 @@ Then in another shell:
 
 ```bash
 /Users/program/code/code_work_flow/omni-context-skill/scripts/omni-context collect-test-evidence /tmp/omni-demo demo-web homepage-smoke --platform web
+```
+
+Daily diagnosis:
+
+```bash
+scripts/omni-context project-doctor /path/to/workspace my-app
 ```
 
 ## Boundaries

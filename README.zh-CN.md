@@ -52,6 +52,7 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
 - `new-project`
 - `new-doc`
 - `init-project-standards`
+- `project-doctor`
 - `role-status`
 - `runtime-status`
 - `start-workflow`
@@ -104,6 +105,12 @@ cd /tmp/omni-demo/demo-web && python3 -m http.server 38080
 
 ```bash
 /Users/program/code/code_work_flow/omni-context-skill/scripts/omni-context collect-test-evidence /tmp/omni-demo demo-web homepage-smoke --platform web
+```
+
+日常总诊断：
+
+```bash
+scripts/omni-context project-doctor /path/to/workspace my-app
 ```
 
 ## 使用边界

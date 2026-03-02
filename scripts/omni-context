@@ -20,6 +20,7 @@ Commands:
   new-project  Register a project and create core project records
   new-doc      Create a project document and append it to an index
   init-project-standards  Discover and initialize project standards
+  project-doctor  Run a consolidated project health diagnosis
   role-status  Report project role model and standards health
   runtime-status  Report declared runtime integrations and environments
   start-workflow  Create a workflow instance for a project
@@ -57,6 +58,7 @@ Examples:
   omni-context new-project /path/to/workspace my-app apps/my-app
   omni-context new-doc /path/to/workspace my-app technical "Query Cache Notes"
   omni-context init-project-standards /path/to/workspace my-app webapp
+  omni-context project-doctor /path/to/workspace my-app
   omni-context start-workflow /path/to/workspace my-app "User Invite"
   omni-context rules-pack-status /path/to/workspace my-app
   omni-context bundle-status /path/to/workspace my-app --stage testing --role testing
@@ -110,6 +112,9 @@ case "${command_name}" in
     ;;
   init-project-standards)
     exec "${SCRIPT_DIR}/init-project-standards.sh" "$@"
+    ;;
+  project-doctor)
+    exec "${SCRIPT_DIR}/project-doctor.sh" "$@"
     ;;
   role-status)
     exec "${SCRIPT_DIR}/role-status.sh" "$@"
