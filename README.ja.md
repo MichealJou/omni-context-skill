@@ -72,6 +72,8 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
   ワークスペースモードを保守的に更新し、新しいプロジェクトマッピングを追加し、欠けている基本ドキュメントを補完し、トップレベルの `INDEX.md` を再構築します。既存の手書きプロジェクト内容は自動削除しません。
 - `scripts/status-workspace.sh [workspace-root]`
   必須ファイル、管理対象プロジェクト、未マッピングの残留ディレクトリを確認します。
+- `scripts/check-skill.sh`
+  skill 自体の構造、主要スクリプト、テンプレート、および `references/zh-CN|en|ja` の同期状態を検証します。
 - `scripts/new-project.sh <workspace-root> <project-name> <source-path>`
   新しいプロジェクトを明示的に登録し、基本ドキュメントを生成してワークスペース索引を更新します。
 - `scripts/new-doc.sh <workspace-root> <project-name> <doc-type> <doc-title> [slug]`
@@ -82,6 +84,16 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
 - 生成されるプロンプト、テンプレート、スクリプト出力の既定言語は中国語です
 - ユーザーまたはワークスペース方針に応じて `--lang en` または `--lang ja` に切り替えます
 - `init`、`sync`、`status`、`new-project`、`new-doc` はすべて現在の言語設定を反映します
+
+## メンテナンス方針
+
+- `references/zh-CN/` を更新したら、同じ変更を `references/en/` と `references/ja/` にも反映します
+- スクリプトの挙動が変わったら、README、`SKILL.md`、対応する `references/*/automation-behaviors.md` も更新します
+- コミット前に次を実行します:
+
+```bash
+./scripts/omni-context check
+```
 
 ## 公開時の境界
 

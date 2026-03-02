@@ -14,12 +14,14 @@ Commands:
   init         Initialize a workspace .omnicontext tree
   sync         Refresh workspace mappings and top-level index
   status       Report OmniContext health and coverage
+  check        Validate skill structure and multilingual references
   new-project  Register a project and create core project records
   new-doc      Create a project document and append it to an index
 
 Examples:
   omni-context --lang zh-CN init /path/to/workspace
   omni-context init /path/to/workspace
+  omni-context check
   omni-context status /path/to/workspace
   omni-context sync /path/to/workspace
   omni-context new-project /path/to/workspace my-app apps/my-app
@@ -53,6 +55,9 @@ case "${command_name}" in
     ;;
   status)
     exec "${SCRIPT_DIR}/status-workspace.sh" "$@"
+    ;;
+  check)
+    exec "${SCRIPT_DIR}/check-skill.sh" "$@"
     ;;
   new-project)
     exec "${SCRIPT_DIR}/new-project.sh" "$@"

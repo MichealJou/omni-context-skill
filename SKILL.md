@@ -33,11 +33,13 @@ The skill now includes two minimal scripts:
 - `scripts/init-workspace.sh [workspace-root]`
 - `scripts/sync-workspace.sh [workspace-root]`
 - `scripts/status-workspace.sh [workspace-root]`
+- `scripts/check-skill.sh`
 - `scripts/new-project.sh <workspace-root> <project-name> <source-path>`
 - `scripts/new-doc.sh <workspace-root> <project-name> <doc-type> <doc-title> [slug]`
 
 Use these before writing more automation. They are intentionally conservative and keep the protocol simple.
 If language must be forced for generated output, prefer the unified CLI with `--lang`; otherwise the scripts default to Chinese and fall back to workspace or local settings.
+Use `scripts/omni-context check` before release-oriented commits that touch references, templates, or script behavior.
 
 ## Working Rules
 

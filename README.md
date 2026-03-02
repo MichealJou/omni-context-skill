@@ -13,6 +13,7 @@ OmniContext 是一套可复用的工作区知识管理 skill，适用于 Codex�
 - 面向多种编程工具的轻量入口适配
 - `references/` 多语言入口，默认中文参考文档
 - `init`、`sync`、`status`、`new-project`、`new-doc` 五个基础动作
+- `check` 校验命令，用于维护三语言 references 和核心结构
 - 按语言环境生成中文、英文、日文文档与提示词，默认中文
 - 一个统一 CLI 入口：`scripts/omni-context`
 

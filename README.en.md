@@ -73,6 +73,8 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
   Refreshes workspace mode, adds new project mappings conservatively, recreates missing project core docs, and rebuilds the top-level OmniContext index without deleting hand-written project files.
 - `scripts/status-workspace.sh [workspace-root]`
   Reports missing required OmniContext files, mapped projects, and unmapped leftovers.
+- `scripts/check-skill.sh`
+  Validates the skill structure, core scripts, templates, and whether `references/zh-CN|en|ja` stay in sync.
 - `scripts/new-project.sh <workspace-root> <project-name> <source-path>`
   Registers a project explicitly, creates its core OmniContext files, and refreshes the workspace index.
 - `scripts/new-doc.sh <workspace-root> <project-name> <doc-type> <doc-title> [slug]`
@@ -83,6 +85,16 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
 - Chinese is the default for generated prompts, templates, and operator-facing script output
 - Switch with `--lang en` or `--lang ja` when the user or workspace policy requires it
 - `init`, `sync`, `status`, `new-project`, and `new-doc` all respect the active language
+
+## Maintenance Guidance
+
+- When `references/zh-CN/` changes, update `references/en/` and `references/ja/` in the same pass
+- When script behavior changes, update the README files, `SKILL.md`, and the matching `references/*/automation-behaviors.md`
+- Run this before committing:
+
+```bash
+./scripts/omni-context check
+```
 
 ## Publishing Boundary
 

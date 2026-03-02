@@ -72,6 +72,8 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
   保守地刷新工作区模式、补充新项目映射、重建缺失的项目核心文档，并重写顶层 `INDEX.md`，但不会删除手写项目内容。
 - `scripts/status-workspace.sh [workspace-root]`
   检查必需文件、正式项目映射和未纳管残留目录。
+- `scripts/check-skill.sh`
+  校验 skill 自身结构、核心脚本、模板，以及 `references/zh-CN|en|ja` 三套文档是否齐全同步。
 - `scripts/new-project.sh <workspace-root> <project-name> <source-path>`
   显式注册一个新项目，生成该项目的基础 OmniContext 文档，并刷新工作区索引。
 - `scripts/new-doc.sh <workspace-root> <project-name> <doc-type> <doc-title> [slug]`
@@ -82,6 +84,16 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
 - 默认生成中文 README 入口、模板、提示词和脚本输出
 - 如果用户或工作区明确指定英文或日文，可通过 `--lang en` 或 `--lang ja` 切换
 - `init`、`sync`、`status`、`new-project`、`new-doc` 都会按当前语言生成或输出内容
+
+## 维护建议
+
+- 每次改 `references/zh-CN/` 时，同步更新 `references/en/` 和 `references/ja/`
+- 每次改脚本行为时，同步更新 `README`、`SKILL.md` 和对应的 `references/*/automation-behaviors.md`
+- 提交前运行：
+
+```bash
+./scripts/omni-context check
+```
 
 ## 发布边界
 
