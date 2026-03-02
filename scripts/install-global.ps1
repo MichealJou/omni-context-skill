@@ -8,24 +8,52 @@ param(
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $InstallSkill = Join-Path $ScriptDir "install-skill.sh"
 
+function Resolve-BashPath {
+  $candidate = Get-Command bash -ErrorAction SilentlyContinue
+  if ($candidate) {
+    return $candidate.Source
+  }
+
+  $fallbacks = @(
+    "C:\Program Files\Git\bin\bash.exe",
+    "C:\Program Files\Git\usr\bin\bash.exe",
+    "$HOME\scoop\apps\git\current\bin\bash.exe",
+    "$HOME\scoop\apps\git\current\usr\bin\bash.exe"
+  )
+
+  foreach ($path in $fallbacks) {
+    if (Test-Path $path) {
+      return $path
+    }
+  }
+
+  return $null
+}
+
+$BashPath = Resolve-BashPath
+if (-not $BashPath) {
+  Write-Error "Git Bash or another bash runtime is required on Windows. Install Git for Windows first."
+  exit 1
+}
+
 if ($Force -and (Test-Path $SkillDest)) {
   Remove-Item -Recurse -Force $SkillDest
 }
 
 if (-not (Test-Path $SkillDest)) {
-  bash $InstallSkill $SkillDest | Out-Null
+  & $BashPath $InstallSkill $SkillDest | Out-Null
 }
 
 New-Item -ItemType Directory -Force -Path $BinDir | Out-Null
 
 $cmdLauncher = @"
 @echo off
-bash "$SkillDest/scripts/omni-context" %*
+"$BashPath" "$SkillDest/scripts/omni-context" %*
 "@
 
 $psLauncher = @"
 #!/usr/bin/env pwsh
-bash "$SkillDest/scripts/omni-context" @args
+& "$BashPath" "$SkillDest/scripts/omni-context" @args
 "@
 
 Set-Content -Path (Join-Path $BinDir "omni.cmd") -Value $cmdLauncher -Encoding ASCII
@@ -50,4 +78,5 @@ if (-not $SkipPathUpdate) {
 
 Write-Output "Installed OmniContext global launchers"
 Write-Output "- Skill: $SkillDest"
+Write-Output "- Bash: $BashPath"
 Write-Output "- Commands: $BinDir/omni(.cmd|.ps1), $BinDir/omni-context(.cmd|.ps1)"

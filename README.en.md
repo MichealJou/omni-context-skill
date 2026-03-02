@@ -29,6 +29,57 @@ Real business knowledge stays in the target workspace, not in this repo.
 ./scripts/install-skill.sh
 ```
 
+## Global Install
+
+macOS / Linux:
+
+```bash
+./scripts/install-global.sh
+```
+
+Windows PowerShell:
+
+```powershell
+./scripts/install-global.ps1
+```
+
+Installed commands:
+
+```text
+omni
+omni-context
+```
+
+Platform support:
+
+- macOS: native
+- Linux: native
+- Windows: supported through PowerShell + Git Bash backend
+
+Manual uninstall:
+
+```bash
+./scripts/uninstall-global.sh
+```
+
+Windows PowerShell:
+
+```powershell
+./scripts/uninstall-global.ps1
+```
+
+Platform diagnostics:
+
+```bash
+./scripts/platform-doctor.sh
+```
+
+Windows PowerShell:
+
+```powershell
+./scripts/platform-doctor.ps1
+```
+
 Default install path:
 
 ```text

@@ -29,6 +29,57 @@ OmniContext は、実プロジェクトの中に `.omnicontext/` 交付制御レ
 ./scripts/install-skill.sh
 ```
 
+## グローバルインストール
+
+macOS / Linux:
+
+```bash
+./scripts/install-global.sh
+```
+
+Windows PowerShell:
+
+```powershell
+./scripts/install-global.ps1
+```
+
+インストール後に使えるコマンド:
+
+```text
+omni
+omni-context
+```
+
+プラットフォーム対応:
+
+- macOS: ネイティブ対応
+- Linux: ネイティブ対応
+- Windows: PowerShell + Git Bash backend で対応
+
+手動アンインストール:
+
+```bash
+./scripts/uninstall-global.sh
+```
+
+Windows PowerShell:
+
+```powershell
+./scripts/uninstall-global.ps1
+```
+
+プラットフォーム診断:
+
+```bash
+./scripts/platform-doctor.sh
+```
+
+Windows PowerShell:
+
+```powershell
+./scripts/platform-doctor.ps1
+```
+
 既定のインストール先:
 
 ```text

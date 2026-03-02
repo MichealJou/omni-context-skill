@@ -75,6 +75,12 @@ omni <command> ...
 omni-context <command> ...
 ```
 
+平台支持口径：
+
+- macOS：原生支持
+- Linux：原生支持
+- Windows：支持 PowerShell + Git Bash backend
+
 手动卸载：
 
 ```bash
@@ -85,6 +91,18 @@ Windows PowerShell：
 
 ```powershell
 ./scripts/uninstall-global.ps1
+```
+
+平台诊断：
+
+```bash
+./scripts/platform-doctor.sh
+```
+
+Windows PowerShell：
+
+```powershell
+./scripts/platform-doctor.ps1
 ```
 
 最常用的是：

@@ -37,6 +37,9 @@ The skill now includes a unified CLI plus workflow, rules, bundle, testing, runt
 - `scripts/omni-context <command> ...`
 - `scripts/omni-context [--lang zh-CN|en|ja] <command> ...`
 - `scripts/install-skill.sh [destination]`
+- `scripts/install-global.sh [--force] [--skip-path-update] [--skill-dest DIR] [--bin-dir DIR]`
+- `scripts/uninstall-global.sh [--keep-path] [--skill-dest DIR] [--bin-dir DIR]`
+- `scripts/platform-doctor.sh`
 - `scripts/create-demo-workspace.sh <target-dir>`
 - `scripts/init-workspace.sh [workspace-root]`
 - `scripts/sync-workspace.sh [workspace-root]`
@@ -78,6 +81,13 @@ The skill now includes a unified CLI plus workflow, rules, bundle, testing, runt
 - `scripts/autopilot-status.sh <workspace-root> <project-name> [workflow-id]`
 
 Prefer the unified CLI. The standalone scripts remain the implementation targets.
+
+## Platform Support
+
+- macOS: native shell execution
+- Linux: native shell execution
+- Windows: supported through PowerShell installers plus a Git Bash backend
+- Do not claim full Windows-native parity for the entire script set unless the command has a dedicated PowerShell implementation
 
 ## Working Rules
 

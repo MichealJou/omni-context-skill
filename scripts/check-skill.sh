@@ -14,6 +14,8 @@ required_scripts=(
   "scripts/install-global.ps1"
   "scripts/uninstall-global.sh"
   "scripts/uninstall-global.ps1"
+  "scripts/platform-doctor.sh"
+  "scripts/platform-doctor.ps1"
   "scripts/init-workspace.sh"
   "scripts/sync-workspace.sh"
   "scripts/status-workspace.sh"
