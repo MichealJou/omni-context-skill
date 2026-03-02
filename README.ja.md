@@ -57,6 +57,8 @@ omni-context-skill/
   ワークスペースモードを保守的に更新し、新しいプロジェクトマッピングを追加し、欠けている基本ドキュメントを補完し、トップレベルの `INDEX.md` を再構築します。既存の手書きプロジェクト内容は自動削除しません。
 - `scripts/status-workspace.sh [workspace-root]`
   必須ファイル、管理対象プロジェクト、未マッピングの残留ディレクトリを確認します。
+- `scripts/new-project.sh <workspace-root> <project-name> <source-path>`
+  新しいプロジェクトを明示的に登録し、基本ドキュメントを生成してワークスペース索引を更新します。
 
 ## 公開時の境界
 
@@ -89,7 +91,6 @@ omni-context-skill/
 
 このファイルプロトコルが実ワークスペースで安定してから、次を追加します。
 
-- `new-project`
 - `new-doc`
 
 設計方針は `references/automation-behaviors.md` を参照してください。

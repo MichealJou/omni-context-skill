@@ -35,11 +35,6 @@ done < <(
 
 if [[ "${#discovered_projects[@]}" -eq 0 ]]; then
   discovered_projects=("$(basename "${WORKSPACE_ROOT}")")
-  desired_mode="single"
-elif [[ "${#discovered_projects[@]}" -eq 1 ]]; then
-  desired_mode="single"
-else
-  desired_mode="multi"
 fi
 
 mapped_names=()
@@ -78,6 +73,17 @@ done < <(
     }
   ' "${WORKSPACE_TOML}"
 )
+
+desired_count="${#discovered_projects[@]}"
+if [[ "${#mapped_names[@]}" -gt "${desired_count}" ]]; then
+  desired_count="${#mapped_names[@]}"
+fi
+
+if [[ "${desired_count}" -le 1 ]]; then
+  desired_mode="single"
+else
+  desired_mode="multi"
+fi
 
 if [[ "${current_mode}" != "${desired_mode}" ]]; then
   python3 - "${WORKSPACE_TOML}" "${desired_mode}" <<'PY'

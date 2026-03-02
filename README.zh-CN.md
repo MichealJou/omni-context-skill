@@ -57,6 +57,8 @@ omni-context-skill/
   保守地刷新工作区模式、补充新项目映射、重建缺失的项目核心文档，并重写顶层 `INDEX.md`，但不会删除手写项目内容。
 - `scripts/status-workspace.sh [workspace-root]`
   检查必需文件、正式项目映射和未纳管残留目录。
+- `scripts/new-project.sh <workspace-root> <project-name> <source-path>`
+  显式注册一个新项目，生成该项目的基础 OmniContext 文档，并刷新工作区索引。
 
 ## 发布边界
 
@@ -89,7 +91,6 @@ omni-context-skill/
 
 等这套文件协议在真实工作区中跑稳之后，再继续补：
 
-- `new-project`
 - `new-doc`
 
 具体行为设计见 `references/automation-behaviors.md`。

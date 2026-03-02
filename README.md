@@ -11,7 +11,7 @@ It provides:
 - a file-based protocol for `.omnicontext/`
 - templates for shared, personal, and project knowledge
 - thin adapter templates for multiple coding tools
-- minimal workspace automation through `init`, `sync`, and `status`
+- minimal workspace automation through `init`, `sync`, `status`, and `new-project`
 
 Start with the full language-specific guide:
 - [English guide](README.en.md)

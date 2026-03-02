@@ -58,6 +58,8 @@ Those belong in the target workspace's `.omnicontext/` directory.
   Refreshes workspace mode, adds new project mappings conservatively, recreates missing project core docs, and rebuilds the top-level OmniContext index without deleting hand-written project files.
 - `scripts/status-workspace.sh [workspace-root]`
   Reports missing required OmniContext files, mapped projects, and unmapped leftovers.
+- `scripts/new-project.sh <workspace-root> <project-name> <source-path>`
+  Registers a project explicitly, creates its core OmniContext files, and refreshes the workspace index.
 
 ## Publishing Boundary
 
@@ -90,7 +92,6 @@ This repository should stay generic.
 
 After the protocol is proven in a real workspace, add automation for:
 
-- `new-project`
 - `new-doc`
 
 See `references/automation-behaviors.md` before implementing scripts.
