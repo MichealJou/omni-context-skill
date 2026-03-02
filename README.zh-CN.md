@@ -111,3 +111,9 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
 - 更丰富的文档模板与更细的索引维护能力
 
 具体行为设计见 `references/automation-behaviors.md`。
+
+## 默认语言策略
+
+- 仓库首页 `README.md` 默认展示中文
+- 默认提示词语言为中文
+- 只有当用户明确要求英文或日文，或项目语言策略另有规定时，才切换对应提示词和输出语言

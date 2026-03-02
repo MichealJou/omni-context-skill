@@ -1,25 +1,25 @@
 # OmniContext
 
-Language:
-- [English](README.en.md)
+语言:
 - [简体中文](README.zh-CN.md)
+- [English](README.en.md)
 - [日本語](README.ja.md)
 
-OmniContext is a reusable workspace knowledge skill for coding tools such as Codex, Claude Code, Qoder, and Trae.
+OmniContext 是一套可复用的工作区知识管理 skill，适用于 Codex、Claude Code、Qoder、Trae 等编程工具。
 
-It provides:
-- a file-based protocol for `.omnicontext/`
-- templates for shared, personal, and project knowledge
-- thin adapter templates for multiple coding tools
-- minimal workspace automation through `init`, `sync`, `status`, `new-project`, and `new-doc`
-- a unified CLI entrypoint: `scripts/omni-context`
+它提供：
+- 基于 `.omnicontext/` 的文件协议
+- 面向共享知识、个人知识、项目知识的模板
+- 面向多种编程工具的轻量入口适配
+- `init`、`sync`、`status`、`new-project`、`new-doc` 五个基础动作
+- 一个统一 CLI 入口：`scripts/omni-context`
 
-Start with the full language-specific guide:
-- [English guide](README.en.md)
+完整说明：
 - [中文说明](README.zh-CN.md)
+- [English guide](README.en.md)
 - [日本語ガイド](README.ja.md)
 
-Quick install:
+快速安装：
 ```bash
 ./scripts/install-skill.sh
 ```

@@ -1,5 +1,5 @@
 [preferences]
-language = "auto"
+language = "zh-CN"
 supported_languages = ["zh-CN", "en", "ja"]
 response_style = "concise"
 update_handoff_after_task = true

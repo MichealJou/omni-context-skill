@@ -1,4 +1,4 @@
 interface:
   display_name: "OmniContext"
   short_description: "Shared workspace knowledge for multi-tool coding workflows"
-  default_prompt: "Set up or maintain an OmniContext workspace knowledge layer for this codebase, using the shared protocol and templates."
+  default_prompt: "为当前代码库建立或维护一套 OmniContext 工作区知识层，优先使用中文；如果用户或项目明确要求英文或日文，再按对应语言输出。"

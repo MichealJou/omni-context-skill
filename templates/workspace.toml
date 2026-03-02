@@ -17,6 +17,10 @@ path = "personal"
 [projects]
 path = "projects"
 
+[localization]
+default_language = "zh-CN"
+supported_languages = ["zh-CN", "en", "ja"]
+
 [[project_mappings]]
 name = "replace-with-project-name"
 source_path = "replace-with-project-root"

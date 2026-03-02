@@ -50,7 +50,7 @@ Use these before writing more automation. They are intentionally conservative an
 5. Keep local differences local.
    Put machine-specific and user-specific settings in local config files, not in shared workspace config.
 6. Resolve language from context.
-   Prefer explicit user language, then project or shared language policy, then the local user default. Support Chinese, English, and Japanese without forking the skill into separate copies.
+   Prefer explicit user language, then project or shared language policy, then the local user default. Default to Chinese. Support Chinese, English, and Japanese without forking the skill into separate copies.
 
 ## Minimum First Version
 
@@ -120,6 +120,7 @@ Load references only as needed:
 - `references/adapter-rules.md`: how tool-specific entry files should point to the same OmniContext data
 - `references/automation-behaviors.md`: design targets for future init, sync, status, and generation scripts
 - `references/localization-rules.md`: how to select and persist Chinese, English, or Japanese output by context
+- `references/prompt-templates.md`: default Chinese prompt wording plus English and Japanese variants
 
 ## Non-Goals
 

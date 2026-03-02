@@ -1,6 +1,6 @@
 # Automation Behaviors
 
-These are the intended behaviors for OmniContext automation. `install-skill`, `init`, `sync`, `status`, `new-project`, and `new-doc` now exist as conservative scripts; the rest remain design targets.
+These are the intended behaviors for OmniContext automation. `install-skill`, `init`, `sync`, `status`, `new-project`, and `new-doc` now exist as conservative scripts; the rest remain design targets. Chinese is the default operator-facing language unless user or project policy says otherwise.
 
 ## `init`
 

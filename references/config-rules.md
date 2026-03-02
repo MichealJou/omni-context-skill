@@ -31,7 +31,7 @@ path = "personal"
 path = "projects"
 
 [localization]
-default_language = "en"
+default_language = "zh-CN"
 supported_languages = ["zh-CN", "en", "ja"]
 ```
 
@@ -70,5 +70,5 @@ Use them for:
 
 - absolute paths
 - machine-specific binaries
-- language and formatting preferences
+- language and formatting preferences, with Chinese as the default unless user or workspace policy overrides it
 - personal defaults that should not affect teammates

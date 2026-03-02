@@ -112,3 +112,9 @@ After the protocol is proven in a real workspace, add automation for:
 - richer doc templates and index maintenance beyond the current conservative implementation
 
 See `references/automation-behaviors.md` before implementing scripts.
+
+## Language Defaults
+
+- Default repository landing language is Chinese in `README.md`
+- Default prompt language is Chinese
+- Switch prompt wording to English or Japanese only when the user or workspace policy requires it
