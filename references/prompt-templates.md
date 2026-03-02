@@ -1,13 +1,13 @@
-# Prompt Templates
+# 提示词模板
 
-Use these as default operator-facing prompt styles. Keep the workflow the same; only adjust the language and phrasing.
+这些模板用于面向操作者的默认提示词风格。工作流保持一致，只调整语言和措辞。
 
-## Default Language
+## 默认语言
 
-- Default prompt language: `zh-CN`
-- Switch to `en` or `ja` only when the user or project policy clearly requires it
+- 默认提示词语言：`zh-CN`
+- 只有当用户或项目策略明确要求时，才切换到 `en` 或 `ja`
 
-## Chinese Prompt Template
+## 中文提示词模板
 
 ```text
 请基于 OmniContext 管理当前工作区。
@@ -15,7 +15,7 @@ Use these as default operator-facing prompt styles. Keep the workflow the same; 
 完成任务后，按需要更新 handoff、todo、decisions 或文档索引。
 ```
 
-## English Prompt Template
+## 英文提示词模板
 
 ```text
 Use OmniContext to manage the current workspace.
@@ -23,7 +23,7 @@ Identify the target project first, then read the relevant overview, handoff, and
 After completing the task, update handoff, todo, decisions, or document indexes when needed.
 ```
 
-## Japanese Prompt Template
+## 日文提示词模板
 
 ```text
 OmniContext を使って現在のワークスペースを管理してください。

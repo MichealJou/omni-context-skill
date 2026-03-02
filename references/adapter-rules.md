@@ -1,38 +1,38 @@
-# Adapter Rules
+# 适配层规则
 
-Tool adapter files should be thin entry points, not independent knowledge systems.
+工具适配文件应该只是轻量入口，不应该演变成独立知识系统。
 
-## Goal
+## 目标
 
-Every supported coding tool should load the same `.omnicontext/` data with minimal tool-specific wording.
+所有支持的编程工具都应读取同一套 `.omnicontext/` 数据，只保留最少量的工具特有措辞。
 
-## Required Behavior
+## 必须行为
 
-Each adapter should instruct the tool to:
+每个适配文件都应要求工具：
 
-1. Read `.omnicontext/INDEX.md` first
-2. Identify the active project from the task or current working area
-3. Read that project's `overview.md` and `handoff.md`
-4. Read `shared/` files only when workspace-wide standards or architecture matter
-5. Read `personal/` files only when user preferences are relevant
-6. Update `handoff.md`, `todo.md`, or `decisions.md` after durable task changes
+1. 先读 `.omnicontext/INDEX.md`
+2. 从任务内容或当前工作区域识别目标项目
+3. 读取该项目的 `overview.md` 和 `handoff.md`
+4. 只有共享规范或架构相关时才读取 `shared/`
+5. 只有用户偏好相关时才读取 `personal/`
+6. 在产生可持续变化后更新 `handoff.md`、`todo.md` 或 `decisions.md`
 
-## Adapter Scope
+## 适配层边界
 
-Adapters may mention tool-specific conventions such as `AGENTS.md` or `CLAUDE.md`, but they should not redefine:
+适配文件可以提到 `AGENTS.md`、`CLAUDE.md` 这类工具约定，但不应重新定义：
 
-- directory structure
-- config semantics
-- document responsibilities
-- update rules
+- 目录结构
+- 配置语义
+- 文档职责
+- 更新规则
 
-Those are defined by the OmniContext protocol and shared references.
+这些内容应统一由 OmniContext 协议和共享参考文档定义。
 
-## Supported Entry Files
+## 当前支持的入口文件
 
 - `tools/codex/AGENTS.md`
 - `tools/claude-code/CLAUDE.md`
 - `tools/trae/TRAE.md`
 - `tools/qoder/QODER.md`
 
-Add more adapters only when there is a real tool target.
+只有在存在真实工具目标时，才继续增加新的适配层。

@@ -1,72 +1,72 @@
-# Localization Rules
+# 本地化规则
 
-OmniContext should support multilingual output with one shared protocol.
+OmniContext 应基于一套共享协议支持多语言输出。
 
-## Supported Languages
+## 支持语言
 
 - `zh-CN`
 - `en`
 - `ja`
 
-## Language Resolution Order
+## 语言解析顺序
 
-Choose the working language in this order:
+按下面顺序选择工作语言：
 
-1. explicit user request in the current task
-2. project or shared language policy in `.omnicontext/shared/`
-3. local user default in `.omnicontext/user.local.toml`
-4. fallback to `zh-CN`
+1. 当前任务中的明确用户要求
+2. `.omnicontext/shared/` 中定义的项目或工作区语言策略
+3. `.omnicontext/user.local.toml` 中的本地用户默认值
+4. 回退到 `zh-CN`
 
-## Scope
+## 影响范围
 
-Language affects:
+语言会影响：
 
 - generated handoff text
 - wiki and document templates
 - tool-facing summaries when the user asked for a specific language
 - generated prompts, quick-start snippets, and operator-facing wording
 
-Language should not change:
+语言不应改变：
 
-- config keys
-- folder names
-- protocol structure
+- 配置键名
+- 文件夹名称
+- 协议结构
 
-Keep file and config structure stable across languages.
+不同语言下应保持文件和配置结构稳定。
 
-## Recommended Policy
+## 推荐策略
 
-Use one canonical folder structure and let content language vary by context.
+使用一套固定目录结构，让内容语言根据上下文变化。
 
-Examples:
+示例：
 
-- Internal China-facing project: `zh-CN`
-- External documentation for global users: `en`
-- Japan-facing delivery or collaboration: `ja`
+- 中国区内部项目：`zh-CN`
+- 面向全球用户的外部文档：`en`
+- 面向日本的交付或协作：`ja`
 
-## Shared Policy vs Local Preference
+## 共享策略与本地偏好
 
-Use shared policy files for workspace or project language expectations.
-Use `user.local.toml` only for the user's preferred default when the project has no stronger requirement.
+工作区或项目级语言要求应写入共享策略文件。
+只有在项目没有更强约束时，才用 `user.local.toml` 表达个人默认偏好。
 
-## Recording Language Policy
+## 语言策略记录位置
 
-Document language expectations in:
+建议把语言要求写到：
 
-- `.omnicontext/shared/language-policy.md` for workspace-wide defaults
-- project `overview.md` when one project differs from the workspace default
+- `.omnicontext/shared/language-policy.md`：工作区级默认策略
+- 项目 `overview.md`：当某个项目与工作区默认策略不同
 
-## Translation Principle
+## 翻译原则
 
-Do not maintain three separate knowledge trees unless the business truly requires independent localized content. Prefer one shared structure with language-aware content generation.
+除非业务确实要求完全独立的本地化内容，否则不要维护三套独立知识树。优先采用一套共享结构，再按语言生成内容。
 
-## Prompt Templates By Language
+## 按语言区分的提示词模板
 
-Use the same workflow, but change the operator-facing prompt style by language:
+工作流保持一致，只调整面向操作者的提示词风格：
 
 - `zh-CN`
   - 默认中文提示词，语气直接、简洁，优先说明当前工作区状态、下一步动作和需要回写的文档
 - `en`
-  - Use concise operational English prompts that state the workspace target, the command or document action, and the expected write-back.
+  - 使用简洁的操作型英文提示词，明确工作区目标、执行动作和预期回写内容。
 - `ja`
-  - 日本語では簡潔な作業指示にし、対象ワークスペース、実行アクション、更新対象文書を明示する。
+  - 日文提示词也应保持简洁，明确目标工作区、执行动作和需要更新的文档。

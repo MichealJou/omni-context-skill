@@ -1,14 +1,14 @@
-# Config Rules
+# 配置规则
 
-The shared config file is `.omnicontext/workspace.toml`.
+共享配置文件是 `.omnicontext/workspace.toml`。
 
-## Goals
+## 目标
 
-- Describe how to interpret the current workspace
-- Support single-project, multi-project, and auto-detect modes
-- Keep machine-specific and user-specific differences out of shared config
+- 描述如何解释当前工作区
+- 支持单项目、多项目和自动探测模式
+- 把机器差异和用户差异隔离在共享配置之外
 
-## Recommended Fields
+## 推荐字段
 
 ```toml
 version = 1
@@ -35,21 +35,21 @@ default_language = "zh-CN"
 supported_languages = ["zh-CN", "en", "ja"]
 ```
 
-## Modes
+## 模式
 
 `auto`
-- Default mode
-- The tool inspects the workspace and infers project mappings conservatively
+- 默认模式
+- 工具会保守地检查工作区并推断项目映射
 
 `single`
-- Use when one main codebase owns the workspace
+- 当整个工作区由一个主代码库主导时使用
 
 `multi`
-- Use when the workspace contains multiple project roots or repositories
+- 当工作区包含多个项目根目录或仓库时使用
 
-## Project Mapping
+## 项目映射
 
-When discovery is not enough, add explicit mappings:
+当自动发现不够可靠时，补充显式映射：
 
 ```toml
 [[project_mappings]]
@@ -59,16 +59,16 @@ knowledge_path = "projects/snapflow-web"
 type = "app"
 ```
 
-## Local Overrides
+## 本地覆盖配置
 
-These files should exist only on the local machine and should usually stay out of shared version control:
+这些文件应只存在于本机，通常不应进入共享版本控制：
 
 - `.omnicontext/machine.local.toml`
 - `.omnicontext/user.local.toml`
 
-Use them for:
+适合用于：
 
-- absolute paths
-- machine-specific binaries
-- language and formatting preferences, with Chinese as the default unless user or workspace policy overrides it
-- personal defaults that should not affect teammates
+- 绝对路径
+- 机器专用二进制路径
+- 语言与格式偏好，默认中文，除非用户或工作区策略覆盖
+- 不应影响队友的个人默认值

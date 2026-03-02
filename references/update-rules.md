@@ -1,33 +1,33 @@
-# Update Rules
+# 更新规则
 
-Update OmniContext after work only when the change is durable and useful to future sessions.
+只有当变化足够持久、并且对未来会话有价值时，才更新 OmniContext。
 
-## Usually Update
+## 通常应更新
 
-- `handoff.md` after meaningful implementation progress
-- `todo.md` when open work changed
-- `decisions.md` when a non-trivial technical choice was made
-- `overview.md` when the project structure or entry points changed
+- 产生有意义的实现进展后更新 `handoff.md`
+- 开放工作发生变化时更新 `todo.md`
+- 做出非平凡技术选择时更新 `decisions.md`
+- 项目结构或入口点变化时更新 `overview.md`
 
-## Usually Do Not Update
+## 通常不应更新
 
-- temporary debugging output
-- raw command logs
-- secrets, credentials, or tokens
-- facts already obvious from code unless they save real discovery effort
+- 临时调试输出
+- 原始命令日志
+- 密钥、凭证或 Token
+- 代码里已经一眼可见、且不会明显节省探索成本的事实
 
-## Writing Standard
+## 写作标准
 
-- Prefer short factual entries
-- Record what changed and why it matters
-- Use exact file or command names where helpful
-- Avoid narrative prose that will become stale quickly
+- 优先使用短而事实化的条目
+- 记录“发生了什么变化”以及“为什么重要”
+- 需要时使用精确的文件名或命令名
+- 避免很快就会过时的叙述性大段文字
 
-## Handoff Standard
+## 交接标准
 
-Every `handoff.md` should make these points easy to answer:
+每个 `handoff.md` 都应让下面这些问题容易回答：
 
-- What is currently true?
-- What was done recently?
-- What should happen next?
-- What is blocked or risky?
+- 当前真实状态是什么？
+- 最近完成了什么？
+- 下一步应该做什么？
+- 现在有什么阻塞或风险？
