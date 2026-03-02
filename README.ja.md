@@ -89,6 +89,7 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
 
 - `references/zh-CN/` を更新したら、同じ変更を `references/en/` と `references/ja/` にも反映します
 - スクリプトの挙動が変わったら、README、`SKILL.md`、対応する `references/*/automation-behaviors.md` も更新します
+- リポジトリで Git を使う場合は、1 つの機能が完了するごとに最小単位でコミットし、説明的なメッセージを書きます
 - コミット前に次を実行します:
 
 ```bash
