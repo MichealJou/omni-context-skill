@@ -5,7 +5,7 @@ description: Build and maintain a reusable OmniContext workspace knowledge syste
 
 # OmniContext
 
-OmniContext is a reusable workflow for creating a portable workspace knowledge layer inside a real codebase. The skill does not store the user's business knowledge itself. It defines how to initialize, read, and update a `.omnicontext/` directory in any workspace.
+OmniContext is a reusable workflow for creating and maintaining a `.omnicontext/` delivery-control layer inside a real codebase. The skill does not store business knowledge itself. It defines how to initialize, read, validate, and update project-local OmniContext data.
 
 ## Use This Skill When
 
@@ -23,9 +23,16 @@ Separate the system into two parts:
 
 The skill should remain generic. Real project facts belong in `.omnicontext/`, not in the skill repo.
 
+## Interaction Principle
+
+- Be concise by default
+- Ask only when blocked by missing critical input or high-risk confirmation
+- Prefer direct status, blocker, and next-step output
+- Default to Chinese unless the user or workspace explicitly requires another language
+
 ## Current Automation
 
-The skill now includes two minimal scripts:
+The skill now includes a unified CLI plus workflow, rules, bundle, testing, runtime, safety, and autopilot commands:
 
 - `scripts/omni-context <command> ...`
 - `scripts/omni-context [--lang zh-CN|en|ja] <command> ...`
@@ -37,11 +44,32 @@ The skill now includes two minimal scripts:
 - `scripts/git-finish.sh <repo-root> <commit-message> [--all|<path>...]`
 - `scripts/new-project.sh <workspace-root> <project-name> <source-path>`
 - `scripts/new-doc.sh <workspace-root> <project-name> <doc-type> <doc-title> [slug]`
+- `scripts/init-project-standards.sh <workspace-root> <project-name> [project-type]`
+- `scripts/role-status.sh <workspace-root> <project-name>`
+- `scripts/runtime-status.sh <workspace-root> <project-name>`
+- `scripts/start-workflow.sh <workspace-root> <project-name> <title> [slug]`
+- `scripts/workflow-status.sh <workspace-root> <project-name> [workflow-id]`
+- `scripts/workflow-check.sh <workspace-root> <project-name> [workflow-id]`
+- `scripts/advance-stage.sh <workspace-root> <project-name> <stage> <role>`
+- `scripts/skip-stage.sh <workspace-root> <project-name> <stage> <role> <reason> <risk> <authority>`
+- `scripts/list-workflows.sh <workspace-root>`
+- `scripts/rules-pack-init.sh <workspace-root> <project-name> [pack-id]`
+- `scripts/rules-pack-status.sh <workspace-root> <project-name>`
+- `scripts/rules-pack-check.sh <workspace-root> <project-name>`
+- `scripts/rules-pack-list.sh`
+- `scripts/bundle-status.sh <workspace-root> <project-name> [stage] [role]`
+- `scripts/bundle-install.sh <workspace-root> <project-name> [stage] [role]`
+- `scripts/bundle-check.sh <workspace-root> <project-name> [stage] [role]`
+- `scripts/init-test-suite.sh <workspace-root> <project-name> <suite-title> [suite-id]`
+- `scripts/record-test-run.sh <workspace-root> <project-name> <suite-id> <run-title> [run-id]`
+- `scripts/test-status.sh <workspace-root> <project-name> [workflow-id]`
+- `scripts/backup-object.sh <workspace-root> <project-name> <dependency-id> <object> <action>`
+- `scripts/danger-check.sh <workspace-root> <project-name> <dependency-id> <operation-type> <object>`
+- `scripts/record-dangerous-op.sh <workspace-root> <project-name> <dependency-id> <operation-type> <object> <backup-path>`
+- `scripts/autopilot-run.sh <workspace-root> <project-name> [workflow-id]`
+- `scripts/autopilot-status.sh <workspace-root> <project-name> [workflow-id]`
 
-Use these before writing more automation. They are intentionally conservative and keep the protocol simple.
-If language must be forced for generated output, prefer the unified CLI with `--lang`; otherwise the scripts default to Chinese and fall back to workspace or local settings.
-Use `scripts/omni-context check` before release-oriented commits that touch references, templates, or script behavior.
-Use `scripts/omni-context git-finish` when the task is complete enough to produce one feature-sized Git commit.
+Prefer the unified CLI. The standalone scripts remain the implementation targets.
 
 ## Working Rules
 
@@ -49,6 +77,8 @@ Use `scripts/omni-context git-finish` when the task is complete enough to produc
    Define the folder structure, config format, and core document set before writing scripts.
 2. Prefer dynamic discovery.
    Do not assume the workspace is multi-project. Detect structure from the current environment or a workspace config.
+3. Scan project standards before writing them.
+   When initializing project standards, inspect existing config, linting, formatting, build, CI, test, and runtime files first. Then solidify the discovered rules into project-local `standards/`.
 3. Keep context loading small.
    Read `INDEX.md`, then the relevant project `overview.md` and `handoff.md`, and only then load shared or personal files if needed.
 4. Record durable knowledge only.
@@ -61,6 +91,12 @@ Use `scripts/omni-context git-finish` when the task is complete enough to produc
    This rule is enabled by default. When one function or coherent change is complete, create one minimal commit with a clear message. Do not mix unrelated changes into the same commit. This keeps rollback and regression tracing practical. A workspace may explicitly disable it through config when needed.
 8. Push by default, but allow opt-out.
    The default behavior is commit and push after each completed feature-sized change. A workspace or local config may explicitly disable `auto_push_after_commit` when the user does not want every commit pushed.
+9. Treat testing as a hard gate.
+   Testing must use defined test cases, execution records, and evidence. Frontend-style clients must use real interaction testing. Do not modify test cases during execution.
+10. Protect dangerous data operations.
+   Local destructive database or Redis operations require backup first. Production destructive operations require a clear explanation and explicit user confirmation.
+11. Support autopilot, but stop on real blockers.
+   Autopilot should continue through the workflow by default and stop only on missing critical input, failed gates, missing strict dependencies, or high-risk confirmations.
 
 ## Minimum First Version
 
@@ -102,6 +138,37 @@ Create the minimum folder and file set from the templates:
 - `templates/handoff.md`
 - `templates/todo.md`
 - `templates/decisions.md`
+- `templates/roles.toml`
+- `templates/skills.toml`
+- `templates/runtime.toml`
+- `templates/testing-platforms.toml`
+- `templates/rules-pack.toml`
+- `templates/sources.toml`
+- `templates/changes.md`
+- `templates/standards-map.md`
+- `templates/coordinator.md`
+- `templates/product.md`
+- `templates/architecture.md`
+- `templates/engineering.md`
+- `templates/frontend.md`
+- `templates/backend.md`
+- `templates/design.md`
+- `templates/testing.md`
+- `templates/acceptance.md`
+- `templates/workflow-current.toml`
+- `templates/workflow-lifecycle.toml`
+- `templates/workflow-index.md`
+- `templates/workflow-stage-intake.md`
+- `templates/workflow-stage-clarification.md`
+- `templates/workflow-stage-design.md`
+- `templates/workflow-stage-delivery.md`
+- `templates/workflow-stage-testing.md`
+- `templates/workflow-stage-acceptance.md`
+- `templates/tests-index.md`
+- `templates/test-suite.md`
+- `templates/test-run.md`
+- `templates/dangerous-op-log.md`
+- `templates/backup-record.md`
 - `templates/codex-AGENTS.md`
 - `templates/claude-CLAUDE.md`
 - `templates/trae-TRAE.md`
@@ -145,6 +212,18 @@ Load references only as needed:
 - `references/zh-CN/automation-behaviors.md`: design targets for future init, sync, status, and generation scripts
 - `references/zh-CN/localization-rules.md`: how to select and persist Chinese, English, or Japanese output by context
 - `references/zh-CN/prompt-templates.md`: default Chinese prompt wording
+- `references/zh-CN/standards-alignment.md`: industry-standard alignment for lifecycle, testing, security, and safety
+- `references/zh-CN/rules-pack-model.md`: rules-pack model and module composition
+- `references/zh-CN/rules-pack-presets.md`: default and preset pack definitions
+- `references/zh-CN/rules-pack-validation.md`: invalid-combination checks and warning rules
+- `references/zh-CN/bundle-model.md`: project-type, stage, and role-driven skill bundles
+- `references/zh-CN/bundle-commands.md`: bundle command semantics
+- `references/zh-CN/bundle-policy.md`: recommended vs strict bundle modes
+- `references/zh-CN/testing-model.md`: hard testing gate model
+- `references/zh-CN/testing-platforms.md`: platform testing matrix
+- `references/zh-CN/runtime-integrations.md`: runtime dependency declarations
+- `references/zh-CN/data-safety.md`: dangerous operation protection
+- `references/zh-CN/autopilot.md`: autopilot execution rules
 - `references/en/prompt-templates.md`: English prompt wording when English is explicitly required
 - `references/ja/prompt-templates.md`: Japanese prompt wording when Japanese is explicitly required
 

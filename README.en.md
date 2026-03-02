@@ -1,54 +1,27 @@
 # OmniContext
 
-OmniContext is a reusable workspace knowledge skill for coding tools such as Codex, Claude Code, Qoder, and Trae.
+OmniContext is a reusable skill repo that creates and maintains a `.omnicontext/` delivery-control layer inside real projects.
 
-It provides:
+## Current Scope
 
-- a file-based protocol for `.omnicontext/`
-- templates for shared, personal, and project knowledge
-- thin adapter templates for multiple coding tools
-- UI metadata for skill pickers via `agents/openai.yaml`
-- a stable foundation for later automation such as `init`, `sync`, and `status`
+- workspace knowledge
+- lifecycle workflows
+- role standards
+- rules packs
+- skill bundles
+- hard testing gates
+- runtime integrations
+- data-safety guards
 
-## What This Repo Contains
+## Repository Contents
 
-- `SKILL.md`: trigger and workflow rules for the skill itself
-- `agents/openai.yaml`: UI-facing metadata for skill catalogs and launch surfaces
-- `references/`: multilingual reference entrypoint, defaulting to `references/zh-CN/`
-- `scripts/`: minimal workspace automation
-- `templates/`: files to generate into a real `.omnicontext/` directory
+- `SKILL.md`
+- `agents/openai.yaml`
+- `references/`
+- `scripts/`
+- `templates/`
 
-## Repository Layout
-
-```text
-omni-context-skill/
-  SKILL.md
-  README.md
-  README.en.md
-  README.zh-CN.md
-  README.ja.md
-  agents/
-    openai.yaml
-  references/
-  scripts/
-  templates/
-```
-
-## What This Repo Does Not Contain
-
-- real project knowledge
-- secrets or credentials
-- project-specific handoff history
-
-Those belong in the target workspace's `.omnicontext/` directory.
-
-## Recommended Adoption Flow
-
-1. Copy or install this skill into the coding environment
-2. Create `.omnicontext/` inside a real workspace
-3. Fill `workspace.toml`, `INDEX.md`, and the initial project files from `templates/`
-4. Add the relevant tool adapter entry file for each coding tool in use
-5. Validate the structure in one real workspace before adding more automation
+Real business knowledge stays in the target workspace, not in this repo.
 
 ## Quick Install
 
@@ -56,88 +29,70 @@ Those belong in the target workspace's `.omnicontext/` directory.
 ./scripts/install-skill.sh
 ```
 
-By default this installs the skill into:
+Default install path:
 
 ```text
 ${CODEX_HOME:-~/.codex}/skills/omni-context
 ```
 
-## Included Scripts
-
-- `scripts/omni-context [--lang zh-CN|en|ja] <command> ...`
-  Unified entrypoint for `init`, `sync`, `status`, `new-project`, and `new-doc`. If omitted, Chinese is the default.
-
-- `scripts/init-workspace.sh [workspace-root]`
-  Creates a minimum `.omnicontext/` tree and infers project roots from Git repositories when possible.
-- `scripts/sync-workspace.sh [workspace-root]`
-  Refreshes workspace mode, adds new project mappings conservatively, recreates missing project core docs, and rebuilds the top-level OmniContext index without deleting hand-written project files.
-- `scripts/status-workspace.sh [workspace-root]`
-  Reports missing required OmniContext files, mapped projects, and unmapped leftovers.
-- `scripts/check-skill.sh`
-  Validates the skill structure, core scripts, templates, and whether `references/zh-CN|en|ja` stay in sync.
-- `scripts/git-finish.sh <repo-root> <commit-message> [--all|<path>...]`
-  Executes the feature-sized Git workflow and pushes by default after commit; if config disables auto-push, it commits without pushing.
-- `scripts/new-project.sh <workspace-root> <project-name> <source-path>`
-  Registers a project explicitly, creates its core OmniContext files, and refreshes the workspace index.
-- `scripts/new-doc.sh <workspace-root> <project-name> <doc-type> <doc-title> [slug]`
-  Creates a project-level document in `technical`, `design`, `product`, `runbook`, or `wiki` and appends it to the corresponding index.
-
-## Language-Aware Generation
-
-- Chinese is the default for generated prompts, templates, and operator-facing script output
-- Switch with `--lang en` or `--lang ja` when the user or workspace policy requires it
-- `init`, `sync`, `status`, `new-project`, and `new-doc` all respect the active language
-
-## Maintenance Guidance
-
-- When `references/zh-CN/` changes, update `references/en/` and `references/ja/` in the same pass
-- When script behavior changes, update the README files, `SKILL.md`, and the matching `references/*/automation-behaviors.md`
-- If the repo uses Git, enable one-feature-per-commit by default; disable it only through explicit config when needed
-- Default to pushing after each commit; disable it explicitly in config when the user does not want every commit pushed
-- Prefer `./scripts/omni-context git-finish ...` instead of relying on manual Git discipline
-- Run this before committing:
+## Unified CLI
 
 ```bash
-./scripts/omni-context check
+./scripts/omni-context <command> ...
 ```
 
-## Publishing Boundary
+Main commands:
 
-This repository should stay generic.
+- `init`
+- `sync`
+- `status`
+- `check`
+- `git-finish`
+- `new-project`
+- `new-doc`
+- `init-project-standards`
+- `role-status`
+- `runtime-status`
+- `start-workflow`
+- `workflow-status`
+- `workflow-check`
+- `advance-stage`
+- `skip-stage`
+- `list-workflows`
+- `rules-pack-init`
+- `rules-pack-status`
+- `rules-pack-check`
+- `rules-pack-list`
+- `bundle-status`
+- `bundle-install`
+- `bundle-check`
+- `init-test-suite`
+- `record-test-run`
+- `test-status`
+- `backup-object`
+- `danger-check`
+- `record-dangerous-op`
+- `autopilot-run`
+- `autopilot-status`
 
-- Keep real project facts out of this repo
-- Keep secrets and machine-specific values out of templates
-- Put actual workspace knowledge in the target workspace's `.omnicontext/`
+## Defaults
 
-## Minimum Generated Workspace
+- Chinese by default
+- concise interaction by default
+- feature-sized commits by default
+- push after commit by default
+- hard testing gates by default
+- autopilot workflow execution enabled by default
 
-```text
-.omnicontext/
-  workspace.toml
-  INDEX.md
-  shared/
-    standards.md
-    language-policy.md
-  personal/
-    preferences.md
-  projects/
-    <project-name>/
-      overview.md
-      handoff.md
-      todo.md
-      decisions.md
-```
+## Boundaries
 
-## Next Evolution
+- do not store real project facts in the skill repo
+- do not store secrets or machine-only values in templates
+- do not hardcode team-specific rules into the generic skill
 
-After the protocol is proven in a real workspace, add automation for:
+## Read Next
 
-- richer doc templates and index maintenance beyond the current conservative implementation
+Start with:
 
-See `references/README.md` first. The default detailed reference set is currently under `references/zh-CN/`, including `references/zh-CN/automation-behaviors.md`.
-
-## Language Defaults
-
-- Default repository landing language is Chinese in `README.md`
-- Default prompt language is Chinese
-- Switch prompt wording to English or Japanese only when the user or workspace policy requires it
+- `references/README.md`
+- then default to `references/zh-CN/` unless another language is explicitly required

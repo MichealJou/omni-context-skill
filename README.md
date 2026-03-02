@@ -5,27 +5,36 @@
 - [English](README.en.md)
 - [日本語](README.ja.md)
 
-OmniContext 是一套可复用的工作区知识管理 skill，适用于 Codex、Claude Code、Qoder、Trae 等编程工具。
+OmniContext 是一套可复用的 skill 仓库，用来在真实项目里初始化并维护 `.omnicontext/` 交付控制层。
 
-它提供：
-- 基于 `.omnicontext/` 的文件协议
-- 面向共享知识、个人知识、项目知识的模板
-- 面向多种编程工具的轻量入口适配
-- `references/` 多语言入口，默认中文参考文档
-- `init`、`sync`、`status`、`new-project`、`new-doc` 五个基础动作
-- `check` 校验命令，用于维护三语言 references 和核心结构
-- `git-finish` 执行“最小单提交 + 默认 push”的 Git 规则
-- 按语言环境生成中文、英文、日文文档与提示词，默认中文
-- Git 使用场景下默认按功能做最小单提交，必要时可配置关闭，便于回滚和回归定位
-- Git 默认每次提交后自动 push；用户可在配置中关闭“每次都 push”
-- 一个统一 CLI 入口：`scripts/omni-context`
+它现在已经覆盖：
+- 工作区知识层
+- 生命周期流程层
+- 角色规范层
+- 规则组合层
+- 技能组合层
+- 测试硬门禁层
+- 运行时依赖接入层
+- 数据安全保护层
 
-完整说明：
-- [中文说明](README.zh-CN.md)
-- [English guide](README.en.md)
-- [日本語ガイド](README.ja.md)
+统一入口：
+```bash
+./scripts/omni-context <command> ...
+```
 
 快速安装：
 ```bash
 ./scripts/install-skill.sh
 ```
+
+默认特点：
+- 默认中文
+- 默认简洁交互
+- 默认最小单提交并自动 push
+- 默认测试为硬门禁
+- 默认支持全流程自动执行
+
+完整说明：
+- [中文说明](README.zh-CN.md)
+- [English guide](README.en.md)
+- [日本語ガイド](README.ja.md)

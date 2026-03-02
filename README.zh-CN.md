@@ -1,53 +1,27 @@
 # OmniContext
 
-OmniContext 是一套可复用的工作区知识管理 skill，适用于 Codex、Claude Code、Qoder、Trae 等编程工具。
+OmniContext 是一套可复用的 skill 仓库，用来在真实项目里创建和维护 `.omnicontext/` 交付控制层。
 
-它提供：
+## 当前能力
 
-- 基于 `.omnicontext/` 的文件协议
-- 面向共享知识、个人知识、项目知识的模板
-- 面向多种编程工具的轻量入口适配
-- `init` 和 `status` 两个最小可用脚本
+- 工作区知识层
+- 生命周期流程层
+- 角色规范层
+- 规则组合层
+- 技能组合层
+- 测试硬门禁层
+- 运行时依赖接入层
+- 数据安全保护层
 
 ## 仓库包含内容
 
-- `SKILL.md`：skill 触发条件与工作流规则
-- `agents/openai.yaml`：skill 列表/UI 元数据
-- `references/`：多语言参考文档入口，默认读取 `references/zh-CN/`
-- `scripts/`：最小工作区自动化脚本
-- `templates/`：生成真实 `.omnicontext/` 所需的模板文件
+- `SKILL.md`
+- `agents/openai.yaml`
+- `references/`
+- `scripts/`
+- `templates/`
 
-## 仓库结构
-
-```text
-omni-context-skill/
-  SKILL.md
-  README.md
-  README.en.md
-  README.zh-CN.md
-  README.ja.md
-  agents/
-    openai.yaml
-  references/
-  scripts/
-  templates/
-```
-
-## 这个仓库不包含什么
-
-- 真实业务知识
-- 密钥、Token、凭证
-- 某个具体项目的 handoff 历史
-
-这些内容应该放在目标工作区的 `.omnicontext/` 目录里。
-
-## 推荐接入流程
-
-1. 将这个 skill 安装或拷贝到你的编程环境中
-2. 在真实工作区中创建 `.omnicontext/`
-3. 基于 `templates/` 填充 `workspace.toml`、`INDEX.md` 和项目基础文件
-4. 为实际使用的编程工具放入对应的 adapter 入口文件
-5. 先在一个真实工作区验证结构，再继续扩展自动化
+真实项目数据不放在 skill 仓库里，而是放在目标项目的 `.omnicontext/`。
 
 ## 快速安装
 
@@ -55,88 +29,72 @@ omni-context-skill/
 ./scripts/install-skill.sh
 ```
 
-默认会安装到：
+默认安装到：
 
 ```text
 ${CODEX_HOME:-~/.codex}/skills/omni-context
 ```
 
-## 已包含脚本
-
-- `scripts/omni-context [--lang zh-CN|en|ja] <command> ...`
-  统一入口，分发 `init`、`sync`、`status`、`new-project`、`new-doc`。不传 `--lang` 时默认中文。
-
-- `scripts/init-workspace.sh [workspace-root]`
-  初始化一个最小可用的 `.omnicontext/` 目录，并尽量从 Git 仓库推断项目列表。
-- `scripts/sync-workspace.sh [workspace-root]`
-  保守地刷新工作区模式、补充新项目映射、重建缺失的项目核心文档，并重写顶层 `INDEX.md`，但不会删除手写项目内容。
-- `scripts/status-workspace.sh [workspace-root]`
-  检查必需文件、正式项目映射和未纳管残留目录。
-- `scripts/check-skill.sh`
-  校验 skill 自身结构、核心脚本、模板，以及 `references/zh-CN|en|ja` 三套文档是否齐全同步。
-- `scripts/git-finish.sh <repo-root> <commit-message> [--all|<path>...]`
-  执行“一个功能一提交”的 Git 流程，并按默认规则在提交后自动 push；如果配置关闭了自动 push，就只提交不推送。
-- `scripts/new-project.sh <workspace-root> <project-name> <source-path>`
-  显式注册一个新项目，生成该项目的基础 OmniContext 文档，并刷新工作区索引。
-- `scripts/new-doc.sh <workspace-root> <project-name> <doc-type> <doc-title> [slug]`
-  在 `technical`、`design`、`product`、`runbook` 或 `wiki` 下创建项目文档，并自动补入对应索引。
-
-## 语言生成
-
-- 默认生成中文 README 入口、模板、提示词和脚本输出
-- 如果用户或工作区明确指定英文或日文，可通过 `--lang en` 或 `--lang ja` 切换
-- `init`、`sync`、`status`、`new-project`、`new-doc` 都会按当前语言生成或输出内容
-
-## 维护建议
-
-- 每次改 `references/zh-CN/` 时，同步更新 `references/en/` 和 `references/ja/`
-- 每次改脚本行为时，同步更新 `README`、`SKILL.md` 和对应的 `references/*/automation-behaviors.md`
-- 如果仓库使用 Git，默认开启“一个功能完成后立刻做一次最小单提交，并写清提交说明”；如有特殊需要可在配置里关闭
-- 默认每次提交后自动 push；如果用户不想每次都推送，可在配置里显式关闭
-- 推荐用 `./scripts/omni-context git-finish ...` 来执行这条 Git 规则，而不是手工凭记忆操作
-- 提交前运行：
+## 统一命令入口
 
 ```bash
-./scripts/omni-context check
+./scripts/omni-context <command> ...
 ```
 
-## 发布边界
+常用命令：
 
-这个仓库应该保持通用性。
+- `init`
+- `sync`
+- `status`
+- `check`
+- `git-finish`
+- `new-project`
+- `new-doc`
+- `init-project-standards`
+- `role-status`
+- `runtime-status`
+- `start-workflow`
+- `workflow-status`
+- `workflow-check`
+- `advance-stage`
+- `skip-stage`
+- `list-workflows`
+- `rules-pack-init`
+- `rules-pack-status`
+- `rules-pack-check`
+- `rules-pack-list`
+- `bundle-status`
+- `bundle-install`
+- `bundle-check`
+- `init-test-suite`
+- `record-test-run`
+- `test-status`
+- `backup-object`
+- `danger-check`
+- `record-dangerous-op`
+- `autopilot-run`
+- `autopilot-status`
 
-- 不把真实项目事实写进这个仓库
-- 不把机器专用值和敏感信息写进模板
-- 真正的项目知识应写入目标工作区的 `.omnicontext/`
+## 默认规则
 
-## 最小生成结构
+- 默认中文
+- 默认交互简洁
+- 默认最小单提交
+- 默认每次提交后自动 push
+- 默认测试为硬门禁
+- 默认支持自动推进完整流程
 
-```text
-.omnicontext/
-  workspace.toml
-  INDEX.md
-  shared/
-    standards.md
-    language-policy.md
-  personal/
-    preferences.md
-  projects/
-    <project-name>/
-      overview.md
-      handoff.md
-      todo.md
-      decisions.md
-```
+## 使用边界
 
-## 后续演进
+- 不在 skill 仓库里存真实业务知识
+- 不在模板里存密钥、Token、机器私有值
+- 不把团队项目事实写死在 skill 中
 
-等这套文件协议在真实工作区中跑稳之后，再继续补：
+## 参考入口
 
-- 更丰富的文档模板与更细的索引维护能力
+先读：
 
-具体行为设计见 `references/zh-CN/automation-behaviors.md`。
+- `references/README.md`
+- 默认中文再读：`references/zh-CN/`
 
-## 默认语言策略
-
-- 仓库首页 `README.md` 默认展示中文
-- 默认提示词语言为中文
-- 只有当用户明确要求英文或日文，或项目语言策略另有规定时，才切换对应提示词和输出语言
+详细协议、规则组合、技能组合、测试、安全和自动执行说明都在 `references/` 中。

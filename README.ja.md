@@ -1,53 +1,27 @@
 # OmniContext
 
-OmniContext は、Codex、Claude Code、Qoder、Trae などのコーディングツール向けに再利用できるワークスペース知識管理 skill です。
+OmniContext は、実プロジェクトの中に `.omnicontext/` 交付制御レイヤーを作成して維持するための再利用可能な skill リポジトリです。
 
-提供するもの：
+## 現在の対象範囲
 
-- `.omnicontext/` を中心としたファイルベースのプロトコル
-- 共有知識、個人知識、プロジェクト知識のテンプレート
-- 複数ツール向けの薄いアダプタ入口
-- `init` と `status` の最小スクリプト
+- ワークスペース知識
+- ライフサイクルワークフロー
+- 役割規範
+- ルールパック
+- skill バンドル
+- テストのハードゲート
+- 実行時依存接続
+- データ安全保護
 
-## このリポジトリに含まれるもの
+## リポジトリ内容
 
-- `SKILL.md`: skill の発火条件とワークフロールール
-- `agents/openai.yaml`: skill 一覧や UI 用のメタデータ
-- `references/`: 多言語リファレンスの入口。既定では `references/zh-CN/` を読みます
-- `scripts/`: 最小限のワークスペース自動化
-- `templates/`: 実際の `.omnicontext/` を生成するためのテンプレート
+- `SKILL.md`
+- `agents/openai.yaml`
+- `references/`
+- `scripts/`
+- `templates/`
 
-## リポジトリ構成
-
-```text
-omni-context-skill/
-  SKILL.md
-  README.md
-  README.en.md
-  README.zh-CN.md
-  README.ja.md
-  agents/
-    openai.yaml
-  references/
-  scripts/
-  templates/
-```
-
-## このリポジトリに含めないもの
-
-- 実プロジェクトの知識そのもの
-- 秘密情報、トークン、認証情報
-- 特定プロジェクトの handoff 履歴
-
-それらは対象ワークスペースの `.omnicontext/` に置くべきです。
-
-## 推奨導入フロー
-
-1. この skill をコーディング環境にインストールまたは配置する
-2. 実際のワークスペース内に `.omnicontext/` を作成する
-3. `templates/` を使って `workspace.toml`、`INDEX.md`、初期プロジェクトファイルを作る
-4. 利用するコーディングツールに対応したアダプタファイルを追加する
-5. まず 1 つの実ワークスペースで構成を検証し、その後に自動化を拡張する
+実際の業務知識はこのリポジトリではなく、対象ワークスペースに保存します。
 
 ## クイックインストール
 
@@ -55,88 +29,70 @@ omni-context-skill/
 ./scripts/install-skill.sh
 ```
 
-デフォルトのインストール先:
+既定のインストール先:
 
 ```text
 ${CODEX_HOME:-~/.codex}/skills/omni-context
 ```
 
-## 同梱スクリプト
-
-- `scripts/omni-context [--lang zh-CN|en|ja] <command> ...`
-  `init`、`sync`、`status`、`new-project`、`new-doc` をまとめる共通入口です。指定しない場合は中国語が既定です。
-
-- `scripts/init-workspace.sh [workspace-root]`
-  最小構成の `.omnicontext/` を生成し、可能であれば Git リポジトリからプロジェクト一覧を推定します。
-- `scripts/sync-workspace.sh [workspace-root]`
-  ワークスペースモードを保守的に更新し、新しいプロジェクトマッピングを追加し、欠けている基本ドキュメントを補完し、トップレベルの `INDEX.md` を再構築します。既存の手書きプロジェクト内容は自動削除しません。
-- `scripts/status-workspace.sh [workspace-root]`
-  必須ファイル、管理対象プロジェクト、未マッピングの残留ディレクトリを確認します。
-- `scripts/check-skill.sh`
-  skill 自体の構造、主要スクリプト、テンプレート、および `references/zh-CN|en|ja` の同期状態を検証します。
-- `scripts/git-finish.sh <repo-root> <commit-message> [--all|<path>...]`
-  「1 機能 1 コミット」の Git フローを実行し、既定では commit 後に自動 push します。設定で自動 push を無効化している場合は commit のみ行います。
-- `scripts/new-project.sh <workspace-root> <project-name> <source-path>`
-  新しいプロジェクトを明示的に登録し、基本ドキュメントを生成してワークスペース索引を更新します。
-- `scripts/new-doc.sh <workspace-root> <project-name> <doc-type> <doc-title> [slug]`
-  `technical`、`design`、`product`、`runbook`、`wiki` のいずれかに文書を作成し、対応する索引に追記します。
-
-## 言語対応生成
-
-- 生成されるプロンプト、テンプレート、スクリプト出力の既定言語は中国語です
-- ユーザーまたはワークスペース方針に応じて `--lang en` または `--lang ja` に切り替えます
-- `init`、`sync`、`status`、`new-project`、`new-doc` はすべて現在の言語設定を反映します
-
-## メンテナンス方針
-
-- `references/zh-CN/` を更新したら、同じ変更を `references/en/` と `references/ja/` にも反映します
-- スクリプトの挙動が変わったら、README、`SKILL.md`、対応する `references/*/automation-behaviors.md` も更新します
-- リポジトリで Git を使う場合は、この規則を既定で有効にし、1 つの機能が完了するごとに最小単位でコミットし、説明的なメッセージを書きます。必要なら設定で無効化できます
-- 既定では各 commit 後に自動 push します。毎回 push したくない場合だけ設定で明示的に無効化します
-- この Git ルールは `./scripts/omni-context git-finish ...` で実行するのを推奨します
-- コミット前に次を実行します:
+## 統一 CLI
 
 ```bash
-./scripts/omni-context check
+./scripts/omni-context <command> ...
 ```
 
-## 公開時の境界
+主なコマンド:
 
-このリポジトリは汎用のまま保つべきです。
+- `init`
+- `sync`
+- `status`
+- `check`
+- `git-finish`
+- `new-project`
+- `new-doc`
+- `init-project-standards`
+- `role-status`
+- `runtime-status`
+- `start-workflow`
+- `workflow-status`
+- `workflow-check`
+- `advance-stage`
+- `skip-stage`
+- `list-workflows`
+- `rules-pack-init`
+- `rules-pack-status`
+- `rules-pack-check`
+- `rules-pack-list`
+- `bundle-status`
+- `bundle-install`
+- `bundle-check`
+- `init-test-suite`
+- `record-test-run`
+- `test-status`
+- `backup-object`
+- `danger-check`
+- `record-dangerous-op`
+- `autopilot-run`
+- `autopilot-status`
 
-- 実プロジェクトの事実はこのリポジトリに入れない
-- マシン固有値や秘密情報をテンプレートに入れない
-- 実際のワークスペース知識は対象の `.omnicontext/` に保存する
+## 既定ルール
 
-## 最小生成構成
+- 既定言語は中国語
+- 既定で簡潔な対話
+- 既定で機能単位コミット
+- 既定で commit 後 push
+- 既定でテストはハードゲート
+- 既定で全工程自動実行を有効
 
-```text
-.omnicontext/
-  workspace.toml
-  INDEX.md
-  shared/
-    standards.md
-    language-policy.md
-  personal/
-    preferences.md
-  projects/
-    <project-name>/
-      overview.md
-      handoff.md
-      todo.md
-      decisions.md
-```
+## 境界
 
-## 次の進化
+- 実プロジェクトの事実は skill リポジトリに置かない
+- 秘密情報やマシン固有値はテンプレートに置かない
+- チーム固有ルールを汎用 skill に書き込まない
 
-このファイルプロトコルが実ワークスペースで安定してから、次を追加します。
+## 次に読むもの
 
-- より豊富な文書テンプレートと、より細かい索引保守機能
+最初に:
 
-設計方針はまず `references/README.md` を参照してください。現在の詳細な既定リファレンスは `references/zh-CN/automation-behaviors.md` にあります。
-
-## 既定の言語方針
-
-- リポジトリの既定ランディングは中国語の `README.md`
-- 既定のプロンプト言語は中国語
-- 英語または日本語に切り替えるのは、ユーザー要求またはワークスペース方針がある場合のみ
+- `references/README.md`
+- その後、別言語要求がなければ `references/zh-CN/`

@@ -23,6 +23,18 @@
 - `zh-CN/automation-behaviors.md`
 - `zh-CN/localization-rules.md`
 - `zh-CN/prompt-templates.md`
+- `zh-CN/standards-alignment.md`
+- `zh-CN/rules-pack-model.md`
+- `zh-CN/rules-pack-presets.md`
+- `zh-CN/rules-pack-validation.md`
+- `zh-CN/bundle-model.md`
+- `zh-CN/bundle-commands.md`
+- `zh-CN/bundle-policy.md`
+- `zh-CN/testing-model.md`
+- `zh-CN/testing-platforms.md`
+- `zh-CN/runtime-integrations.md`
+- `zh-CN/data-safety.md`
+- `zh-CN/autopilot.md`
 
 说明：
 
@@ -31,3 +43,4 @@
   - `en/prompt-templates.md`
   - `ja/prompt-templates.md`
 - 英文和日文目录现在也同步补齐了协议、配置、更新、适配、自动化和本地化规则
+- 三种语言目录现在也同步补齐了规则组合、技能组合、测试、运行时、安全和自动执行文档
