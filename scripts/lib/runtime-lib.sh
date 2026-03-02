@@ -61,3 +61,53 @@ omni_runtime_client_for_kind() {
     *) printf '%s\n' '' ;;
   esac
 }
+
+omni_runtime_dependency_for_platform() {
+  local runtime_file="$1"
+  local platform="$2"
+  python3 - "$runtime_file" "$platform" <<'PY'
+import sys, tomllib
+from pathlib import Path
+runtime = tomllib.loads(Path(sys.argv[1]).read_text())
+platform = sys.argv[2]
+target_kind = {
+    "web": "browser",
+    "backend": "service",
+    "miniapp": "miniapp",
+}.get(platform, "")
+for dep in runtime.get("dependencies", []):
+    if dep.get("enabled") and dep.get("kind") == target_kind:
+        print(dep.get("id", ""))
+        break
+PY
+}
+
+omni_runtime_dependency_url() {
+  local runtime_file="$1"
+  local dep_id="$2"
+  python3 - "$runtime_file" "$dep_id" <<'PY'
+import sys, tomllib
+from pathlib import Path
+runtime = tomllib.loads(Path(sys.argv[1]).read_text())
+dep_id = sys.argv[2]
+for dep in runtime.get("dependencies", []):
+    if dep.get("id") == dep_id:
+        print(dep.get("entry_url", "") or dep.get("url", ""))
+        break
+PY
+}
+
+omni_browser_executable() {
+  local candidates=(
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+    "/Applications/Chromium.app/Contents/MacOS/Chromium"
+  )
+  local path
+  for path in "${candidates[@]}"; do
+    if [[ -x "${path}" ]]; then
+      printf '%s\n' "${path}"
+      return 0
+    fi
+  done
+  return 1
+}

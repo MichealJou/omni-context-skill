@@ -18,6 +18,11 @@
 
 - 
 
+## Steps
+
+- [step] goto: /
+- [step] wait_for: text=Ready
+
 ## Notes
 
 - 

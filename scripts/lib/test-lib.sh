@@ -55,3 +55,31 @@ omni_test_run_field() {
   local field="$2"
   rg -o "^\-\s+${field}:\s+.+$" "$file" 2>/dev/null | sed "s/^- ${field}: //; s/^-\s\+${field}:\s\+//"
 }
+
+omni_test_suite_steps_json() {
+  local file="$1"
+  python3 - "$file" <<'PY'
+import json
+import re
+import sys
+from pathlib import Path
+
+text = Path(sys.argv[1]).read_text()
+steps = []
+inside = False
+for raw in text.splitlines():
+    line = raw.rstrip()
+    if line.strip() == "## Steps":
+        inside = True
+        continue
+    if inside and line.startswith("## "):
+        break
+    if not inside:
+        continue
+    m = re.match(r"^\- \[step\]\s+([a-zA-Z_]+)\s*:\s*(.+?)\s*$", line.strip())
+    if not m:
+        continue
+    steps.append({"action": m.group(1), "value": m.group(2)})
+print(json.dumps(steps, ensure_ascii=False))
+PY
+}

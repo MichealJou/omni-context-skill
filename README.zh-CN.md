@@ -70,6 +70,10 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
 - `bundle-check`
 - `init-test-suite`
 - `collect-test-evidence`
+- `setup-test-runtime`
+- `run-browser-suite-devtools`
+- `run-browser-suite`
+- `run-api-suite`
 - `execute-test-suite`
 - `record-test-run`
 - `test-status`
@@ -89,6 +93,8 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
 - 默认支持自动推进完整流程
 - Web/小程序前台测试默认要求真实交互执行
 - 正式测试只认非 draft 用例，执行记录会绑定 suite 指纹，防止偷偷改用例
+- Web 正式测试默认走 DevTools 主执行器，并在失败时自动回退到 Playwright
+- Backend 正式测试默认走 API 执行器，不安装浏览器运行时
 - Web/API 测试现在支持先采集真实运行证据，再进入正式判定
 - 本地危险数据库/Redis 操作默认先备份
 - 危险操作现在会识别“具体对象”的备份记录，不再只看 backups 目录
@@ -105,6 +111,9 @@ cd /tmp/omni-demo/demo-web && python3 -m http.server 38080
 
 ```bash
 /Users/program/code/code_work_flow/omni-context-skill/scripts/omni-context collect-test-evidence /tmp/omni-demo demo-web homepage-smoke --platform web
+
+# 或直接走 DevTools 主执行器
+/Users/program/code/code_work_flow/omni-context-skill/scripts/omni-context run-browser-suite-devtools /tmp/omni-demo demo-web homepage-smoke --platform web
 ```
 
 日常总诊断：

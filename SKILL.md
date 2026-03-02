@@ -64,6 +64,10 @@ The skill now includes a unified CLI plus workflow, rules, bundle, testing, runt
 - `scripts/bundle-check.sh <workspace-root> <project-name> [stage] [role]`
 - `scripts/init-test-suite.sh <workspace-root> <project-name> <suite-title> [suite-id]`
 - `scripts/collect-test-evidence.sh <workspace-root> <project-name> <suite-id> [--run-id id] [--dependency dep-id] [--mode auto|browser|api|service|miniapp] [--platform web|backend|miniapp]`
+- `scripts/setup-test-runtime.sh <workspace-root> <project-name> [--platform web|backend|miniapp|all] [--check-only]`
+- `scripts/run-browser-suite-devtools.sh <workspace-root> <project-name> <suite-id> [--run-id id] [--platform web|miniapp] [--dependency dep-id]`
+- `scripts/run-browser-suite.sh <workspace-root> <project-name> <suite-id> [--run-id id] [--platform web|miniapp] [--dependency dep-id] [--fallback-note note]`
+- `scripts/run-api-suite.sh <workspace-root> <project-name> <suite-id> [--run-id id] [--platform backend] [--dependency dep-id]`
 - `scripts/execute-test-suite.sh <workspace-root> <project-name> <suite-id> [--run-id id] [--mode browser|api|service|miniapp] [--platform web|backend|miniapp] [--evidence path]`
 - `scripts/record-test-run.sh <workspace-root> <project-name> <suite-id> <run-title> [run-id]`
 - `scripts/test-status.sh <workspace-root> <project-name> [workflow-id]`
@@ -99,11 +103,13 @@ Prefer the unified CLI. The standalone scripts remain the implementation targets
    The default behavior is commit and push after each completed feature-sized change. A workspace or local config may explicitly disable `auto_push_after_commit` when the user does not want every commit pushed.
 9. Treat testing as a hard gate.
    Testing must use defined test cases, execution records, and evidence. Frontend-style clients must use real interaction testing. Do not modify test cases during execution.
-10. Protect dangerous data operations.
+10. Prefer DevTools for formal browser execution.
+   Formal web and miniapp suites should run through the DevTools-first browser executor. Only fall back to Playwright when DevTools execution fails in an allowed fallback condition.
+11. Protect dangerous data operations.
    Local destructive database or Redis operations require backup first. Production destructive operations require a clear explanation and explicit user confirmation.
-11. Support autopilot, but stop on real blockers.
+12. Support autopilot, but stop on real blockers.
    Autopilot should continue through the workflow by default and stop only on missing critical input, failed gates, missing strict dependencies, or high-risk confirmations.
-12. Let autopilot generate useful stage artifacts.
+13. Let autopilot generate useful stage artifacts.
    Autopilot should autofill workflow stage summaries from existing project context. In testing, it may prepare draft assets, but it must not silently convert draft test cases into formal passing evidence.
 
 ## Minimum First Version

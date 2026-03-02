@@ -491,16 +491,19 @@ omni_autopilot_prepare_testing_assets() {
       source_status="$(omni_test_suite_source_status "${effective_suite}")"
       if omni_test_effective_status_allowed "${source_status}"; then
         platform="$(omni_test_suite_platform "${effective_suite}")"
-        case "${platform}" in
-          web) mode="browser" ;;
-          miniapp) mode="miniapp" ;;
-          backend) mode="api" ;;
-          *) mode="browser" ;;
-        esac
         local runner
         runner="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-        "${runner}/collect-test-evidence.sh" "${workspace_root}" "${project_name}" "$(basename "${effective_suite}" .md)" --mode "${mode}" --platform "${platform:-web}" >/dev/null 2>&1 || \
-        "${runner}/execute-test-suite.sh" "${workspace_root}" "${project_name}" "$(basename "${effective_suite}" .md)" --mode "${mode}" --platform "${platform:-web}" --evidence "pending-evidence" >/dev/null || true
+        case "${platform}" in
+          backend)
+            "${runner}/run-api-suite.sh" "${workspace_root}" "${project_name}" "$(basename "${effective_suite}" .md)" --platform backend >/dev/null 2>&1 || true
+            ;;
+          miniapp)
+            "${runner}/collect-test-evidence.sh" "${workspace_root}" "${project_name}" "$(basename "${effective_suite}" .md)" --platform miniapp >/dev/null 2>&1 || true
+            ;;
+          *)
+            "${runner}/collect-test-evidence.sh" "${workspace_root}" "${project_name}" "$(basename "${effective_suite}" .md)" --platform web >/dev/null 2>&1 || true
+            ;;
+        esac
       fi
     fi
     return 0

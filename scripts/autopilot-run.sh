@@ -50,6 +50,7 @@ while true; do
     blocker="$(printf '%s' "${check_output}" | sed '/^Workflow check: INCOMPLETE$/d' | sed '/^$/d' | tail -n 1)"
     [[ -n "${blocker}" ]] || blocker="workflow-check failed"
     if [[ "${current_stage}" == "testing" ]]; then
+      "${SCRIPT_DIR}/setup-test-runtime.sh" "${WORKSPACE_ROOT}" "${PROJECT_NAME}" --check-only >/dev/null 2>&1 || true
       test_output="$("${SCRIPT_DIR}/test-status.sh" "${WORKSPACE_ROOT}" "${PROJECT_NAME}" 2>&1 || true)"
       test_blocker="$(printf '%s' "${test_output}" | sed '/^Test status: INCOMPLETE$/d' | sed '/^$/d' | tail -n 1)"
       [[ -n "${test_blocker}" ]] && blocker="${test_blocker}"
@@ -62,6 +63,10 @@ while true; do
       next_step="create a web suite and execute a browser-based formal run"
     elif [[ "${blocker}" == *"Change Safety module requires"* ]]; then
       next_step="add runbook recovery notes for risky runtime changes"
+    elif [[ "${blocker}" == *"blocked by runtime setup"* || "${blocker}" == *"browser runtime"* ]]; then
+      next_step="run omni-context setup-test-runtime ${WORKSPACE_ROOT} ${PROJECT_NAME} --platform web"
+    elif [[ "${blocker}" == *"backend"* && "${blocker}" == *"endpoint"* ]]; then
+      next_step="complete runtime.toml for the backend test endpoint and rerun setup-test-runtime"
     fi
     omni_autopilot_write_state "${STATE_FILE}" "blocked" "${current_stage}" "autofilled stage and evaluated gates" "${blocker}" "${next_step}"
     echo "Autopilot blocked at ${current_stage}"

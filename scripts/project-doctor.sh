@@ -30,6 +30,14 @@ check_block() {
       elif printf '%s' "${output}" | grep -q 'client=missing'; then
         detail="runtime client missing"
       fi
+    elif [[ "${label}" == "test-runtime" ]]; then
+      if printf '%s' "${output}" | grep -q 'browser suite executor requires a local Chrome-compatible browser'; then
+        detail="browser runtime not ready"
+      elif printf '%s' "${output}" | grep -q 'missing service endpoint'; then
+        detail="backend test endpoint missing"
+      elif printf '%s' "${output}" | grep -q 'missing backend dependency'; then
+        detail="backend runtime dependency missing"
+      fi
     fi
     [[ -n "${detail}" ]] || detail="failed"
     echo "- ${label}: ${detail}"
@@ -42,6 +50,7 @@ check_block "roles" "${SCRIPT_DIR}/role-status.sh" "${WORKSPACE_ROOT}" "${PROJEC
 check_block "rules" "${SCRIPT_DIR}/rules-pack-check.sh" "${WORKSPACE_ROOT}" "${PROJECT_NAME}"
 check_block "bundle" "${SCRIPT_DIR}/bundle-check.sh" "${WORKSPACE_ROOT}" "${PROJECT_NAME}"
 check_block "runtime" "${SCRIPT_DIR}/runtime-status.sh" "${WORKSPACE_ROOT}" "${PROJECT_NAME}"
+check_block "test-runtime" "${SCRIPT_DIR}/setup-test-runtime.sh" "${WORKSPACE_ROOT}" "${PROJECT_NAME}" --check-only
 check_block "workflow" "${SCRIPT_DIR}/workflow-check.sh" "${WORKSPACE_ROOT}" "${PROJECT_NAME}" ${WORKFLOW_ID:+"${WORKFLOW_ID}"}
 check_block "tests" "${SCRIPT_DIR}/test-status.sh" "${WORKSPACE_ROOT}" "${PROJECT_NAME}"
 

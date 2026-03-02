@@ -23,6 +23,7 @@ print(data.get("project_name", ""))
 PY
 )"
 echo "Project: ${project_name}"
+echo "Environment policy:"
 while IFS='|' read -r dep_id kind enabled environment host port database endpoint; do
   [[ -n "${dep_id}" ]] || continue
   [[ "${dep_id}" == replace-with-* ]] && continue
@@ -41,8 +42,16 @@ while IFS='|' read -r dep_id kind enabled environment host port database endpoin
     case "${kind}" in
       service|browser|miniapp)
         if [[ -n "${endpoint}" ]]; then
-          if curl -fsS --max-time 3 "${endpoint}" >/dev/null 2>&1; then
+          endpoint_host="$(python3 - "$endpoint" <<'PY'
+import sys
+from urllib.parse import urlparse
+print(urlparse(sys.argv[1]).hostname or "")
+PY
+)"
+          if curl -fsS --retry 1 --retry-delay 1 --max-time 3 "${endpoint}" >/dev/null 2>&1; then
             reachability="reachable"
+          elif [[ "${endpoint_host}" == "127.0.0.1" || "${endpoint_host}" == "localhost" ]]; then
+            reachability="unknown-local"
           else
             reachability="unreachable"
             status=2
@@ -67,6 +76,14 @@ while IFS='|' read -r dep_id kind enabled environment host port database endpoin
   [[ -n "${database}" ]] && printf " database=%s" "${database}"
   [[ -n "${endpoint}" ]] && printf " endpoint=%s" "${endpoint}"
   printf "\n"
+  case "${environment}" in
+    prod)
+      printf -- "  safety=confirmation-required\n"
+      ;;
+    local|dev|test|staging)
+      printf -- "  safety=backup-before-dangerous-operations\n"
+      ;;
+  esac
 done < <(python3 - "$RUNTIME_FILE" <<'PY'
 import sys, tomllib
 from pathlib import Path

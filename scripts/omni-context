@@ -23,6 +23,7 @@ Commands:
   project-doctor  Run a consolidated project health diagnosis
   role-status  Report project role model and standards health
   runtime-status  Report declared runtime integrations and environments
+  setup-test-runtime  Prepare test runtime dependencies for declared platforms
   start-workflow  Create a workflow instance for a project
   workflow-status  Show workflow stage state and owner mapping
   workflow-check  Validate workflow gates and testing readiness
@@ -37,6 +38,9 @@ Commands:
   bundle-install  Install missing local skill bundle items
   bundle-check  Validate the active skill bundle
   init-test-suite  Create a test suite definition
+  run-browser-suite-devtools  Execute a formal browser suite with DevTools first
+  run-browser-suite  Execute a formal browser or miniapp suite
+  run-api-suite  Execute a formal API suite with assertions
   collect-test-evidence  Collect live smoke evidence for a formal suite
   execute-test-suite  Prepare a formal executable test run from a suite
   record-test-run  Create a test execution record
@@ -59,9 +63,13 @@ Examples:
   omni-context new-doc /path/to/workspace my-app technical "Query Cache Notes"
   omni-context init-project-standards /path/to/workspace my-app webapp
   omni-context project-doctor /path/to/workspace my-app
+  omni-context setup-test-runtime /path/to/workspace my-app --platform web
   omni-context start-workflow /path/to/workspace my-app "User Invite"
   omni-context rules-pack-status /path/to/workspace my-app
   omni-context bundle-status /path/to/workspace my-app --stage testing --role testing
+  omni-context run-browser-suite-devtools /path/to/workspace my-app login-e2e --platform web
+  omni-context run-browser-suite /path/to/workspace my-app login-e2e --platform web
+  omni-context run-api-suite /path/to/workspace my-app health-suite --platform backend
   omni-context collect-test-evidence /path/to/workspace my-app login-e2e --platform web
   omni-context execute-test-suite /path/to/workspace my-app login-e2e --mode browser --platform web
   omni-context test-status /path/to/workspace my-app
@@ -122,6 +130,9 @@ case "${command_name}" in
   runtime-status)
     exec "${SCRIPT_DIR}/runtime-status.sh" "$@"
     ;;
+  setup-test-runtime)
+    exec "${SCRIPT_DIR}/setup-test-runtime.sh" "$@"
+    ;;
   start-workflow)
     exec "${SCRIPT_DIR}/start-workflow.sh" "$@"
     ;;
@@ -163,6 +174,15 @@ case "${command_name}" in
     ;;
   init-test-suite)
     exec "${SCRIPT_DIR}/init-test-suite.sh" "$@"
+    ;;
+  run-browser-suite-devtools)
+    exec "${SCRIPT_DIR}/run-browser-suite-devtools.sh" "$@"
+    ;;
+  run-browser-suite)
+    exec "${SCRIPT_DIR}/run-browser-suite.sh" "$@"
+    ;;
+  run-api-suite)
+    exec "${SCRIPT_DIR}/run-api-suite.sh" "$@"
     ;;
   collect-test-evidence)
     exec "${SCRIPT_DIR}/collect-test-evidence.sh" "$@"
