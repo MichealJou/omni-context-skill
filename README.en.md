@@ -14,7 +14,7 @@ It provides:
 
 - `SKILL.md`: trigger and workflow rules for the skill itself
 - `agents/openai.yaml`: UI-facing metadata for skill catalogs and launch surfaces
-- `references/`: protocol, config, adapter, and update rules
+- `references/`: multilingual reference entrypoint, defaulting to `references/zh-CN/`
 - `scripts/`: minimal workspace automation
 - `templates/`: files to generate into a real `.omnicontext/` directory
 
@@ -117,7 +117,7 @@ After the protocol is proven in a real workspace, add automation for:
 
 - richer doc templates and index maintenance beyond the current conservative implementation
 
-See `references/automation-behaviors.md` before implementing scripts.
+See `references/README.md` first. The default detailed reference set is currently under `references/zh-CN/`, including `references/zh-CN/automation-behaviors.md`.
 
 ## Language Defaults
 

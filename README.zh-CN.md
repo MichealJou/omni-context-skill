@@ -13,7 +13,7 @@ OmniContext 是一套可复用的工作区知识管理 skill，适用于 Codex�
 
 - `SKILL.md`：skill 触发条件与工作流规则
 - `agents/openai.yaml`：skill 列表/UI 元数据
-- `references/`：协议、配置、语言、适配和更新规则
+- `references/`：多语言参考文档入口，默认读取 `references/zh-CN/`
 - `scripts/`：最小工作区自动化脚本
 - `templates/`：生成真实 `.omnicontext/` 所需的模板文件
 
@@ -116,7 +116,7 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
 
 - 更丰富的文档模板与更细的索引维护能力
 
-具体行为设计见 `references/automation-behaviors.md`。
+具体行为设计见 `references/zh-CN/automation-behaviors.md`。
 
 ## 默认语言策略
 

@@ -77,7 +77,7 @@ Do not start with scripts unless the folder protocol and templates already work 
 - If not, inspect the current directory for Git repos, docs folders, and major app/service roots
 - Infer `single`, `multi`, or `auto` mode conservatively
 
-Read [references/protocol.md](references/protocol.md) and [references/config-rules.md](references/config-rules.md) when defining structure.
+Read [references/README.md](references/README.md) first, then default to [references/zh-CN/protocol.md](references/zh-CN/protocol.md) and [references/zh-CN/config-rules.md](references/zh-CN/config-rules.md) unless another language is explicitly required.
 
 ### 2. Initialize `.omnicontext/`
 
@@ -110,19 +110,20 @@ Use project names from real directories or explicit user input. Avoid fake place
 
 ### 4. Update after meaningful work
 
-When a task changes durable understanding, update the corresponding OmniContext files. Read [references/update-rules.md](references/update-rules.md) before deciding what to write back.
+When a task changes durable understanding, update the corresponding OmniContext files. Read [references/zh-CN/update-rules.md](references/zh-CN/update-rules.md) before deciding what to write back.
 
 ## File Loading Guidance
 
 Load references only as needed:
 
-- `references/protocol.md`: folder layout and document responsibilities
-- `references/config-rules.md`: workspace config semantics and local overrides
-- `references/update-rules.md`: what to persist after task work
-- `references/adapter-rules.md`: how tool-specific entry files should point to the same OmniContext data
-- `references/automation-behaviors.md`: design targets for future init, sync, status, and generation scripts
-- `references/localization-rules.md`: how to select and persist Chinese, English, or Japanese output by context
-- `references/prompt-templates.md`: default Chinese prompt wording plus English and Japanese variants
+- `references/README.md`: language entrypoint and default loading rules
+- `references/zh-CN/protocol.md`: folder layout and document responsibilities
+- `references/zh-CN/config-rules.md`: workspace config semantics and local overrides
+- `references/zh-CN/update-rules.md`: what to persist after task work
+- `references/zh-CN/adapter-rules.md`: how tool-specific entry files should point to the same OmniContext data
+- `references/zh-CN/automation-behaviors.md`: design targets for future init, sync, status, and generation scripts
+- `references/zh-CN/localization-rules.md`: how to select and persist Chinese, English, or Japanese output by context
+- `references/zh-CN/prompt-templates.md`: default Chinese prompt wording plus English and Japanese variants
 
 ## Non-Goals
 

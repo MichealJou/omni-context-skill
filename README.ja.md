@@ -13,7 +13,7 @@ OmniContext は、Codex、Claude Code、Qoder、Trae などのコーディング
 
 - `SKILL.md`: skill の発火条件とワークフロールール
 - `agents/openai.yaml`: skill 一覧や UI 用のメタデータ
-- `references/`: プロトコル、設定、言語、アダプタ、更新ルール
+- `references/`: 多言語リファレンスの入口。既定では `references/zh-CN/` を読みます
 - `scripts/`: 最小限のワークスペース自動化
 - `templates/`: 実際の `.omnicontext/` を生成するためのテンプレート
 
@@ -116,7 +116,7 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
 
 - より豊富な文書テンプレートと、より細かい索引保守機能
 
-設計方針は `references/automation-behaviors.md` を参照してください。
+設計方針はまず `references/README.md` を参照してください。現在の詳細な既定リファレンスは `references/zh-CN/automation-behaviors.md` にあります。
 
 ## 既定の言語方針
 
