@@ -10,6 +10,7 @@ language="$(omni_normalize_language "${OMNI_CONTEXT_LANGUAGE:-zh-CN}")"
 required_scripts=(
   "scripts/omni-context"
   "scripts/install-skill.sh"
+  "scripts/install-global.sh"
   "scripts/init-workspace.sh"
   "scripts/sync-workspace.sh"
   "scripts/status-workspace.sh"

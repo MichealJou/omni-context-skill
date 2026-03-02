@@ -1,12 +1,5 @@
 # OmniContext 使用手册
 
-语言:
-- [简体中文说明](README.zh-CN.md)
-- [English guide](README.en.md)
-- [日本語ガイド](README.ja.md)
-
-如果你直接打开仓库首页，默认就从这份中文使用手册开始。
-
 ## 这是什么
 
 OmniContext 是一套放在项目里的交付控制层。它不替代业务代码，也不替代你原来的仓库结构。它做的是：
@@ -56,13 +49,13 @@ omni-context-skill/
 ./scripts/omni-context <command> ...
 ```
 
-全局安装：
+如果想全局直接用命令，不再依赖仓库路径：
 
 ```bash
 ./scripts/install-global.sh
 ```
 
-安装后如果 `~/.local/bin` 已在 `PATH` 里，可以直接这样用：
+成功后：
 
 ```bash
 omni-context <command> ...

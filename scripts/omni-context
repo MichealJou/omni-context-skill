@@ -15,6 +15,7 @@ Commands:
   sync         Refresh workspace mappings and top-level index
   status       Report OmniContext health and coverage
   check        Validate skill structure and multilingual references
+  install-global  Install OmniContext as a global shell command
   create-demo-workspace  Generate a minimal runnable demo workspace
   git-finish   Commit one completed feature-sized change and push by default
   new-project  Register a project and create core project records
@@ -55,6 +56,7 @@ Examples:
   omni-context --lang zh-CN init /path/to/workspace
   omni-context init /path/to/workspace
   omni-context check
+  omni-context install-global
   omni-context create-demo-workspace /tmp/omni-demo
   omni-context git-finish /path/to/repo "feat: add project sync"
   omni-context status /path/to/workspace
@@ -105,6 +107,9 @@ case "${command_name}" in
     ;;
   check)
     exec "${SCRIPT_DIR}/check-skill.sh" "$@"
+    ;;
+  install-global)
+    exec "${SCRIPT_DIR}/install-global.sh" "$@"
     ;;
   create-demo-workspace)
     exec "${SCRIPT_DIR}/create-demo-workspace.sh" "$@"

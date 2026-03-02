@@ -23,6 +23,22 @@ OmniContext 是一套可复用的 skill 仓库，用来在真实项目里创建�
 
 真实项目数据不放在 skill 仓库里，而是放在目标项目的 `.omnicontext/`。
 
+## 使用手册
+
+- [完整使用手册](MANUAL.zh-CN.md)
+
+## 全局安装
+
+```bash
+./scripts/install-global.sh
+```
+
+如果 `~/.local/bin` 已经在 `PATH` 里，安装后可以直接用：
+
+```bash
+omni-context <command> ...
+```
+
 ## 快速安装
 
 ```bash
