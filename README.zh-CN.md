@@ -49,6 +49,18 @@ omni-context-skill/
 4. 为实际使用的编程工具放入对应的 adapter 入口文件
 5. 先在一个真实工作区验证结构，再继续扩展自动化
 
+## 快速安装
+
+```bash
+./scripts/install-skill.sh
+```
+
+默认会安装到：
+
+```text
+${CODEX_HOME:-~/.codex}/skills/omni-context
+```
+
 ## 已包含脚本
 
 - `scripts/omni-context <command> ...`

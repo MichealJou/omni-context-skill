@@ -18,3 +18,8 @@ Start with the full language-specific guide:
 - [English guide](README.en.md)
 - [中文说明](README.zh-CN.md)
 - [日本語ガイド](README.ja.md)
+
+Quick install:
+```bash
+./scripts/install-skill.sh
+```

@@ -28,6 +28,7 @@ The skill should remain generic. Real project facts belong in `.omnicontext/`, n
 The skill now includes two minimal scripts:
 
 - `scripts/omni-context <command> ...`
+- `scripts/install-skill.sh [destination]`
 - `scripts/init-workspace.sh [workspace-root]`
 - `scripts/sync-workspace.sh [workspace-root]`
 - `scripts/status-workspace.sh [workspace-root]`

@@ -49,6 +49,18 @@ omni-context-skill/
 4. 利用するコーディングツールに対応したアダプタファイルを追加する
 5. まず 1 つの実ワークスペースで構成を検証し、その後に自動化を拡張する
 
+## クイックインストール
+
+```bash
+./scripts/install-skill.sh
+```
+
+デフォルトのインストール先:
+
+```text
+${CODEX_HOME:-~/.codex}/skills/omni-context
+```
+
 ## 同梱スクリプト
 
 - `scripts/omni-context <command> ...`

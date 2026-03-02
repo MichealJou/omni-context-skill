@@ -50,6 +50,18 @@ Those belong in the target workspace's `.omnicontext/` directory.
 4. Add the relevant tool adapter entry file for each coding tool in use
 5. Validate the structure in one real workspace before adding more automation
 
+## Quick Install
+
+```bash
+./scripts/install-skill.sh
+```
+
+By default this installs the skill into:
+
+```text
+${CODEX_HOME:-~/.codex}/skills/omni-context
+```
+
 ## Included Scripts
 
 - `scripts/omni-context <command> ...`
