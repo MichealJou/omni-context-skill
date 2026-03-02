@@ -12,6 +12,7 @@ It provides:
 - templates for shared, personal, and project knowledge
 - thin adapter templates for multiple coding tools
 - minimal workspace automation through `init`, `sync`, `status`, `new-project`, and `new-doc`
+- a unified CLI entrypoint: `scripts/omni-context`
 
 Start with the full language-specific guide:
 - [English guide](README.en.md)

@@ -51,6 +51,9 @@ omni-context-skill/
 
 ## 已包含脚本
 
+- `scripts/omni-context <command> ...`
+  统一入口，分发 `init`、`sync`、`status`、`new-project`、`new-doc`。
+
 - `scripts/init-workspace.sh [workspace-root]`
   初始化一个最小可用的 `.omnicontext/` 目录，并尽量从 Git 仓库推断项目列表。
 - `scripts/sync-workspace.sh [workspace-root]`

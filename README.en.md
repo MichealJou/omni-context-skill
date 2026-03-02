@@ -52,6 +52,9 @@ Those belong in the target workspace's `.omnicontext/` directory.
 
 ## Included Scripts
 
+- `scripts/omni-context <command> ...`
+  Unified entrypoint for `init`, `sync`, `status`, `new-project`, and `new-doc`.
+
 - `scripts/init-workspace.sh [workspace-root]`
   Creates a minimum `.omnicontext/` tree and infers project roots from Git repositories when possible.
 - `scripts/sync-workspace.sh [workspace-root]`

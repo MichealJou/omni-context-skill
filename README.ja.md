@@ -51,6 +51,9 @@ omni-context-skill/
 
 ## 同梱スクリプト
 
+- `scripts/omni-context <command> ...`
+  `init`、`sync`、`status`、`new-project`、`new-doc` をまとめる共通入口です。
+
 - `scripts/init-workspace.sh [workspace-root]`
   最小構成の `.omnicontext/` を生成し、可能であれば Git リポジトリからプロジェクト一覧を推定します。
 - `scripts/sync-workspace.sh [workspace-root]`
