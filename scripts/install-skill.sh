@@ -37,6 +37,7 @@ mkdir -p "${DEST}"
 
 for path in \
   "${SKILL_ROOT}/SKILL.md" \
+  "${SKILL_ROOT}/MANUAL.zh-CN.md" \
   "${SKILL_ROOT}/README.md" \
   "${SKILL_ROOT}/README.en.md" \
   "${SKILL_ROOT}/README.zh-CN.md" \

@@ -33,10 +33,29 @@ OmniContext 是一套可复用的 skill 仓库，用来在真实项目里创建�
 ./scripts/install-global.sh
 ```
 
-如果 `~/.local/bin` 已经在 `PATH` 里，安装后可以直接用：
+Windows PowerShell：
+
+```powershell
+./scripts/install-global.ps1
+```
+
+安装器默认会自动把命令目录写入用户环境变量。安装后可以直接用：
 
 ```bash
+omni <command> ...
 omni-context <command> ...
+```
+
+手动卸载：
+
+```bash
+./scripts/uninstall-global.sh
+```
+
+Windows PowerShell：
+
+```powershell
+./scripts/uninstall-global.ps1
 ```
 
 ## 快速安装

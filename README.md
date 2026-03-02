@@ -62,10 +62,29 @@ omni-context-skill/
 ./scripts/install-global.sh
 ```
 
-安装后如果 `~/.local/bin` 已在 `PATH` 里，可以直接这样用：
+Windows PowerShell：
+
+```powershell
+./scripts/install-global.ps1
+```
+
+安装器默认会自动把命令目录写入用户环境变量。安装后可以直接这样用：
 
 ```bash
+omni <command> ...
 omni-context <command> ...
+```
+
+手动卸载：
+
+```bash
+./scripts/uninstall-global.sh
+```
+
+Windows PowerShell：
+
+```powershell
+./scripts/uninstall-global.ps1
 ```
 
 最常用的是：

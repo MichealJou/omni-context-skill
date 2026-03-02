@@ -55,10 +55,31 @@ omni-context-skill/
 ./scripts/install-global.sh
 ```
 
+Windows PowerShell：
+
+```powershell
+./scripts/install-global.ps1
+```
+
+安装器默认会自动把命令目录写入用户环境变量。
+
 成功后：
 
 ```bash
+omni <command> ...
 omni-context <command> ...
+```
+
+手动卸载：
+
+```bash
+./scripts/uninstall-global.sh
+```
+
+Windows PowerShell：
+
+```powershell
+./scripts/uninstall-global.ps1
 ```
 
 最常用的是：

@@ -10,11 +10,12 @@ DEFAULT_BIN_DIR="${HOME}/.local/bin"
 SKILL_DEST="${DEFAULT_SKILL_DEST}"
 BIN_DIR="${DEFAULT_BIN_DIR}"
 FORCE="false"
+SKIP_PATH_UPDATE="false"
 
 usage() {
   cat <<EOF
 Usage:
-  install-global.sh [--force] [--skill-dest DIR] [--bin-dir DIR]
+  install-global.sh [--force] [--skip-path-update] [--skill-dest DIR] [--bin-dir DIR]
 
 Default skill destination:
   ${DEFAULT_SKILL_DEST}
@@ -24,11 +25,12 @@ Default global bin directory:
 
 Behavior:
   1. Install or refresh the OmniContext skill files
-  2. Create a global omni-context launcher in the bin directory
+  2. Create global omni and omni-context launchers in the bin directory
 
 Examples:
   install-global.sh
   install-global.sh --force
+  install-global.sh --skip-path-update
   install-global.sh --bin-dir "\$HOME/bin"
 EOF
 }
@@ -37,6 +39,10 @@ while [[ "${#}" -gt 0 ]]; do
   case "$1" in
     --force)
       FORCE="true"
+      shift
+      ;;
+    --skip-path-update)
+      SKIP_PATH_UPDATE="true"
       shift
       ;;
     --skill-dest)
@@ -69,17 +75,60 @@ fi
 
 mkdir -p "${BIN_DIR}"
 
-LAUNCHER="${BIN_DIR}/omni-context"
-cat > "${LAUNCHER}" <<EOF
+write_launcher() {
+  local launcher_path="$1"
+  cat > "${launcher_path}" <<EOF
 #!/usr/bin/env bash
 set -euo pipefail
 exec bash "${SKILL_DEST}/scripts/omni-context" "\$@"
 EOF
-chmod +x "${LAUNCHER}"
+  chmod +x "${launcher_path}"
+}
 
-echo "Installed OmniContext global launcher"
+LAUNCHER="${BIN_DIR}/omni-context"
+SHORT_LAUNCHER="${BIN_DIR}/omni"
+write_launcher "${LAUNCHER}"
+write_launcher "${SHORT_LAUNCHER}"
+
+update_path() {
+  local bin_dir="$1"
+  local line="export PATH=\"${bin_dir}:\$PATH\""
+  local profiles=(
+    "${HOME}/.zshrc"
+    "${HOME}/.bashrc"
+    "${HOME}/.bash_profile"
+    "${HOME}/.profile"
+  )
+  local profile
+
+  for profile in "${profiles[@]}"; do
+    if [[ -f "${profile}" ]]; then
+      if grep -Fq "${bin_dir}" "${profile}"; then
+        echo "- PATH already contains ${bin_dir} in ${profile}"
+        return 0
+      fi
+      printf '\n%s\n' "${line}" >> "${profile}"
+      echo "- Added PATH update to ${profile}"
+      return 0
+    fi
+  done
+
+  printf '%s\n' "${line}" > "${HOME}/.zshrc"
+  echo "- Created ${HOME}/.zshrc with PATH update"
+}
+
+echo "Installed OmniContext global launchers"
 echo "- Skill: ${SKILL_DEST}"
-echo "- Command: ${LAUNCHER}"
+echo "- Commands: ${LAUNCHER}, ${SHORT_LAUNCHER}"
+
+if [[ "${SKIP_PATH_UPDATE}" != "true" ]]; then
+  echo "- Updating shell PATH profiles"
+  update_path "${BIN_DIR}"
+else
+  echo "- Skipped PATH update"
+fi
+
 echo
-echo "If '${BIN_DIR}' is not in PATH, add this to your shell profile:"
-echo "export PATH=\"${BIN_DIR}:\$PATH\""
+echo "You can now run:"
+echo "- omni --help"
+echo "- omni-context --help"

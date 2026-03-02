@@ -16,6 +16,7 @@ Commands:
   status       Report OmniContext health and coverage
   check        Validate skill structure and multilingual references
   install-global  Install OmniContext as a global shell command
+  uninstall-global  Remove OmniContext global shell commands
   create-demo-workspace  Generate a minimal runnable demo workspace
   git-finish   Commit one completed feature-sized change and push by default
   new-project  Register a project and create core project records
@@ -57,6 +58,7 @@ Examples:
   omni-context init /path/to/workspace
   omni-context check
   omni-context install-global
+  omni-context uninstall-global
   omni-context create-demo-workspace /tmp/omni-demo
   omni-context git-finish /path/to/repo "feat: add project sync"
   omni-context status /path/to/workspace
@@ -110,6 +112,9 @@ case "${command_name}" in
     ;;
   install-global)
     exec "${SCRIPT_DIR}/install-global.sh" "$@"
+    ;;
+  uninstall-global)
+    exec "${SCRIPT_DIR}/uninstall-global.sh" "$@"
     ;;
   create-demo-workspace)
     exec "${SCRIPT_DIR}/create-demo-workspace.sh" "$@"
