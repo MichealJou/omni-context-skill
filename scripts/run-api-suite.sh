@@ -89,22 +89,64 @@ if not steps:
 
 session = requests.Session()
 response = None
+pending_headers = {}
+pending_json = None
+pending_data = None
+pending_timeout = 15
+
+def json_path_get(data, dotted):
+    cur = data
+    for part in dotted.split("."):
+        if isinstance(cur, list):
+            try:
+                idx = int(part)
+            except ValueError as exc:
+                raise AssertionError(f"json path segment {part} is not a list index") from exc
+            if idx < 0 or idx >= len(cur):
+                raise AssertionError(f"json index out of range for path: {dotted}")
+            cur = cur[idx]
+        elif isinstance(cur, dict) and part in cur:
+            cur = cur[part]
+        else:
+            raise AssertionError(f"missing expected json path: {dotted}")
+    return cur
 
 try:
     for index, step in enumerate(steps, start=1):
         action = step["action"].strip().lower()
         value = step["value"].strip()
         step_name = f"{index}:{action}"
+        if action == "set_header":
+            if ":" not in value:
+                raise ValueError("set_header must use Header: Value")
+            header, header_value = [x.strip() for x in value.split(":", 1)]
+            pending_headers[header] = header_value
+        elif action == "set_json":
+            pending_json = json.loads(value)
+        elif action == "set_body":
+            pending_data = value
+        elif action == "set_timeout":
+            pending_timeout = float(value)
         if action == "request":
             parts = value.split(" ", 1)
             method = parts[0].upper()
             path = parts[1] if len(parts) > 1 else "/"
             target = urljoin(base_url.rstrip("/") + "/", path.lstrip("/"))
-            response = session.request(method, target, timeout=15)
+            request_kwargs = {"timeout": pending_timeout}
+            if pending_headers:
+                request_kwargs["headers"] = dict(pending_headers)
+            if pending_json is not None:
+                request_kwargs["json"] = pending_json
+            elif pending_data is not None:
+                request_kwargs["data"] = pending_data
+            response = session.request(method, target, **request_kwargs)
             artifact_path.write_text(
                 json.dumps(
                     {
                         "url": target,
+                        "request_headers": dict(pending_headers),
+                        "request_json": pending_json,
+                        "request_body": pending_data,
                         "status_code": response.status_code,
                         "headers": dict(response.headers),
                         "body": response.text[:10000],
@@ -113,27 +155,65 @@ try:
                     indent=2,
                 )
             )
+            pending_json = None
+            pending_data = None
         elif action == "expect_status":
             if response is None:
                 raise ValueError("expect_status requires a prior request step")
             expected = int(value)
             if response.status_code != expected:
                 raise AssertionError(f"expected status {expected}, got {response.status_code}")
+        elif action == "expect_status_range":
+            if response is None:
+                raise ValueError("expect_status_range requires a prior request step")
+            if "-" not in value:
+                raise ValueError("expect_status_range must use min-max")
+            low, high = [int(x.strip()) for x in value.split("-", 1)]
+            if not (low <= response.status_code <= high):
+                raise AssertionError(f"expected status in range {low}-{high}, got {response.status_code}")
         elif action == "expect_text":
             if response is None:
                 raise ValueError("expect_text requires a prior request step")
             if value not in response.text:
                 raise AssertionError(f"missing expected text: {value}")
+        elif action == "expect_header":
+            if response is None:
+                raise ValueError("expect_header requires a prior request step")
+            if ":" not in value:
+                raise ValueError("expect_header must use Header: Value")
+            header, expected_value = [x.strip() for x in value.split(":", 1)]
+            actual = response.headers.get(header)
+            if actual != expected_value:
+                raise AssertionError(f"expected header {header}={expected_value}, got {actual}")
         elif action == "expect_json_key":
             if response is None:
                 raise ValueError("expect_json_key requires a prior request step")
             data = response.json()
-            cur = data
-            for part in value.split("."):
-                if isinstance(cur, dict) and part in cur:
-                    cur = cur[part]
-                else:
-                    raise AssertionError(f"missing expected json key: {value}")
+            json_path_get(data, value)
+        elif action == "expect_json_value":
+            if response is None:
+                raise ValueError("expect_json_value requires a prior request step")
+            if "=" not in value:
+                raise ValueError("expect_json_value must use path=value")
+            path, expected_raw = [x.strip() for x in value.split("=", 1)]
+            actual = json_path_get(response.json(), path)
+            try:
+                expected = json.loads(expected_raw)
+            except json.JSONDecodeError:
+                expected = expected_raw
+            if actual != expected:
+                raise AssertionError(f"expected json value {path}={expected!r}, got {actual!r}")
+        elif action == "expect_json_array_length":
+            if response is None:
+                raise ValueError("expect_json_array_length requires a prior request step")
+            if "=" not in value:
+                raise ValueError("expect_json_array_length must use path=len")
+            path, expected_len = [x.strip() for x in value.split("=", 1)]
+            actual = json_path_get(response.json(), path)
+            if not isinstance(actual, list):
+                raise AssertionError(f"json path is not a list: {path}")
+            if len(actual) != int(expected_len):
+                raise AssertionError(f"expected json array length {path}={expected_len}, got {len(actual)}")
         else:
             raise ValueError(f"unsupported API step action: {action}")
     result.update({

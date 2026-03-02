@@ -96,6 +96,7 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
 - Web 正式测试默认走 DevTools 主执行器，并在失败时自动回退到 Playwright
 - Backend 正式测试默认走 API 执行器，不安装浏览器运行时
 - Web/API 测试现在支持先采集真实运行证据，再进入正式判定
+- API suite 支持更细的断言步骤，包括 header、json value、json array length 和状态码区间
 - 本地危险数据库/Redis 操作默认先备份
 - 危险操作现在会识别“具体对象”的备份记录，不再只看 backups 目录
 - autopilot 会自动补阶段摘要，并在 testing 阶段生成草稿测试资产后再给出阻塞说明
@@ -114,6 +115,9 @@ cd /tmp/omni-demo/demo-web && python3 -m http.server 38080
 
 # 或直接走 DevTools 主执行器
 /Users/program/code/code_work_flow/omni-context-skill/scripts/omni-context run-browser-suite-devtools /tmp/omni-demo demo-web homepage-smoke --platform web
+
+# Backend 正式执行
+/Users/program/code/code_work_flow/omni-context-skill/scripts/omni-context run-api-suite /tmp/omni-demo demo-api health-check --platform backend
 ```
 
 日常总诊断：

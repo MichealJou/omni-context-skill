@@ -553,6 +553,27 @@ doc = Path(sys.argv[1])
 stage, status, owner, title = sys.argv[2:6]
 overview, handoff, decisions, tests_index, suite_file, run_file = map(Path, sys.argv[6:12])
 text = doc.read_text()
+
+def summarize(path, limit=3):
+    if not path.exists():
+        return []
+    lines = []
+    for raw in path.read_text().splitlines():
+        line = raw.strip()
+        if not line:
+            continue
+        if line.startswith("#"):
+            continue
+        if line.startswith("- "):
+            lines.append(line)
+        elif ":" in line and len(line) < 140:
+            lines.append(f"- {line}")
+        elif len(line) < 140:
+            lines.append(f"- {line}")
+        if len(lines) >= limit:
+            break
+    return lines
+
 summary_map = {
     "intake": f"Capture the request context and target outcome for {title}.",
     "clarification": f"Turn the intake into scoped and testable work for {title}.",
@@ -594,6 +615,18 @@ exit_line = {
     "testing": "- required evidence and execution status reviewed",
     "acceptance": "- acceptance conclusion and residual risk reviewed",
 }
+source_summaries = []
+for candidate, label in [(overview, "overview"), (handoff, "handoff"), (decisions, "decisions")]:
+    if candidate.exists():
+        snippets = summarize(candidate, 2)
+        if snippets:
+            source_summaries.append(f"- {label}:")
+            source_summaries.extend([f"  {item}" for item in snippets])
+if stage == "testing" and tests_index.exists():
+    snippets = summarize(tests_index, 2)
+    if snippets:
+        source_summaries.append("- tests:")
+        source_summaries.extend([f"  {item}" for item in snippets])
 autopilot = [
     "## Autopilot Summary",
     "",
@@ -606,6 +639,9 @@ if suite_file and suite_file.exists():
     autopilot.append(f"- latest_suite: {suite_file.name}")
 if str(run_file) not in ("", ".") and run_file.exists():
     autopilot.append(f"- latest_run: {run_file.name}")
+if source_summaries:
+    autopilot.append("- source_highlights:")
+    autopilot.extend(source_summaries)
 block = "\n".join(autopilot)
 if "## Autopilot Summary" in text:
     text = text.split("## Autopilot Summary")[0].rstrip() + "\n\n" + block + "\n"
@@ -625,7 +661,10 @@ def replace_section(src, heading, body_lines):
     return src
 text = replace_section(text, "## Goal", [f"- {summary_map.get(stage, title)}"])
 text = replace_section(text, "## Inputs", inputs or ["- source: no project inputs found yet"])
-text = replace_section(text, "## Decisions / Notes", [notes.get(stage, "- note: autopilot prepared this stage")])
+decision_lines = [notes.get(stage, "- note: autopilot prepared this stage")]
+if source_summaries:
+    decision_lines.extend(source_summaries[:6])
+text = replace_section(text, "## Decisions / Notes", decision_lines)
 text = replace_section(text, "## Checklist", ["- [x] autopilot stage summary prepared"])
 text = replace_section(text, "## Risks", [risks.get(stage, "- risk: stage still needs review")])
 text = replace_section(text, "## Exit Criteria", [exit_line.get(stage, "- stage summary prepared")])
