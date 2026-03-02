@@ -47,6 +47,7 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
 - `sync`
 - `status`
 - `check`
+- `create-demo-workspace`
 - `git-finish`
 - `new-project`
 - `new-doc`
@@ -90,6 +91,19 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
 - Web/API テストは正式判定の前に実行証跡を採取できます
 - ローカルの危険な DB/Redis 操作は既定で先にバックアップ
 - autopilot は段階要約を自動補完し、testing では草稿テスト資産を作った上で阻塞理由を返します
+
+## クイックデモ
+
+```bash
+scripts/omni-context create-demo-workspace /tmp/omni-demo
+cd /tmp/omni-demo/demo-web && python3 -m http.server 38080
+```
+
+別シェルで次を実行します。
+
+```bash
+/Users/program/code/code_work_flow/omni-context-skill/scripts/omni-context collect-test-evidence /tmp/omni-demo demo-web homepage-smoke --platform web
+```
 
 ## 境界
 

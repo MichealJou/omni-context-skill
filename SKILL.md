@@ -37,6 +37,7 @@ The skill now includes a unified CLI plus workflow, rules, bundle, testing, runt
 - `scripts/omni-context <command> ...`
 - `scripts/omni-context [--lang zh-CN|en|ja] <command> ...`
 - `scripts/install-skill.sh [destination]`
+- `scripts/create-demo-workspace.sh <target-dir>`
 - `scripts/init-workspace.sh [workspace-root]`
 - `scripts/sync-workspace.sh [workspace-root]`
 - `scripts/status-workspace.sh [workspace-root]`

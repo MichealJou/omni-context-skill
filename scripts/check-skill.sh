@@ -13,6 +13,7 @@ required_scripts=(
   "scripts/init-workspace.sh"
   "scripts/sync-workspace.sh"
   "scripts/status-workspace.sh"
+  "scripts/create-demo-workspace.sh"
   "scripts/new-project.sh"
   "scripts/new-doc.sh"
   "scripts/check-skill.sh"

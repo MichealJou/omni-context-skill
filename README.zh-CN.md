@@ -47,6 +47,7 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
 - `sync`
 - `status`
 - `check`
+- `create-demo-workspace`
 - `git-finish`
 - `new-project`
 - `new-doc`
@@ -90,6 +91,19 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
 - Web/API 测试现在支持先采集真实运行证据，再进入正式判定
 - 本地危险数据库/Redis 操作默认先备份
 - autopilot 会自动补阶段摘要，并在 testing 阶段生成草稿测试资产后再给出阻塞说明
+
+## 快速演示
+
+```bash
+scripts/omni-context create-demo-workspace /tmp/omni-demo
+cd /tmp/omni-demo/demo-web && python3 -m http.server 38080
+```
+
+然后在另一个终端执行：
+
+```bash
+/Users/program/code/code_work_flow/omni-context-skill/scripts/omni-context collect-test-evidence /tmp/omni-demo demo-web homepage-smoke --platform web
+```
 
 ## 使用边界
 

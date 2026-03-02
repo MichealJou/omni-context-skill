@@ -47,6 +47,7 @@ Main commands:
 - `sync`
 - `status`
 - `check`
+- `create-demo-workspace`
 - `git-finish`
 - `new-project`
 - `new-doc`
@@ -90,6 +91,19 @@ Main commands:
 - Web/API testing can now collect live runtime evidence before final verification
 - dangerous local database/redis operations require backup first
 - autopilot autofills stage summaries and prepares draft testing assets before reporting blockers
+
+## Quick Demo
+
+```bash
+scripts/omni-context create-demo-workspace /tmp/omni-demo
+cd /tmp/omni-demo/demo-web && python3 -m http.server 38080
+```
+
+Then in another shell:
+
+```bash
+/Users/program/code/code_work_flow/omni-context-skill/scripts/omni-context collect-test-evidence /tmp/omni-demo demo-web homepage-smoke --platform web
+```
 
 ## Boundaries
 
