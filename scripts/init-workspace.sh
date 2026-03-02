@@ -16,6 +16,10 @@ fi
 
 mkdir -p \
   "${OMNI_ROOT}/shared" \
+  "${OMNI_ROOT}/shared/workflows" \
+  "${OMNI_ROOT}/shared/bundles/project-types" \
+  "${OMNI_ROOT}/shared/standards-library/modules" \
+  "${OMNI_ROOT}/shared/standards-library/packs" \
   "${OMNI_ROOT}/personal" \
   "${OMNI_ROOT}/projects" \
   "${OMNI_ROOT}/tools/codex" \
@@ -142,6 +146,8 @@ omni_append_workspace_index_notes "${OMNI_ROOT}/INDEX.md" "${language}"
 
 cp "${SKILL_ROOT}/templates/shared-standards.md" "${OMNI_ROOT}/shared/standards.md"
 cp "${SKILL_ROOT}/templates/shared-language-policy.md" "${OMNI_ROOT}/shared/language-policy.md"
+cp "${SKILL_ROOT}/templates/workflow-registry.toml" "${OMNI_ROOT}/shared/workflows/registry.toml"
+cp "${SKILL_ROOT}/templates/workflow-index.md" "${OMNI_ROOT}/shared/workflows/index.md"
 cp "${SKILL_ROOT}/templates/personal-preferences.md" "${OMNI_ROOT}/personal/preferences.md"
 cp "${SKILL_ROOT}/templates/machine.local.toml" "${OMNI_ROOT}/machine.local.toml"
 cp "${SKILL_ROOT}/templates/user.local.toml" "${OMNI_ROOT}/user.local.toml"
@@ -149,6 +155,116 @@ cp "${SKILL_ROOT}/templates/codex-AGENTS.md" "${OMNI_ROOT}/tools/codex/AGENTS.md
 cp "${SKILL_ROOT}/templates/claude-CLAUDE.md" "${OMNI_ROOT}/tools/claude-code/CLAUDE.md"
 cp "${SKILL_ROOT}/templates/trae-TRAE.md" "${OMNI_ROOT}/tools/trae/TRAE.md"
 cp "${SKILL_ROOT}/templates/qoder-QODER.md" "${OMNI_ROOT}/tools/qoder/QODER.md"
+
+cat > "${OMNI_ROOT}/shared/bundles/catalog.toml" <<'EOF'
+version = 1
+EOF
+cat > "${OMNI_ROOT}/shared/standards-library/catalog.toml" <<'EOF'
+version = 1
+EOF
+cat > "${OMNI_ROOT}/shared/standards-library/modules/prd.toml" <<'EOF'
+id = "prd"
+category = "practice"
+required_by_default = true
+EOF
+cat > "${OMNI_ROOT}/shared/standards-library/modules/adr.toml" <<'EOF'
+id = "adr"
+category = "practice"
+required_by_default = true
+EOF
+cat > "${OMNI_ROOT}/shared/standards-library/modules/acceptance-criteria.toml" <<'EOF'
+id = "acceptance-criteria"
+category = "practice"
+required_by_default = true
+EOF
+cat > "${OMNI_ROOT}/shared/standards-library/modules/test-cases.toml" <<'EOF'
+id = "test-cases"
+category = "practice"
+required_by_default = true
+EOF
+cat > "${OMNI_ROOT}/shared/standards-library/modules/change-safety.toml" <<'EOF'
+id = "change-safety"
+category = "practice"
+required_by_default = true
+EOF
+cat > "${OMNI_ROOT}/shared/standards-library/modules/scrum-lite.toml" <<'EOF'
+id = "scrum-lite"
+category = "practice"
+required_by_default = false
+EOF
+cat > "${OMNI_ROOT}/shared/standards-library/modules/test-pyramid.toml" <<'EOF'
+id = "test-pyramid"
+category = "practice"
+required_by_default = false
+EOF
+cat > "${OMNI_ROOT}/shared/standards-library/modules/e2e-browser.toml" <<'EOF'
+id = "e2e-browser"
+category = "practice"
+required_by_default = false
+EOF
+cat > "${OMNI_ROOT}/shared/standards-library/modules/backup-recovery.toml" <<'EOF'
+id = "backup-recovery"
+category = "practice"
+required_by_default = false
+EOF
+cat > "${OMNI_ROOT}/shared/standards-library/modules/least-privilege.toml" <<'EOF'
+id = "least-privilege"
+category = "practice"
+required_by_default = false
+EOF
+cat > "${OMNI_ROOT}/shared/standards-library/modules/iso-12207-lifecycle.toml" <<'EOF'
+id = "iso-12207-lifecycle"
+category = "formal-standard"
+required_by_default = false
+EOF
+cat > "${OMNI_ROOT}/shared/standards-library/modules/nist-ssdf.toml" <<'EOF'
+id = "nist-ssdf"
+category = "formal-standard"
+required_by_default = false
+EOF
+cat > "${OMNI_ROOT}/shared/standards-library/modules/owasp-asvs.toml" <<'EOF'
+id = "owasp-asvs"
+category = "formal-standard"
+required_by_default = false
+EOF
+cat > "${OMNI_ROOT}/shared/standards-library/modules/istqb-governance.toml" <<'EOF'
+id = "istqb-governance"
+category = "formal-standard"
+required_by_default = false
+EOF
+cat > "${OMNI_ROOT}/shared/standards-library/packs/default-balanced.toml" <<'EOF'
+id = "default-balanced"
+EOF
+cat > "${OMNI_ROOT}/shared/standards-library/packs/fast-delivery.toml" <<'EOF'
+id = "fast-delivery"
+EOF
+cat > "${OMNI_ROOT}/shared/standards-library/packs/high-security.toml" <<'EOF'
+id = "high-security"
+EOF
+cat > "${OMNI_ROOT}/shared/standards-library/packs/design-driven.toml" <<'EOF'
+id = "design-driven"
+EOF
+cat > "${OMNI_ROOT}/shared/standards-library/packs/backend-stability.toml" <<'EOF'
+id = "backend-stability"
+EOF
+cat > "${OMNI_ROOT}/shared/bundles/project-types/webapp.toml" <<'EOF'
+project_type = "webapp"
+EOF
+cat > "${OMNI_ROOT}/shared/bundles/project-types/admin.toml" <<'EOF'
+project_type = "admin"
+EOF
+cat > "${OMNI_ROOT}/shared/bundles/project-types/workflow-platform.toml" <<'EOF'
+project_type = "workflow-platform"
+EOF
+cat > "${OMNI_ROOT}/shared/bundles/project-types/design-system.toml" <<'EOF'
+project_type = "design-system"
+EOF
+cat > "${OMNI_ROOT}/shared/bundles/project-types/docs-platform.toml" <<'EOF'
+project_type = "docs-platform"
+EOF
+cat > "${OMNI_ROOT}/shared/bundles/project-types/backend-service.toml" <<'EOF'
+project_type = "backend-service"
+EOF
 
 case "${language}" in
   zh-CN)

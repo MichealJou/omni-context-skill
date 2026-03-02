@@ -25,6 +25,32 @@ supported_languages = ["zh-CN", "en", "ja"]
 minimal_feature_commits = true
 auto_push_after_commit = true
 
+[workflow]
+enabled = true
+strict_gates = true
+allow_skip = true
+require_skip_reason = true
+default_stage_count = 6
+
+[rules]
+default_pack = "default-balanced"
+warn_on_invalid_combo = true
+
+[bundles]
+enabled = true
+mode = "recommended"
+auto_install_base = true
+auto_install_incremental = true
+
+[testing]
+require_cases = true
+require_runs = true
+require_required_cases_pass = true
+
+[runtime]
+danger_backup_required_in_local = true
+danger_confirmation_required_in_prod = true
+
 [[project_mappings]]
 name = "replace-with-project-name"
 source_path = "replace-with-project-root"

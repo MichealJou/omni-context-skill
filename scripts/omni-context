@@ -18,6 +18,30 @@ Commands:
   git-finish   Commit one completed feature-sized change and push by default
   new-project  Register a project and create core project records
   new-doc      Create a project document and append it to an index
+  init-project-standards  Discover and initialize project standards
+  role-status  Report project role model and standards health
+  runtime-status  Report declared runtime integrations and environments
+  start-workflow  Create a workflow instance for a project
+  workflow-status  Show workflow stage state and owner mapping
+  workflow-check  Validate workflow gates and testing readiness
+  advance-stage  Move the current workflow to the next stage
+  skip-stage   Skip a workflow stage with explicit reason and risk
+  list-workflows  Show shared workflow registry
+  rules-pack-init  Initialize the project rules pack
+  rules-pack-status  Show the active rules pack and resolved modules
+  rules-pack-check  Validate the current rules pack and suggest fixes
+  rules-pack-list  List preset rules packs
+  bundle-status  Resolve the active skill bundle for a project
+  bundle-install  Install missing local skill bundle items
+  bundle-check  Validate the active skill bundle
+  init-test-suite  Create a test suite definition
+  record-test-run  Create a test execution record
+  test-status  Validate test evidence and required case coverage
+  backup-object  Create a backup record before a dangerous operation
+  danger-check  Evaluate whether a runtime operation is dangerous
+  record-dangerous-op  Append a dangerous operation record
+  autopilot-run  Run workflow automation until completion or a blocker
+  autopilot-status  Show automation progress and blockers
 
 Examples:
   omni-context --lang zh-CN init /path/to/workspace
@@ -28,6 +52,11 @@ Examples:
   omni-context sync /path/to/workspace
   omni-context new-project /path/to/workspace my-app apps/my-app
   omni-context new-doc /path/to/workspace my-app technical "Query Cache Notes"
+  omni-context init-project-standards /path/to/workspace my-app webapp
+  omni-context start-workflow /path/to/workspace my-app "User Invite"
+  omni-context rules-pack-status /path/to/workspace my-app
+  omni-context bundle-status /path/to/workspace my-app --stage testing --role testing
+  omni-context test-status /path/to/workspace my-app
 EOF
 }
 
@@ -69,6 +98,78 @@ case "${command_name}" in
     ;;
   new-doc)
     exec "${SCRIPT_DIR}/new-doc.sh" "$@"
+    ;;
+  init-project-standards)
+    exec "${SCRIPT_DIR}/init-project-standards.sh" "$@"
+    ;;
+  role-status)
+    exec "${SCRIPT_DIR}/role-status.sh" "$@"
+    ;;
+  runtime-status)
+    exec "${SCRIPT_DIR}/runtime-status.sh" "$@"
+    ;;
+  start-workflow)
+    exec "${SCRIPT_DIR}/start-workflow.sh" "$@"
+    ;;
+  workflow-status)
+    exec "${SCRIPT_DIR}/workflow-status.sh" "$@"
+    ;;
+  workflow-check)
+    exec "${SCRIPT_DIR}/workflow-check.sh" "$@"
+    ;;
+  advance-stage)
+    exec "${SCRIPT_DIR}/advance-stage.sh" "$@"
+    ;;
+  skip-stage)
+    exec "${SCRIPT_DIR}/skip-stage.sh" "$@"
+    ;;
+  list-workflows)
+    exec "${SCRIPT_DIR}/list-workflows.sh" "$@"
+    ;;
+  rules-pack-init)
+    exec "${SCRIPT_DIR}/rules-pack-init.sh" "$@"
+    ;;
+  rules-pack-status)
+    exec "${SCRIPT_DIR}/rules-pack-status.sh" "$@"
+    ;;
+  rules-pack-check)
+    exec "${SCRIPT_DIR}/rules-pack-check.sh" "$@"
+    ;;
+  rules-pack-list)
+    exec "${SCRIPT_DIR}/rules-pack-list.sh" "$@"
+    ;;
+  bundle-status)
+    exec "${SCRIPT_DIR}/bundle-status.sh" "$@"
+    ;;
+  bundle-install)
+    exec "${SCRIPT_DIR}/bundle-install.sh" "$@"
+    ;;
+  bundle-check)
+    exec "${SCRIPT_DIR}/bundle-check.sh" "$@"
+    ;;
+  init-test-suite)
+    exec "${SCRIPT_DIR}/init-test-suite.sh" "$@"
+    ;;
+  record-test-run)
+    exec "${SCRIPT_DIR}/record-test-run.sh" "$@"
+    ;;
+  test-status)
+    exec "${SCRIPT_DIR}/test-status.sh" "$@"
+    ;;
+  backup-object)
+    exec "${SCRIPT_DIR}/backup-object.sh" "$@"
+    ;;
+  danger-check)
+    exec "${SCRIPT_DIR}/danger-check.sh" "$@"
+    ;;
+  record-dangerous-op)
+    exec "${SCRIPT_DIR}/record-dangerous-op.sh" "$@"
+    ;;
+  autopilot-run)
+    exec "${SCRIPT_DIR}/autopilot-run.sh" "$@"
+    ;;
+  autopilot-status)
+    exec "${SCRIPT_DIR}/autopilot-status.sh" "$@"
     ;;
   help|-h|--help)
     usage

@@ -1,0 +1,8 @@
+version = 1
+project_name = "replace-with-project-name"
+
+[[platforms]]
+id = "web"
+enabled = false
+required_test_mode = "browser"
+required_skills = ["webapp-testing"]

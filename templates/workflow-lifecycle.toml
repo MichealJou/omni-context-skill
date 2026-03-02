@@ -1,0 +1,9 @@
+version = 1
+workflow_id = "replace-with-workflow-id"
+project_name = "replace-with-project-name"
+title = "replace-with-workflow-title"
+language = "zh-CN"
+status = "in_progress"
+current_stage = "intake"
+created_at = "YYYY-MM-DD"
+updated_at = "YYYY-MM-DD"

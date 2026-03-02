@@ -1,0 +1,14 @@
+version = 1
+project_name = "replace-with-project-name"
+project_type = "replace-with-project-type"
+
+[bundle_policy]
+mode = "recommended"
+auto_install_base = true
+auto_install_incremental = true
+block_on_missing_required = false
+
+[overrides]
+add = []
+remove = []
+required = []

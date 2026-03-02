@@ -1,0 +1,6 @@
+project_name = "replace-with-project-name"
+project_type = "replace-with-project-type"
+
+[[sources]]
+path = "replace-with-source-path"
+type = "explicit"

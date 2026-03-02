@@ -1,0 +1,8 @@
+version = 1
+project_name = "replace-with-project-name"
+base_pack = "default-balanced"
+
+[customization]
+add = []
+remove = []
+mode = "base-pack"

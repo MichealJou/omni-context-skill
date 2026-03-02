@@ -1,0 +1,24 @@
+version = 1
+project_name = "replace-with-project-name"
+project_type = "replace-with-project-type"
+
+[core_roles]
+coordinator = true
+product = true
+architecture = true
+development = true
+testing = true
+
+[extended_roles]
+design = false
+frontend = false
+backend = false
+acceptance = true
+
+[stage_owners]
+intake = "product"
+clarification = "product"
+design = "architecture"
+delivery = "development"
+testing = "testing"
+acceptance = "product"
