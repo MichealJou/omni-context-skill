@@ -1,17 +1,19 @@
 # OmniContext For Claude Code
 
-Before starting work:
+默认使用中文。如果用户、项目语言策略或 `user.local.toml` 明确要求英文或日文，再切换对应语言。
 
-1. Read `.omnicontext/INDEX.md`.
-2. Determine which project in `.omnicontext/projects/` matches the task.
-3. Load that project's `overview.md` and `handoff.md`.
-4. Load `.omnicontext/shared/` only if the task depends on workspace-wide rules.
-5. Load `.omnicontext/personal/` only if user-specific preferences are relevant.
+开始工作前：
 
-After meaningful progress:
+1. 读取 `.omnicontext/INDEX.md`。
+2. 确定 `.omnicontext/projects/` 中哪个项目对应当前任务。
+3. 读取该项目的 `overview.md` 和 `handoff.md`。
+4. 只有任务依赖工作区级规则时，才读取 `.omnicontext/shared/`。
+5. 只有用户偏好相关时，才读取 `.omnicontext/personal/`。
 
-1. Update `handoff.md` if the current state changed.
-2. Update `todo.md` if remaining work changed.
-3. Update `decisions.md` if a technical or workflow decision was made.
+出现有效进展后：
 
-Never write secrets into `.omnicontext/`.
+1. 当前状态变化时更新 `handoff.md`。
+2. 剩余工作变化时更新 `todo.md`。
+3. 做出技术或流程决策时更新 `decisions.md`。
+
+不要把密钥写进 `.omnicontext/`。

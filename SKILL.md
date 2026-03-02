@@ -28,6 +28,7 @@ The skill should remain generic. Real project facts belong in `.omnicontext/`, n
 The skill now includes two minimal scripts:
 
 - `scripts/omni-context <command> ...`
+- `scripts/omni-context [--lang zh-CN|en|ja] <command> ...`
 - `scripts/install-skill.sh [destination]`
 - `scripts/init-workspace.sh [workspace-root]`
 - `scripts/sync-workspace.sh [workspace-root]`
@@ -36,6 +37,7 @@ The skill now includes two minimal scripts:
 - `scripts/new-doc.sh <workspace-root> <project-name> <doc-type> <doc-title> [slug]`
 
 Use these before writing more automation. They are intentionally conservative and keep the protocol simple.
+If language must be forced for generated output, prefer the unified CLI with `--lang`; otherwise the scripts default to Chinese and fall back to workspace or local settings.
 
 ## Working Rules
 

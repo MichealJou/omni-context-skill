@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "${SCRIPT_DIR}/lib/omnicontext-l10n.sh"
 
 usage() {
   cat <<'EOF'
@@ -62,6 +64,7 @@ DOC_SLUG="${5:-$(slugify "${DOC_TITLE}")}"
 
 OMNI_ROOT="${WORKSPACE_ROOT}/.omnicontext"
 PROJECT_ROOT="${OMNI_ROOT}/projects/${PROJECT_NAME}"
+language="$(omni_resolve_language "${WORKSPACE_ROOT}")"
 
 if [[ ! -d "${PROJECT_ROOT}" ]]; then
   echo "Unknown project: ${PROJECT_NAME}" >&2
@@ -78,31 +81,31 @@ case "${DOC_TYPE}" in
     DOC_DIR="${PROJECT_ROOT}/docs/${DOC_TYPE}"
     DOC_FILE="${DOC_DIR}/${DOC_SLUG}.md"
     INDEX_FILE="${DOC_DIR}/index.md"
-    INDEX_TITLE="${PROJECT_NAME} Technical Docs"
+    INDEX_TITLE="${PROJECT_NAME} $(omni_doc_type_label "${language}" "${DOC_TYPE}")"
     ;;
   design)
     DOC_DIR="${PROJECT_ROOT}/docs/${DOC_TYPE}"
     DOC_FILE="${DOC_DIR}/${DOC_SLUG}.md"
     INDEX_FILE="${DOC_DIR}/index.md"
-    INDEX_TITLE="${PROJECT_NAME} Design Docs"
+    INDEX_TITLE="${PROJECT_NAME} $(omni_doc_type_label "${language}" "${DOC_TYPE}")"
     ;;
   product)
     DOC_DIR="${PROJECT_ROOT}/docs/${DOC_TYPE}"
     DOC_FILE="${DOC_DIR}/${DOC_SLUG}.md"
     INDEX_FILE="${DOC_DIR}/index.md"
-    INDEX_TITLE="${PROJECT_NAME} Product Docs"
+    INDEX_TITLE="${PROJECT_NAME} $(omni_doc_type_label "${language}" "${DOC_TYPE}")"
     ;;
   runbook)
     DOC_DIR="${PROJECT_ROOT}/docs/${DOC_TYPE}"
     DOC_FILE="${DOC_DIR}/${DOC_SLUG}.md"
     INDEX_FILE="${DOC_DIR}/index.md"
-    INDEX_TITLE="${PROJECT_NAME} Runbook Docs"
+    INDEX_TITLE="${PROJECT_NAME} $(omni_doc_type_label "${language}" "${DOC_TYPE}")"
     ;;
   wiki)
     DOC_DIR="${PROJECT_ROOT}/wiki"
     DOC_FILE="${DOC_DIR}/${DOC_SLUG}.md"
     INDEX_FILE="${DOC_DIR}/index.md"
-    INDEX_TITLE="${PROJECT_NAME} Wiki"
+    INDEX_TITLE="${PROJECT_NAME} $(omni_doc_type_label "${language}" "${DOC_TYPE}")"
     ;;
   *)
     echo "Unsupported doc type: ${DOC_TYPE}" >&2
@@ -119,32 +122,30 @@ if [[ -f "${DOC_FILE}" ]]; then
   exit 1
 fi
 
-cat > "${DOC_FILE}" <<EOF
-# ${DOC_TITLE}
-
-## Summary
-
-- Project: ${PROJECT_NAME}
-- Type: ${DOC_TYPE}
-- Status: Draft
-
-## Context
-
-- 
-
-## Details
-
-- 
-
-## Follow-up
-
-- 
-EOF
+omni_write_doc_template "${DOC_FILE}" "${language}" "${PROJECT_NAME}" "${DOC_TYPE}" "${DOC_TITLE}"
 
 append_index_entry "${INDEX_FILE}" "$(basename "${DOC_FILE}")" "${DOC_TITLE}"
 
-echo "Created OmniContext document"
-echo "- Project: ${PROJECT_NAME}"
-echo "- Type: ${DOC_TYPE}"
-echo "- File: ${DOC_FILE}"
-echo "- Index: ${INDEX_FILE}"
+case "${language}" in
+  zh-CN)
+    echo "已创建 OmniContext 文档"
+    echo "- 项目: ${PROJECT_NAME}"
+    echo "- 类型: ${DOC_TYPE}"
+    echo "- 文件: ${DOC_FILE}"
+    echo "- 索引: ${INDEX_FILE}"
+    ;;
+  ja)
+    echo "OmniContext 文書を作成しました"
+    echo "- プロジェクト: ${PROJECT_NAME}"
+    echo "- 種別: ${DOC_TYPE}"
+    echo "- ファイル: ${DOC_FILE}"
+    echo "- インデックス: ${INDEX_FILE}"
+    ;;
+  *)
+    echo "Created OmniContext document"
+    echo "- Project: ${PROJECT_NAME}"
+    echo "- Type: ${DOC_TYPE}"
+    echo "- File: ${DOC_FILE}"
+    echo "- Index: ${INDEX_FILE}"
+    ;;
+esac

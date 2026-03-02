@@ -1,10 +1,10 @@
-# Decisions
+# 决策
 
-## Decision Log
+## 决策记录
 
-### YYYY-MM-DD - Title
+### YYYY-MM-DD - 标题
 
-- Context:
-- Decision:
-- Rationale:
-- Consequence:
+- 背景:
+- 决策:
+- 原因:
+- 影响:

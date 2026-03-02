@@ -2,6 +2,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "${SCRIPT_DIR}/lib/omnicontext-l10n.sh"
 
 usage() {
   cat <<'EOF'
@@ -24,6 +25,7 @@ SOURCE_PATH="${3}"
 OMNI_ROOT="${WORKSPACE_ROOT}/.omnicontext"
 WORKSPACE_TOML="${OMNI_ROOT}/workspace.toml"
 PROJECT_DIR="${OMNI_ROOT}/projects/${PROJECT_NAME}"
+language="$(omni_resolve_language "${WORKSPACE_ROOT}")"
 
 if [[ ! -f "${WORKSPACE_TOML}" ]]; then
   echo "Missing ${WORKSPACE_TOML}" >&2
@@ -56,95 +58,72 @@ knowledge_path = "projects/${PROJECT_NAME}"
 type = "project"
 EOF
 
-cat > "${PROJECT_DIR}/overview.md" <<EOF
-# Overview
+case "${language}" in
+  zh-CN)
+    handoff_status='由 OmniContext new-project 创建'
+    handoff_recent='new-project 显式创建了项目记录'
+    handoff_next='补充项目目标和关键入口'
+    decision_context='一个新项目被显式注册到 OmniContext。'
+    decision_text='先采用最小文档集。'
+    decision_rationale='在流程证明有效之前，先控制维护成本。'
+    decision_consequence='仅在真实需求出现后再增加文档类型。'
+    ;;
+  ja)
+    handoff_status='OmniContext new-project により追加'
+    handoff_recent='new-project がプロジェクト記録を明示的に作成した'
+    handoff_next='プロジェクトの目的と主要エントリーポイントを補完する'
+    decision_context='新しいプロジェクトが OmniContext に明示的に登録された。'
+    decision_text='最小限の文書セットから開始する。'
+    decision_rationale='ワークフローの有効性が確認できるまで保守コストを抑えるため。'
+    decision_consequence='実際の必要性が出てから文書種別を追加する。'
+    ;;
+  *)
+    handoff_status='Project added by OmniContext new-project'
+    handoff_recent='OmniContext project records were created explicitly by new-project'
+    handoff_next='Fill in project purpose and entry points'
+    decision_context='A new project was registered explicitly in OmniContext.'
+    decision_text='Start with the minimum document set.'
+    decision_rationale='Keep maintenance cost low until the workflow proves useful.'
+    decision_consequence='Add more document types only when real use requires them.'
+    ;;
+esac
 
-## Summary
-
-- Project name: ${PROJECT_NAME}
-- Purpose:
-- Scope:
-
-## Structure
-
-- Main directories:
-- Important entry points:
-- Related upstream/downstream systems:
-
-## Runbook
-
-- Install:
-- Start:
-- Test:
-- Build:
-
-## Constraints
-
-- Runtime or platform constraints:
-- Non-obvious dependencies:
-- Known boundaries:
-EOF
-
-cat > "${PROJECT_DIR}/handoff.md" <<'EOF'
-# Handoff
-
-## Current State
-
-- Status: Project added by OmniContext new-project
-- Active branch or working area:
-- Current focus:
-
-## Recent Progress
-
-- OmniContext project records were created explicitly by new-project
-
-## Next Steps
-
-- Fill in project purpose and entry points
-
-## Risks And Blockers
-
-- None recorded yet
-
-## Pointers
-
-- Key files:
-- Key commands:
-- Related docs:
-EOF
-
-cat > "${PROJECT_DIR}/todo.md" <<'EOF'
-# Todo
-
-## Active
-
-- [ ] Fill in overview details
-
-## Upcoming
-
-- [ ] Add current project-specific documentation
-
-## Deferred
-
-- [ ] Add more OmniContext docs only when needed
-EOF
-
-cat > "${PROJECT_DIR}/decisions.md" <<'EOF'
-# Decisions
-
-## Decision Log
-
-### YYYY-MM-DD - OmniContext new-project initialization
-
-- Context: A new project was registered explicitly in OmniContext.
-- Decision: Start with the minimum document set.
-- Rationale: Keep maintenance cost low until the workflow proves useful.
-- Consequence: Add more document types only when real use requires them.
-EOF
+omni_write_overview "${PROJECT_DIR}/overview.md" "${language}" "${PROJECT_NAME}"
+omni_write_handoff \
+  "${PROJECT_DIR}/handoff.md" \
+  "${language}" \
+  "${handoff_status}" \
+  "${handoff_recent}" \
+  "${handoff_next}"
+omni_write_todo "${PROJECT_DIR}/todo.md" "${language}"
+omni_write_decisions \
+  "${PROJECT_DIR}/decisions.md" \
+  "${language}" \
+  "OmniContext new-project initialization" \
+  "${decision_context}" \
+  "${decision_text}" \
+  "${decision_rationale}" \
+  "${decision_consequence}"
 
 "${SCRIPT_DIR}/sync-workspace.sh" "${WORKSPACE_ROOT}" >/dev/null
 
-echo "Added project to OmniContext"
-echo "- Name: ${PROJECT_NAME}"
-echo "- Source path: ${SOURCE_PATH}"
-echo "- Knowledge path: .omnicontext/projects/${PROJECT_NAME}"
+case "${language}" in
+  zh-CN)
+    echo "已将项目加入 OmniContext"
+    echo "- 名称: ${PROJECT_NAME}"
+    echo "- 源路径: ${SOURCE_PATH}"
+    echo "- 知识路径: .omnicontext/projects/${PROJECT_NAME}"
+    ;;
+  ja)
+    echo "プロジェクトを OmniContext に追加しました"
+    echo "- 名前: ${PROJECT_NAME}"
+    echo "- ソースパス: ${SOURCE_PATH}"
+    echo "- ナレッジパス: .omnicontext/projects/${PROJECT_NAME}"
+    ;;
+  *)
+    echo "Added project to OmniContext"
+    echo "- Name: ${PROJECT_NAME}"
+    echo "- Source path: ${SOURCE_PATH}"
+    echo "- Knowledge path: .omnicontext/projects/${PROJECT_NAME}"
+    ;;
+esac

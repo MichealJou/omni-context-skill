@@ -1,18 +1,29 @@
 #!/usr/bin/env bash
 set -euo pipefail
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "${SCRIPT_DIR}/lib/omnicontext-l10n.sh"
 
 WORKSPACE_ROOT="${1:-$(pwd)}"
 WORKSPACE_ROOT="$(cd "${WORKSPACE_ROOT}" && pwd)"
 OMNI_ROOT="${WORKSPACE_ROOT}/.omnicontext"
+language="$(omni_resolve_language "${WORKSPACE_ROOT}")"
 
 if [[ ! -d "${OMNI_ROOT}" ]]; then
-  echo "OmniContext not found in ${WORKSPACE_ROOT}" >&2
+  case "${language}" in
+    zh-CN) echo "在 ${WORKSPACE_ROOT} 中未找到 OmniContext" >&2 ;;
+    ja) echo "${WORKSPACE_ROOT} に OmniContext が見つかりません" >&2 ;;
+    *) echo "OmniContext not found in ${WORKSPACE_ROOT}" >&2 ;;
+  esac
   exit 1
 fi
 
 workspace_toml="${OMNI_ROOT}/workspace.toml"
 if [[ ! -f "${workspace_toml}" ]]; then
-  echo "Missing ${workspace_toml}" >&2
+  case "${language}" in
+    zh-CN) echo "缺少 ${workspace_toml}" >&2 ;;
+    ja) echo "${workspace_toml} がありません" >&2 ;;
+    *) echo "Missing ${workspace_toml}" >&2 ;;
+  esac
   exit 1
 fi
 
@@ -56,9 +67,23 @@ done < <(
   ' "${workspace_toml}"
 )
 
-echo "Workspace: ${workspace_name}"
-echo "Mode: ${mode}"
-echo "OmniContext root: ${OMNI_ROOT}"
+case "${language}" in
+  zh-CN)
+    echo "工作区: ${workspace_name}"
+    echo "模式: ${mode}"
+    echo "OmniContext 根目录: ${OMNI_ROOT}"
+    ;;
+  ja)
+    echo "ワークスペース: ${workspace_name}"
+    echo "モード: ${mode}"
+    echo "OmniContext ルート: ${OMNI_ROOT}"
+    ;;
+  *)
+    echo "Workspace: ${workspace_name}"
+    echo "Mode: ${mode}"
+    echo "OmniContext root: ${OMNI_ROOT}"
+    ;;
+esac
 
 required_files=(
   "${OMNI_ROOT}/INDEX.md"
@@ -70,18 +95,33 @@ required_files=(
 
 missing_required=0
 echo
-echo "Required files:"
+case "${language}" in
+  zh-CN) echo "必需文件:" ;;
+  ja) echo "必須ファイル:" ;;
+  *) echo "Required files:" ;;
+esac
 for file in "${required_files[@]}"; do
   if [[ -f "${file}" ]]; then
-    echo "- OK ${file#${WORKSPACE_ROOT}/}"
+    case "${language}" in
+      zh-CN|ja) echo "- OK ${file#${WORKSPACE_ROOT}/}" ;;
+      *) echo "- OK ${file#${WORKSPACE_ROOT}/}" ;;
+    esac
   else
-    echo "- MISSING ${file#${WORKSPACE_ROOT}/}"
+    case "${language}" in
+      zh-CN) echo "- 缺失 ${file#${WORKSPACE_ROOT}/}" ;;
+      ja) echo "- 不足 ${file#${WORKSPACE_ROOT}/}" ;;
+      *) echo "- MISSING ${file#${WORKSPACE_ROOT}/}" ;;
+    esac
     missing_required=1
   fi
 done
 
 echo
-echo "Projects:"
+case "${language}" in
+  zh-CN) echo "项目:" ;;
+  ja) echo "プロジェクト:" ;;
+  *) echo "Projects:" ;;
+esac
 project_dirs_found=0
 for idx in "${!mapped_names[@]}"; do
   project_dirs_found=1
@@ -92,19 +132,31 @@ for idx in "${!mapped_names[@]}"; do
     if [[ -f "${project_dir}/${doc}" ]]; then
       echo "  OK ${doc}"
     else
-      echo "  MISSING ${doc}"
+      case "${language}" in
+        zh-CN) echo "  缺失 ${doc}" ;;
+        ja) echo "  不足 ${doc}" ;;
+        *) echo "  MISSING ${doc}" ;;
+      esac
       missing_required=1
     fi
   done
 done
 
 if [[ "${project_dirs_found}" -eq 0 ]]; then
-  echo "- No mapped projects found"
+  case "${language}" in
+    zh-CN) echo "- 未发现已映射项目" ;;
+    ja) echo "- マッピング済みプロジェクトがありません" ;;
+    *) echo "- No mapped projects found" ;;
+  esac
   missing_required=1
 fi
 
 echo
-echo "Mappings from workspace.toml:"
+case "${language}" in
+  zh-CN) echo "workspace.toml 中的映射:" ;;
+  ja) echo "workspace.toml のマッピング:" ;;
+  *) echo "Mappings from workspace.toml:" ;;
+esac
 if [[ "${#mapped_names[@]}" -eq 0 ]]; then
   echo "- None"
 else
@@ -114,7 +166,11 @@ else
 fi
 
 echo
-echo "Unmapped project directories:"
+case "${language}" in
+  zh-CN) echo "未映射的项目目录:" ;;
+  ja) echo "未マッピングのプロジェクトディレクトリ:" ;;
+  *) echo "Unmapped project directories:" ;;
+esac
 unmapped_found=0
 while IFS= read -r -d '' project_dir; do
   rel_path="${project_dir#${OMNI_ROOT}/}"
@@ -137,8 +193,16 @@ fi
 
 echo
 if [[ "${missing_required}" -eq 0 ]]; then
-  echo "Status: OK"
+  case "${language}" in
+    zh-CN) echo "状态: OK" ;;
+    ja) echo "ステータス: OK" ;;
+    *) echo "Status: OK" ;;
+  esac
 else
-  echo "Status: INCOMPLETE"
+  case "${language}" in
+    zh-CN) echo "状态: INCOMPLETE" ;;
+    ja) echo "ステータス: INCOMPLETE" ;;
+    *) echo "Status: INCOMPLETE" ;;
+  esac
   exit 2
 fi

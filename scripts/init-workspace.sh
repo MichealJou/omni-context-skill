@@ -3,6 +3,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SKILL_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+source "${SCRIPT_DIR}/lib/omnicontext-l10n.sh"
 
 WORKSPACE_ROOT="${1:-$(pwd)}"
 WORKSPACE_ROOT="$(cd "${WORKSPACE_ROOT}" && pwd)"
@@ -23,6 +24,7 @@ mkdir -p \
   "${OMNI_ROOT}/tools/qoder"
 
 workspace_name="$(basename "${WORKSPACE_ROOT}")"
+language="$(omni_resolve_language "${WORKSPACE_ROOT}")"
 
 discovered_projects=()
 while IFS= read -r project_path; do
@@ -64,7 +66,7 @@ path = "personal"
 path = "projects"
 
 [localization]
-default_language = "en"
+default_language = "${language}"
 supported_languages = ["zh-CN", "en", "ja"]
 EOF
 
@@ -80,137 +82,63 @@ type = "project"
 EOF
 done
 
-cat > "${OMNI_ROOT}/INDEX.md" <<EOF
-# OmniContext Index
-
-## Workspace
-
-- Workspace name: ${workspace_name}
-- Mode: ${mode}
-- Knowledge root: \`.omnicontext\`
-
-## Shared Knowledge
-
-- \`shared/standards.md\`
-- \`shared/language-policy.md\`
-
-## Personal Knowledge
-
-- \`personal/preferences.md\`
-
-## Projects
-EOF
+omni_write_workspace_index_header "${OMNI_ROOT}/INDEX.md" "${language}" "${workspace_name}" "${mode}"
+omni_append_workspace_index_personal_header "${OMNI_ROOT}/INDEX.md" "${language}"
 
 for project_path in "${discovered_projects[@]}"; do
   project_name="$(basename "${project_path}")"
   project_dir="${OMNI_ROOT}/projects/${project_name}"
   mkdir -p "${project_dir}"
+  case "${language}" in
+    zh-CN)
+      handoff_status='由 OmniContext 初始化'
+      handoff_recent='已创建 OmniContext 项目骨架'
+      handoff_next='补充项目目标和关键入口'
+      decision_context='OmniContext 为该项目完成初始化。'
+      decision_text='先采用最小文档集。'
+      decision_rationale='在流程证明有效之前，先控制维护成本。'
+      decision_consequence='仅在真实需求出现后再增加文档类型。'
+      ;;
+    ja)
+      handoff_status='OmniContext により初期化'
+      handoff_recent='OmniContext のプロジェクトひな形を作成'
+      handoff_next='プロジェクトの目的と主要エントリーポイントを補完する'
+      decision_context='OmniContext がこのプロジェクトを初期化した。'
+      decision_text='最小限の文書セットから開始する。'
+      decision_rationale='ワークフローの有効性が確認できるまで保守コストを抑えるため。'
+      decision_consequence='実際の必要性が出てから文書種別を追加する。'
+      ;;
+    *)
+      handoff_status='Initialized by OmniContext'
+      handoff_recent='OmniContext project scaffold created'
+      handoff_next='Fill in project purpose and entry points'
+      decision_context='OmniContext was initialized for this project.'
+      decision_text='Start with the minimum document set.'
+      decision_rationale='Keep maintenance cost low until the workflow proves useful.'
+      decision_consequence='Add more document types only when real use requires them.'
+      ;;
+  esac
 
-  cat > "${project_dir}/overview.md" <<EOF
-# Overview
+  omni_write_overview "${project_dir}/overview.md" "${language}" "${project_name}"
+  omni_write_handoff \
+    "${project_dir}/handoff.md" \
+    "${language}" \
+    "${handoff_status}" \
+    "${handoff_recent}" \
+    "${handoff_next}"
+  omni_write_todo "${project_dir}/todo.md" "${language}"
+  omni_write_decisions \
+    "${project_dir}/decisions.md" \
+    "${language}" \
+    "OmniContext initialization" \
+    "${decision_context}" \
+    "${decision_text}" \
+    "${decision_rationale}" \
+    "${decision_consequence}"
 
-## Summary
-
-- Project name: ${project_name}
-- Purpose:
-- Scope:
-
-## Structure
-
-- Main directories:
-- Important entry points:
-- Related upstream/downstream systems:
-
-## Runbook
-
-- Install:
-- Start:
-- Test:
-- Build:
-
-## Constraints
-
-- Runtime or platform constraints:
-- Non-obvious dependencies:
-- Known boundaries:
-EOF
-
-  cat > "${project_dir}/handoff.md" <<'EOF'
-# Handoff
-
-## Current State
-
-- Status: Initialized by OmniContext
-- Active branch or working area:
-- Current focus:
-
-## Recent Progress
-
-- OmniContext project scaffold created
-
-## Next Steps
-
-- Fill in project purpose and entry points
-
-## Risks And Blockers
-
-- None recorded yet
-
-## Pointers
-
-- Key files:
-- Key commands:
-- Related docs:
-EOF
-
-  cat > "${project_dir}/todo.md" <<'EOF'
-# Todo
-
-## Active
-
-- [ ] Fill in overview details
-
-## Upcoming
-
-- [ ] Add current project-specific documentation
-
-## Deferred
-
-- [ ] Add more OmniContext docs only when needed
-EOF
-
-  cat > "${project_dir}/decisions.md" <<'EOF'
-# Decisions
-
-## Decision Log
-
-### YYYY-MM-DD - OmniContext initialization
-
-- Context: OmniContext was initialized for this project.
-- Decision: Start with the minimum document set.
-- Rationale: Keep maintenance cost low until the workflow proves useful.
-- Consequence: Add more document types only when real use requires them.
-EOF
-
-  cat >> "${OMNI_ROOT}/INDEX.md" <<EOF
-
-- Project name: ${project_name}
-  - Source path: ${project_path}
-  - Overview: \`projects/${project_name}/overview.md\`
-  - Handoff: \`projects/${project_name}/handoff.md\`
-  - Todo: \`projects/${project_name}/todo.md\`
-  - Decisions: \`projects/${project_name}/decisions.md\`
-EOF
+  omni_append_workspace_index_project "${OMNI_ROOT}/INDEX.md" "${language}" "${project_name}" "${project_path}"
 done
-
-cat >> "${OMNI_ROOT}/INDEX.md" <<'EOF'
-
-## Notes
-
-- Discovery assumptions: project roots inferred from Git repositories when available
-- Missing documentation: fill shared and project details after initialization
-- Follow-up setup: copy tool adapter files into the host tool locations if needed
-EOF
+omni_append_workspace_index_notes "${OMNI_ROOT}/INDEX.md" "${language}"
 
 cp "${SKILL_ROOT}/templates/shared-standards.md" "${OMNI_ROOT}/shared/standards.md"
 cp "${SKILL_ROOT}/templates/shared-language-policy.md" "${OMNI_ROOT}/shared/language-policy.md"
@@ -222,9 +150,23 @@ cp "${SKILL_ROOT}/templates/claude-CLAUDE.md" "${OMNI_ROOT}/tools/claude-code/CL
 cp "${SKILL_ROOT}/templates/trae-TRAE.md" "${OMNI_ROOT}/tools/trae/TRAE.md"
 cp "${SKILL_ROOT}/templates/qoder-QODER.md" "${OMNI_ROOT}/tools/qoder/QODER.md"
 
-echo "Initialized OmniContext at ${OMNI_ROOT}"
-echo "Mode: ${mode}"
-echo "Projects:"
+case "${language}" in
+  zh-CN)
+    echo "已在 ${OMNI_ROOT} 初始化 OmniContext"
+    echo "模式: ${mode}"
+    echo "项目:"
+    ;;
+  ja)
+    echo "${OMNI_ROOT} に OmniContext を初期化しました"
+    echo "モード: ${mode}"
+    echo "プロジェクト:"
+    ;;
+  *)
+    echo "Initialized OmniContext at ${OMNI_ROOT}"
+    echo "Mode: ${mode}"
+    echo "Projects:"
+    ;;
+esac
 for project_path in "${discovered_projects[@]}"; do
   echo "- $(basename "${project_path}") (${project_path})"
 done

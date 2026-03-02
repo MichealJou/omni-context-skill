@@ -3,12 +3,14 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SKILL_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+source "${SCRIPT_DIR}/lib/omnicontext-l10n.sh"
 
 WORKSPACE_ROOT="${1:-$(pwd)}"
 WORKSPACE_ROOT="$(cd "${WORKSPACE_ROOT}" && pwd)"
 OMNI_ROOT="${WORKSPACE_ROOT}/.omnicontext"
 WORKSPACE_TOML="${OMNI_ROOT}/workspace.toml"
 INDEX_FILE="${OMNI_ROOT}/INDEX.md"
+language="$(omni_resolve_language "${WORKSPACE_ROOT}")"
 
 if [[ ! -f "${WORKSPACE_TOML}" ]]; then
   echo "Missing ${WORKSPACE_TOML}" >&2
@@ -133,99 +135,69 @@ ensure_project_docs() {
   local project_name="$1"
   local project_dir="${OMNI_ROOT}/projects/${project_name}"
   mkdir -p "${project_dir}"
+  local handoff_status=""
+  local handoff_recent=""
+  local handoff_next=""
+  local decision_context=""
+  local decision_text=""
+  local decision_rationale=""
+  local decision_consequence=""
+  case "${language}" in
+    zh-CN)
+      handoff_status='由 OmniContext sync 初始化'
+      handoff_recent='sync 自动补齐了项目记录'
+      handoff_next='补充项目目标和关键入口'
+      decision_context='OmniContext sync 补齐了缺失的项目记录。'
+      decision_text='先采用最小文档集。'
+      decision_rationale='在流程证明有效之前，先控制维护成本。'
+      decision_consequence='仅在真实需求出现后再增加文档类型。'
+      ;;
+    ja)
+      handoff_status='OmniContext sync により初期化'
+      handoff_recent='sync が不足していたプロジェクト記録を作成した'
+      handoff_next='プロジェクトの目的と主要エントリーポイントを補完する'
+      decision_context='OmniContext sync が不足していたプロジェクト記録を作成した。'
+      decision_text='最小限の文書セットから開始する。'
+      decision_rationale='ワークフローの有効性が確認できるまで保守コストを抑えるため。'
+      decision_consequence='実際の必要性が出てから文書種別を追加する。'
+      ;;
+    *)
+      handoff_status='Initialized by OmniContext sync'
+      handoff_recent='OmniContext project records were created by sync'
+      handoff_next='Fill in project purpose and entry points'
+      decision_context='OmniContext sync created missing project records.'
+      decision_text='Start with the minimum document set.'
+      decision_rationale='Keep maintenance cost low until the workflow proves useful.'
+      decision_consequence='Add more document types only when real use requires them.'
+      ;;
+  esac
 
   if [[ ! -f "${project_dir}/overview.md" ]]; then
-    cat > "${project_dir}/overview.md" <<EOF
-# Overview
-
-## Summary
-
-- Project name: ${project_name}
-- Purpose:
-- Scope:
-
-## Structure
-
-- Main directories:
-- Important entry points:
-- Related upstream/downstream systems:
-
-## Runbook
-
-- Install:
-- Start:
-- Test:
-- Build:
-
-## Constraints
-
-- Runtime or platform constraints:
-- Non-obvious dependencies:
-- Known boundaries:
-EOF
+    omni_write_overview "${project_dir}/overview.md" "${language}" "${project_name}"
   fi
 
   if [[ ! -f "${project_dir}/handoff.md" ]]; then
-    cat > "${project_dir}/handoff.md" <<'EOF'
-# Handoff
-
-## Current State
-
-- Status: Initialized by OmniContext sync
-- Active branch or working area:
-- Current focus:
-
-## Recent Progress
-
-- OmniContext project records were created by sync
-
-## Next Steps
-
-- Fill in project purpose and entry points
-
-## Risks And Blockers
-
-- None recorded yet
-
-## Pointers
-
-- Key files:
-- Key commands:
-- Related docs:
-EOF
+    omni_write_handoff \
+      "${project_dir}/handoff.md" \
+      "${language}" \
+      "${handoff_status}" \
+      "${handoff_recent}" \
+      "${handoff_next}"
   fi
 
   if [[ ! -f "${project_dir}/todo.md" ]]; then
-    cat > "${project_dir}/todo.md" <<'EOF'
-# Todo
-
-## Active
-
-- [ ] Fill in overview details
-
-## Upcoming
-
-- [ ] Add current project-specific documentation
-
-## Deferred
-
-- [ ] Add more OmniContext docs only when needed
-EOF
+    omni_write_todo "${project_dir}/todo.md" "${language}"
   fi
 
   if [[ ! -f "${project_dir}/decisions.md" ]]; then
-    cat > "${project_dir}/decisions.md" <<'EOF'
-# Decisions
-
-## Decision Log
-
-### YYYY-MM-DD - OmniContext sync initialization
-
-- Context: OmniContext sync created missing project records.
-- Decision: Start with the minimum document set.
-- Rationale: Keep maintenance cost low until the workflow proves useful.
-- Consequence: Add more document types only when real use requires them.
-EOF
+    omni_write_decisions \
+      "${project_dir}/decisions.md" \
+      "${language}" \
+      "OmniContext sync initialization" \
+      "${decision_context}" \
+      "${decision_text}" \
+      "${decision_rationale}" \
+      "${decision_consequence}"
   fi
 }
 
@@ -233,81 +205,64 @@ for project_name in "${mapped_names[@]}"; do
   ensure_project_docs "${project_name}"
 done
 
-cat > "${INDEX_FILE}" <<EOF
-# OmniContext Index
-
-## Workspace
-
-- Workspace name: ${workspace_name}
-- Mode: ${desired_mode}
-- Knowledge root: \`.omnicontext\`
-
-## Shared Knowledge
-
-- \`shared/standards.md\`
-- \`shared/language-policy.md\`
-EOF
+omni_write_workspace_index_header "${INDEX_FILE}" "${language}" "${workspace_name}" "${desired_mode}"
 
 if [[ -f "${OMNI_ROOT}/shared/docs/index.md" ]]; then
-  cat >> "${INDEX_FILE}" <<'EOF'
-- `shared/docs/index.md`
-EOF
+  omni_append_workspace_index_shared_docs "${INDEX_FILE}" "${language}"
 fi
-
-cat >> "${INDEX_FILE}" <<'EOF'
-
-## Personal Knowledge
-
-- `personal/preferences.md`
-
-## Projects
-EOF
+omni_append_workspace_index_personal_header "${INDEX_FILE}" "${language}"
 
 for idx in "${!mapped_names[@]}"; do
   project_name="${mapped_names[$idx]}"
   project_path="${mapped_source_paths[$idx]}"
-  cat >> "${INDEX_FILE}" <<EOF
-
-- Project name: ${project_name}
-  - Source path: ${project_path}
-  - Overview: \`projects/${project_name}/overview.md\`
-  - Handoff: \`projects/${project_name}/handoff.md\`
-  - Todo: \`projects/${project_name}/todo.md\`
-  - Decisions: \`projects/${project_name}/decisions.md\`
-EOF
-
+  include_managed_docs=0
   if [[ -d "${OMNI_ROOT}/projects/${project_name}/docs" ]]; then
-    cat >> "${INDEX_FILE}" <<EOF
-  - Managed docs: \`projects/${project_name}/docs/\`
-EOF
+    include_managed_docs=1
   fi
+  omni_append_workspace_index_project "${INDEX_FILE}" "${language}" "${project_name}" "${project_path}" "${include_managed_docs}"
 done
+omni_append_workspace_index_notes "${INDEX_FILE}" "${language}"
 
-cat >> "${INDEX_FILE}" <<'EOF'
-
-## Notes
-
-- Discovery assumptions: project roots inferred from Git repositories when available
-- Missing documentation: fill shared and project details after initialization
-- Follow-up setup: copy tool adapter files into the host tool locations if needed
-EOF
-
-echo "Synced OmniContext at ${OMNI_ROOT}"
-echo "Mode: ${desired_mode}"
+case "${language}" in
+  zh-CN)
+    echo "已同步 ${OMNI_ROOT} 下的 OmniContext"
+    echo "模式: ${desired_mode}"
+    ;;
+  ja)
+    echo "${OMNI_ROOT} の OmniContext を同期しました"
+    echo "モード: ${desired_mode}"
+    ;;
+  *)
+    echo "Synced OmniContext at ${OMNI_ROOT}"
+    echo "Mode: ${desired_mode}"
+    ;;
+esac
 if [[ "${#added_projects[@]}" -gt 0 ]]; then
-  echo "Added project mappings:"
+  case "${language}" in
+    zh-CN) echo "新增项目映射:" ;;
+    ja) echo "追加されたプロジェクトマッピング:" ;;
+    *) echo "Added project mappings:" ;;
+  esac
   for item in "${added_projects[@]}"; do
     name="${item%%|*}"
     path="${item#*|}"
     echo "- ${name} (${path})"
   done
 else
-  echo "Added project mappings:"
+  case "${language}" in
+    zh-CN) echo "新增项目映射:" ;;
+    ja) echo "追加されたプロジェクトマッピング:" ;;
+    *) echo "Added project mappings:" ;;
+  esac
   echo "- None"
 fi
 
 stale_mappings=0
-echo "Missing source paths for mapped projects:"
+case "${language}" in
+  zh-CN) echo "映射项目缺失的源路径:" ;;
+  ja) echo "マッピング済みプロジェクトで欠落しているソースパス:" ;;
+  *) echo "Missing source paths for mapped projects:" ;;
+esac
 for idx in "${!mapped_names[@]}"; do
   project_name="${mapped_names[$idx]}"
   project_path="${mapped_source_paths[$idx]}"

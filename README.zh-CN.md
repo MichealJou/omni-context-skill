@@ -63,8 +63,8 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
 
 ## 已包含脚本
 
-- `scripts/omni-context <command> ...`
-  统一入口，分发 `init`、`sync`、`status`、`new-project`、`new-doc`。
+- `scripts/omni-context [--lang zh-CN|en|ja] <command> ...`
+  统一入口，分发 `init`、`sync`、`status`、`new-project`、`new-doc`。不传 `--lang` 时默认中文。
 
 - `scripts/init-workspace.sh [workspace-root]`
   初始化一个最小可用的 `.omnicontext/` 目录，并尽量从 Git 仓库推断项目列表。
@@ -76,6 +76,12 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
   显式注册一个新项目，生成该项目的基础 OmniContext 文档，并刷新工作区索引。
 - `scripts/new-doc.sh <workspace-root> <project-name> <doc-type> <doc-title> [slug]`
   在 `technical`、`design`、`product`、`runbook` 或 `wiki` 下创建项目文档，并自动补入对应索引。
+
+## 语言生成
+
+- 默认生成中文 README 入口、模板、提示词和脚本输出
+- 如果用户或工作区明确指定英文或日文，可通过 `--lang en` 或 `--lang ja` 切换
+- `init`、`sync`、`status`、`new-project`、`new-doc` 都会按当前语言生成或输出内容
 
 ## 发布边界
 

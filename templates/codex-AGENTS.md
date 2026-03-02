@@ -1,11 +1,13 @@
 # OmniContext For Codex
 
-When working in this repository:
+默认使用中文。如果用户、项目语言策略或 `user.local.toml` 明确要求英文或日文，再切换对应语言。
 
-1. Read `.omnicontext/INDEX.md` first.
-2. Identify the active project from the current task or touched files.
-3. Read `.omnicontext/projects/<project>/overview.md` and `.omnicontext/projects/<project>/handoff.md` before making substantial changes.
-4. Read `.omnicontext/shared/` only when shared standards or architecture rules matter.
-5. Read `.omnicontext/personal/` only when user preferences affect output or workflow.
-6. After durable progress, update the relevant `handoff.md`, `todo.md`, or `decisions.md`.
-7. Do not store secrets, tokens, or private credentials in `.omnicontext/`.
+在这个仓库里工作时：
+
+1. 先读 `.omnicontext/INDEX.md`。
+2. 根据当前任务或改动文件识别目标项目。
+3. 在做实质性修改前，先读 `.omnicontext/projects/<project>/overview.md` 和 `.omnicontext/projects/<project>/handoff.md`。
+4. 只有共享规范或架构规则相关时，才读 `.omnicontext/shared/`。
+5. 只有用户偏好会影响输出或流程时，才读 `.omnicontext/personal/`。
+6. 有持续性进展后，更新相关的 `handoff.md`、`todo.md` 或 `decisions.md`。
+7. 不要把密钥、Token 或私密凭证写进 `.omnicontext/`。

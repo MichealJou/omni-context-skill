@@ -17,6 +17,7 @@ Expected behavior:
 - Create `shared/standards.md`
 - Create `personal/preferences.md`
 - Create one project folder per discovered or user-confirmed project
+- Generate headings and operator-facing text in the active language, defaulting to Chinese
 
 ## `sync`
 
@@ -29,6 +30,7 @@ Expected behavior:
 - Update `INDEX.md`
 - Add missing project folders without deleting existing notes by default
 - Preserve hand-written content whenever possible
+- Respect the active language for regenerated summaries and console output
 
 ## `status`
 
@@ -41,6 +43,7 @@ Expected output:
 - mapped project list
 - missing required files
 - stale or unresolved mappings
+- localized operator-facing status text, defaulting to Chinese
 
 ## `new-project`
 
@@ -52,6 +55,7 @@ Expected behavior:
 - generate `overview.md`, `handoff.md`, `todo.md`, and `decisions.md`
 - append the project to `INDEX.md`
 - optionally add or update `[[project_mappings]]` in `workspace.toml`
+- generate the initial project records in the active language
 
 ## `new-doc`
 
@@ -64,6 +68,7 @@ Current supported targets:
 - product docs
 - runbooks
 - wiki pages
+- document skeletons should be generated in the active language
 
 ## Safety Rules
 

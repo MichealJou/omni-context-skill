@@ -1,26 +1,26 @@
-# Overview
+# 概览
 
-## Summary
+## 摘要
 
-- Project name:
-- Purpose:
-- Scope:
+- 项目名称:
+- 目标:
+- 范围:
 
-## Structure
+## 结构
 
-- Main directories:
-- Important entry points:
-- Related upstream/downstream systems:
+- 主要目录:
+- 关键入口:
+- 上下游系统:
 
-## Runbook
+## 运行
 
-- Install:
-- Start:
-- Test:
-- Build:
+- 安装:
+- 启动:
+- 测试:
+- 构建:
 
-## Constraints
+## 约束
 
-- Runtime or platform constraints:
-- Non-obvious dependencies:
-- Known boundaries:
+- 运行时或平台约束:
+- 非显式依赖:
+- 已知边界:

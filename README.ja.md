@@ -63,8 +63,8 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
 
 ## 同梱スクリプト
 
-- `scripts/omni-context <command> ...`
-  `init`、`sync`、`status`、`new-project`、`new-doc` をまとめる共通入口です。
+- `scripts/omni-context [--lang zh-CN|en|ja] <command> ...`
+  `init`、`sync`、`status`、`new-project`、`new-doc` をまとめる共通入口です。指定しない場合は中国語が既定です。
 
 - `scripts/init-workspace.sh [workspace-root]`
   最小構成の `.omnicontext/` を生成し、可能であれば Git リポジトリからプロジェクト一覧を推定します。
@@ -76,6 +76,12 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
   新しいプロジェクトを明示的に登録し、基本ドキュメントを生成してワークスペース索引を更新します。
 - `scripts/new-doc.sh <workspace-root> <project-name> <doc-type> <doc-title> [slug]`
   `technical`、`design`、`product`、`runbook`、`wiki` のいずれかに文書を作成し、対応する索引に追記します。
+
+## 言語対応生成
+
+- 生成されるプロンプト、テンプレート、スクリプト出力の既定言語は中国語です
+- ユーザーまたはワークスペース方針に応じて `--lang en` または `--lang ja` に切り替えます
+- `init`、`sync`、`status`、`new-project`、`new-doc` はすべて現在の言語設定を反映します
 
 ## 公開時の境界
 

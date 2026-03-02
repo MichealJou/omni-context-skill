@@ -1,25 +1,25 @@
-# Handoff
+# 交接
 
-## Current State
+## 当前状态
 
-- Status:
-- Active branch or working area:
-- Current focus:
+- 状态:
+- 当前分支或工作区域:
+- 当前重点:
 
-## Recent Progress
-
-- 
-
-## Next Steps
+## 最近进展
 
 - 
 
-## Risks And Blockers
+## 下一步
 
 - 
 
-## Pointers
+## 风险与阻塞
 
-- Key files:
-- Key commands:
-- Related docs:
+- 
+
+## 指引
+
+- 关键文件:
+- 关键命令:
+- 相关文档:

@@ -12,6 +12,7 @@ OmniContext 是一套可复用的工作区知识管理 skill，适用于 Codex�
 - 面向共享知识、个人知识、项目知识的模板
 - 面向多种编程工具的轻量入口适配
 - `init`、`sync`、`status`、`new-project`、`new-doc` 五个基础动作
+- 按语言环境生成中文、英文、日文文档与提示词，默认中文
 - 一个统一 CLI 入口：`scripts/omni-context`
 
 完整说明：

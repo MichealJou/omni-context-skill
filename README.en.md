@@ -64,8 +64,8 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
 
 ## Included Scripts
 
-- `scripts/omni-context <command> ...`
-  Unified entrypoint for `init`, `sync`, `status`, `new-project`, and `new-doc`.
+- `scripts/omni-context [--lang zh-CN|en|ja] <command> ...`
+  Unified entrypoint for `init`, `sync`, `status`, `new-project`, and `new-doc`. If omitted, Chinese is the default.
 
 - `scripts/init-workspace.sh [workspace-root]`
   Creates a minimum `.omnicontext/` tree and infers project roots from Git repositories when possible.
@@ -77,6 +77,12 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
   Registers a project explicitly, creates its core OmniContext files, and refreshes the workspace index.
 - `scripts/new-doc.sh <workspace-root> <project-name> <doc-type> <doc-title> [slug]`
   Creates a project-level document in `technical`, `design`, `product`, `runbook`, or `wiki` and appends it to the corresponding index.
+
+## Language-Aware Generation
+
+- Chinese is the default for generated prompts, templates, and operator-facing script output
+- Switch with `--lang en` or `--lang ja` when the user or workspace policy requires it
+- `init`, `sync`, `status`, `new-project`, and `new-doc` all respect the active language
 
 ## Publishing Boundary
 

@@ -1,18 +1,20 @@
 # OmniContext For Trae
 
-Use `.omnicontext/` as the persistent workspace knowledge layer.
+默认使用中文。如果用户、项目语言策略或 `user.local.toml` 明确要求英文或日文，再切换对应语言。
 
-Start sequence:
+把 `.omnicontext/` 作为持久化的工作区知识层。
 
-1. Read `.omnicontext/INDEX.md`.
-2. Identify the relevant project.
-3. Read that project's `overview.md` and `handoff.md`.
-4. Read shared or personal files only when required by the task.
+开始顺序：
 
-Closeout sequence:
+1. 读取 `.omnicontext/INDEX.md`。
+2. 确定相关项目。
+3. 读取该项目的 `overview.md` 和 `handoff.md`。
+4. 只有任务需要时才读取共享或个人文件。
 
-1. Update `handoff.md` for durable progress.
-2. Update `todo.md` for open work changes.
-3. Update `decisions.md` for important decisions.
+收尾顺序：
 
-Do not write credentials or secrets into OmniContext files.
+1. 有持续性进展后更新 `handoff.md`。
+2. 开放工作变化时更新 `todo.md`。
+3. 出现重要决策时更新 `decisions.md`。
+
+不要把凭证或密钥写进 OmniContext 文件。
