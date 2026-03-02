@@ -1,9 +1,15 @@
 # English References
 
-This directory is reserved for English reference documents.
+This directory contains the English reference set for OmniContext.
 
-Current status:
+Included files:
 
-- The default complete reference set lives in `../zh-CN/`
-- Use `../README.md` for the language loading rules
-- Add translated copies here only when English-native reference files are actually needed
+- `protocol.md`
+- `config-rules.md`
+- `update-rules.md`
+- `adapter-rules.md`
+- `automation-behaviors.md`
+- `localization-rules.md`
+- `prompt-templates.md`
+
+Use `../README.md` for the language loading rules.

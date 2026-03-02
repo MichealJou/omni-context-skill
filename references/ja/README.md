@@ -1,9 +1,15 @@
 # 日本語リファレンス
 
-このディレクトリは日本語の参考文書用です。
+このディレクトリには OmniContext の日本語リファレンス一式があります。
 
-現在の状態:
+含まれるファイル:
 
-- 既定の完全な参考文書セットは `../zh-CN/` にあります
-- 言語ごとの読み分けルールは `../README.md` を参照してください
-- 日本語の独立した参考文書が本当に必要になったときだけ、ここに翻訳版を追加してください
+- `protocol.md`
+- `config-rules.md`
+- `update-rules.md`
+- `adapter-rules.md`
+- `automation-behaviors.md`
+- `localization-rules.md`
+- `prompt-templates.md`
+
+言語ごとの読み分けルールは `../README.md` を参照してください。
