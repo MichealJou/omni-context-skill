@@ -89,7 +89,7 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
 
 - 每次改 `references/zh-CN/` 时，同步更新 `references/en/` 和 `references/ja/`
 - 每次改脚本行为时，同步更新 `README`、`SKILL.md` 和对应的 `references/*/automation-behaviors.md`
-- 如果仓库使用 Git，一个功能完成后立刻做一次最小单提交，并写清提交说明
+- 如果仓库使用 Git，默认开启“一个功能完成后立刻做一次最小单提交，并写清提交说明”；如有特殊需要可在配置里关闭
 - 提交前运行：
 
 ```bash

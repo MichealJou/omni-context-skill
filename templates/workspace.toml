@@ -21,6 +21,9 @@ path = "projects"
 default_language = "zh-CN"
 supported_languages = ["zh-CN", "en", "ja"]
 
+[git]
+minimal_feature_commits = true
+
 [[project_mappings]]
 name = "replace-with-project-name"
 source_path = "replace-with-project-root"

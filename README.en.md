@@ -90,7 +90,7 @@ ${CODEX_HOME:-~/.codex}/skills/omni-context
 
 - When `references/zh-CN/` changes, update `references/en/` and `references/ja/` in the same pass
 - When script behavior changes, update the README files, `SKILL.md`, and the matching `references/*/automation-behaviors.md`
-- If the repo uses Git, commit once per completed feature with the smallest coherent diff and a clear message
+- If the repo uses Git, enable one-feature-per-commit by default; disable it only through explicit config when needed
 - Run this before committing:
 
 ```bash

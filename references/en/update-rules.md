@@ -8,7 +8,7 @@ Update OmniContext only when the change is durable and useful to future sessions
 - `todo.md` when open work changed
 - `decisions.md` when a non-trivial technical choice was made
 - `overview.md` when the project structure or entry points changed
-- if Git is in use, make one minimal commit when a coherent feature or rule change is complete
+- if Git is in use, enable one-feature-per-commit by default and make one minimal commit when a coherent feature or rule change is complete
 
 ## Usually Do Not Update
 
@@ -26,6 +26,7 @@ Update OmniContext only when the change is durable and useful to future sessions
 
 ## Git Commit Standard
 
+- enabled by default; only skip it when project or local config explicitly disables it
 - Commit after one feature or coherent change is complete, not after a large mixed batch
 - Keep one commit focused on one clear topic
 - Use a commit message that explains the feature or rule change
